@@ -1,734 +1,791 @@
 {
-  "image" : "https://c1.staticflickr.com/3/2868/8765411560_79eed2eef8_b.jpg",
-  "creator" : [ {
-    "image" : "http://cedec.educalab.es/images/stories/logo_cedec.png",
-    "keywords" : [ "proyectoEDIA", "ABP", "cedec", "rea", "exe learning" ],
-    "@type" : "Organization",
-    "created" : [ {
-      "@type" : "Article",
-      "name" : [ {
-        "@value" : "â€œEDIA Projectâ€ OER to change the way of learning in Secondary Schools.",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:a3f7178b-9cc0-482b-8d83-9b47f4de4ff9"
-    }, {
-      "@type" : "Article",
-      "name" : [ {
-        "@value" : "Una infografÃ­a para explicar los REA",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:0eb61158-1fa7-4a73-affd-a7c6f3b6a328"
-    }, {
-      "@type" : "Article",
-      "name" : [ {
-        "@value" : "La Feria de la Historia: 9 proyectos para Historia de EspaÃ±a",
-        "@language" : "es"
-      } ],
-      "@id" : "urn:uuid:c10b8f80-023a-4f2c-8b7d-99f835108cb5"
-    }, {
-      "@type" : "Article",
-      "name" : [ {
-        "@value" : "EDIA's images repository. Open images for open resources",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:52396ba1-8f37-4e26-a2d1-195107f1be1a"
-    }, {
-      "@type" : "Article",
-      "name" : [ {
-        "@value" : "Towards a real learning with EDIAâ€™s OER resources",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:c9e42e52-01e1-42c2-9e14-3598b38de9f8"
-    } ],
-    "description" : [ {
-      "@value" : "El Centro Nacional de Desarrollo Curricular en Sistemas no Propietarios (CeDeC) es un organismo dependiente del Ministerio de EducaciÃ³n, Cultura y Deporte a travÃ©s del Instituto Nacional de TecnologÃ­as Educativas y FormaciÃ³n del Profesorado (INTEF) y de la ConsejerÃ­a de EducaciÃ³n y Cultura del Gobierno de Extremadura.\r\nTiene como finalidad el diseÃ±o, la promociÃ³n y el desarrollo de materiales educativos digitales a travÃ©s del software libre. Nuestro objetivo es poner a disposiciÃ³n de toda la comunidad educativa materiales y recursos digitales de libre acceso y que permitan profundizar en la implantaciÃ³n de las TecnologÃ­as de la InformaciÃ³n y ComunicaciÃ³n en el Ãmbito Educativo.",
-      "@language" : "es"
-    }, {
-      "@value" : "The Centro Nacional de Desarrollo Curricular en Sistemas no Propietarios (CeDeC) is a department of the Ministry of Education of Spain dedicated to the production of Open Educational Resources.\r\n\r\nIn addition to publishing materials to support secondary education, CeDeC has launched a guide to creating content by teachers and several values â€‹â€‹education materials. Cedec also promotes the use of Creative Commons licenses among teachers.",
-      "@language" : "en"
-    } ],
-    "alternateName" : [ {
-      "@value" : "CeDeC",
-      "@language" : "es"
-    } ],
-    "url" : "http://cedec.educalab.es/",
-    "mentionedIn" : [ {
-      "@type" : "Article",
-      "name" : [ {
-        "@value" : "Towards a real learning with EDIAâ€™s OER resources",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:c9e42e52-01e1-42c2-9e14-3598b38de9f8"
-    }, {
-      "@type" : "Article",
-      "name" : [ {
-        "@value" : "La Feria de la Historia: 9 proyectos para Historia de EspaÃ±a",
-        "@language" : "es"
-      } ],
-      "@id" : "urn:uuid:c10b8f80-023a-4f2c-8b7d-99f835108cb5"
-    }, {
-      "@type" : "Article",
-      "name" : [ {
-        "@value" : "EDIA's images repository. Open images for open resources",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:52396ba1-8f37-4e26-a2d1-195107f1be1a"
-    } ],
-    "provides" : [ {
-      "@type" : "Service",
-      "name" : [ {
-        "@value" : "CEDEC Repository",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:a6bf875b-9bb0-46cf-b9c0-1868ecb31a9a"
-    } ],
-    "name" : [ {
-      "@value" : "Centro National de Desarrollo Curricular en Sistemas no Propietarios",
-      "@language" : "es"
-    } ],
-    "location" : {
-      "geo" : {
-        "lon" : -6.342739,
-        "lat" : 38.913603
+  "image": "https://c1.staticflickr.com/3/2868/8765411560_79eed2eef8_b.jpg",
+  "creator": [
+    {
+      "image": "http://cedec.educalab.es/images/stories/logo_cedec.png",
+      "keywords": [
+        "proyectoEDIA",
+        "ABP",
+        "cedec",
+        "rea",
+        "exe learning"
+      ],
+      "@type": "Organization",
+      "created": [
+        {
+          "@type": "Article",
+          "name": {
+            "en": "â€œEDIA Projectâ€ OER to change the way of learning in Secondary Schools."
+          },
+          "@id": "urn:uuid:a3f7178b-9cc0-482b-8d83-9b47f4de4ff9"
+        },
+        {
+          "@type": "Article",
+          "name": {
+            "en": "Una infografÃ­a para explicar los REA"
+          },
+          "@id": "urn:uuid:0eb61158-1fa7-4a73-affd-a7c6f3b6a328"
+        },
+        {
+          "@type": "Article",
+          "name": {
+            "es": "La Feria de la Historia: 9 proyectos para Historia de EspaÃ±a"
+          },
+          "@id": "urn:uuid:c10b8f80-023a-4f2c-8b7d-99f835108cb5"
+        },
+        {
+          "@type": "Article",
+          "name": {
+            "en": "EDIA's images repository. Open images for open resources"
+          },
+          "@id": "urn:uuid:52396ba1-8f37-4e26-a2d1-195107f1be1a"
+        },
+        {
+          "@type": "Article",
+          "name": {
+            "en": "Towards a real learning with EDIAâ€™s OER resources"
+          },
+          "@id": "urn:uuid:c9e42e52-01e1-42c2-9e14-3598b38de9f8"
+        }
+      ],
+      "description": {
+        "es": "El Centro Nacional de Desarrollo Curricular en Sistemas no Propietarios (CeDeC) es un organismo dependiente del Ministerio de EducaciÃ³n, Cultura y Deporte a travÃ©s del Instituto Nacional de TecnologÃ­as Educativas y FormaciÃ³n del Profesorado (INTEF) y de la ConsejerÃ­a de EducaciÃ³n y Cultura del Gobierno de Extremadura.\r\nTiene como finalidad el diseÃ±o, la promociÃ³n y el desarrollo de materiales educativos digitales a travÃ©s del software libre. Nuestro objetivo es poner a disposiciÃ³n de toda la comunidad educativa materiales y recursos digitales de libre acceso y que permitan profundizar en la implantaciÃ³n de las TecnologÃ­as de la InformaciÃ³n y ComunicaciÃ³n en el Ãmbito Educativo.",
+        "en": "The Centro Nacional de Desarrollo Curricular en Sistemas no Propietarios (CeDeC) is a department of the Ministry of Education of Spain dedicated to the production of Open Educational Resources.\r\n\r\nIn addition to publishing materials to support secondary education, CeDeC has launched a guide to creating content by teachers and several values â€‹â€‹education materials. Cedec also promotes the use of Creative Commons licenses among teachers."
       },
-      "address" : {
-        "addressCountry" : "ES",
-        "streetAddress" : "Lope de Vega 21",
-        "postalCode" : 6800,
-        "addressLocality" : "MÃ©rida",
-        "addressRegion" : "Badajoz"
-      }
-    },
-    "@id" : "urn:uuid:70b73511-b9ec-4e95-8b40-50de0f1cc9a0",
-    "memberOf" : [ {
-      "@type" : "Service",
-      "name" : [ {
-        "@value" : "ProcomÃºn",
-        "@language" : "es"
-      } ],
-      "@id" : "urn:uuid:76b480ac-1cb3-4ed4-90c3-c0480141bac2"
-    } ],
-    "email" : "cedec@ite.educacion.es",
-    "sameAs" : [ "http://www.slideshare.net/cedecite", "http://vimeo.com/user5635695", "http://www.youtube.com/user/cedec00/featured", "https://twitter.com/CeDeC_intef", "http://www.diigo.com/list/canal_cedec", "https://www.facebook.com/cedec.intef" ]
-  }, {
-    "keywords" : [ "cedec, rea, oer, proyecto edia, exelearning" ],
-    "@type" : "Person",
-    "created" : [ {
-      "@type" : "Article",
-      "name" : [ {
-        "@value" : "La Feria de la Historia: 9 proyectos para Historia de EspaÃ±a",
-        "@language" : "es"
-      } ],
-      "@id" : "urn:uuid:c10b8f80-023a-4f2c-8b7d-99f835108cb5"
-    }, {
-      "@type" : "Article",
-      "name" : [ {
-        "@value" : "Una infografÃ­a para explicar los REA",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:0eb61158-1fa7-4a73-affd-a7c6f3b6a328"
-    }, {
-      "@type" : "Article",
-      "name" : [ {
-        "@value" : "â€œEDIA Projectâ€ OER to change the way of learning in Secondary Schools.",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:a3f7178b-9cc0-482b-8d83-9b47f4de4ff9"
-    } ],
-    "name" : [ {
-      "@value" : "Miguel Ãngel Pereira",
-      "@language" : "es"
-    }, {
-      "@value" : "Miguel  Ãngel Pereira",
-      "@language" : "en"
-    } ],
-    "location" : { },
-    "@id" : "urn:uuid:3ab8ff31-d782-4cb5-9dc3-542fad2347d5",
-    "email" : "miguelangel.pereira@mecd.es",
-    "url" : "http://cedec.educalab.es"
-  } ],
-  "mainEntity" : {
-    "image" : "http://cedec.educalab.es/images/stories/logo_cedec.png",
-    "keywords" : [ "proyectoEDIA", "ABP", "cedec", "rea", "exe learning" ],
-    "@type" : "Organization",
-    "created" : [ {
-      "@type" : "Article",
-      "name" : [ {
-        "@value" : "â€œEDIA Projectâ€ OER to change the way of learning in Secondary Schools.",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:a3f7178b-9cc0-482b-8d83-9b47f4de4ff9"
-    }, {
-      "@type" : "Article",
-      "name" : [ {
-        "@value" : "Una infografÃ­a para explicar los REA",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:0eb61158-1fa7-4a73-affd-a7c6f3b6a328"
-    }, {
-      "@type" : "Article",
-      "name" : [ {
-        "@value" : "La Feria de la Historia: 9 proyectos para Historia de EspaÃ±a",
-        "@language" : "es"
-      } ],
-      "@id" : "urn:uuid:c10b8f80-023a-4f2c-8b7d-99f835108cb5"
-    }, {
-      "@type" : "Article",
-      "name" : [ {
-        "@value" : "EDIA's images repository. Open images for open resources",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:52396ba1-8f37-4e26-a2d1-195107f1be1a"
-    }, {
-      "@type" : "Article",
-      "name" : [ {
-        "@value" : "Towards a real learning with EDIAâ€™s OER resources",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:c9e42e52-01e1-42c2-9e14-3598b38de9f8"
-    } ],
-    "description" : [ {
-      "@value" : "El Centro Nacional de Desarrollo Curricular en Sistemas no Propietarios (CeDeC) es un organismo dependiente del Ministerio de EducaciÃ³n, Cultura y Deporte a travÃ©s del Instituto Nacional de TecnologÃ­as Educativas y FormaciÃ³n del Profesorado (INTEF) y de la ConsejerÃ­a de EducaciÃ³n y Cultura del Gobierno de Extremadura.\r\nTiene como finalidad el diseÃ±o, la promociÃ³n y el desarrollo de materiales educativos digitales a travÃ©s del software libre. Nuestro objetivo es poner a disposiciÃ³n de toda la comunidad educativa materiales y recursos digitales de libre acceso y que permitan profundizar en la implantaciÃ³n de las TecnologÃ­as de la InformaciÃ³n y ComunicaciÃ³n en el Ãmbito Educativo.",
-      "@language" : "es"
-    }, {
-      "@value" : "The Centro Nacional de Desarrollo Curricular en Sistemas no Propietarios (CeDeC) is a department of the Ministry of Education of Spain dedicated to the production of Open Educational Resources.\r\n\r\nIn addition to publishing materials to support secondary education, CeDeC has launched a guide to creating content by teachers and several values â€‹â€‹education materials. Cedec also promotes the use of Creative Commons licenses among teachers.",
-      "@language" : "en"
-    } ],
-    "alternateName" : [ {
-      "@value" : "CeDeC",
-      "@language" : "es"
-    } ],
-    "url" : "http://cedec.educalab.es/",
-    "mentionedIn" : [ {
-      "@type" : "Article",
-      "name" : [ {
-        "@value" : "Towards a real learning with EDIAâ€™s OER resources",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:c9e42e52-01e1-42c2-9e14-3598b38de9f8"
-    }, {
-      "@type" : "Article",
-      "name" : [ {
-        "@value" : "La Feria de la Historia: 9 proyectos para Historia de EspaÃ±a",
-        "@language" : "es"
-      } ],
-      "@id" : "urn:uuid:c10b8f80-023a-4f2c-8b7d-99f835108cb5"
-    }, {
-      "@type" : "Article",
-      "name" : [ {
-        "@value" : "EDIA's images repository. Open images for open resources",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:52396ba1-8f37-4e26-a2d1-195107f1be1a"
-    } ],
-    "provides" : [ {
-      "@type" : "Service",
-      "name" : [ {
-        "@value" : "CEDEC Repository",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:a6bf875b-9bb0-46cf-b9c0-1868ecb31a9a"
-    } ],
-    "name" : [ {
-      "@value" : "Centro National de Desarrollo Curricular en Sistemas no Propietarios",
-      "@language" : "es"
-    } ],
-    "location" : {
-      "geo" : {
-        "lon" : -6.342739,
-        "lat" : 38.913603
+      "alternateName": {
+        "es": "CeDeC"
       },
-      "address" : {
-        "addressCountry" : "ES",
-        "streetAddress" : "Lope de Vega 21",
-        "postalCode" : 6800,
-        "addressLocality" : "MÃ©rida",
-        "addressRegion" : "Badajoz"
-      }
+      "url": "http://cedec.educalab.es/",
+      "mentionedIn": [
+        {
+          "@type": "Article",
+          "name": {
+            "en": "Towards a real learning with EDIAâ€™s OER resources"
+          },
+          "@id": "urn:uuid:c9e42e52-01e1-42c2-9e14-3598b38de9f8"
+        },
+        {
+          "@type": "Article",
+          "name": {
+            "es": "La Feria de la Historia: 9 proyectos para Historia de EspaÃ±a"
+          },
+          "@id": "urn:uuid:c10b8f80-023a-4f2c-8b7d-99f835108cb5"
+        },
+        {
+          "@type": "Article",
+          "name": {
+            "en": "EDIA's images repository. Open images for open resources"
+          },
+          "@id": "urn:uuid:52396ba1-8f37-4e26-a2d1-195107f1be1a"
+        }
+      ],
+      "provides": [
+        {
+          "@type": "Service",
+          "name": {
+            "en": "CEDEC Repository"
+          },
+          "@id": "urn:uuid:a6bf875b-9bb0-46cf-b9c0-1868ecb31a9a"
+        }
+      ],
+      "name": {
+        "es": "Centro National de Desarrollo Curricular en Sistemas no Propietarios"
+      },
+      "location": [
+        {
+          "geo": {
+            "lon": -6.342739,
+            "lat": 38.913603
+          },
+          "address": {
+            "addressCountry": "ES",
+            "streetAddress": "Lope de Vega 21",
+            "postalCode": 6800,
+            "addressLocality": "MÃ©rida",
+            "addressRegion": "Badajoz"
+          }
+        }
+      ],
+      "@id": "urn:uuid:70b73511-b9ec-4e95-8b40-50de0f1cc9a0",
+      "memberOf": [
+        {
+          "@type": "Service",
+          "name": {
+            "es": "ProcomÃºn"
+          },
+          "@id": "urn:uuid:76b480ac-1cb3-4ed4-90c3-c0480141bac2"
+        }
+      ],
+      "email": "cedec@ite.educacion.es",
+      "sameAs": [
+        "http://www.slideshare.net/cedecite",
+        "http://vimeo.com/user5635695",
+        "http://www.youtube.com/user/cedec00/featured",
+        "https://twitter.com/CeDeC_intef",
+        "http://www.diigo.com/list/canal_cedec",
+        "https://www.facebook.com/cedec.intef"
+      ]
     },
-    "@id" : "urn:uuid:70b73511-b9ec-4e95-8b40-50de0f1cc9a0",
-    "memberOf" : [ {
-      "@type" : "Service",
-      "name" : [ {
-        "@value" : "ProcomÃºn",
-        "@language" : "es"
-      } ],
-      "@id" : "urn:uuid:76b480ac-1cb3-4ed4-90c3-c0480141bac2"
-    } ],
-    "email" : "cedec@ite.educacion.es",
-    "sameAs" : [ "http://www.slideshare.net/cedecite", "http://vimeo.com/user5635695", "http://www.youtube.com/user/cedec00/featured", "https://twitter.com/CeDeC_intef", "http://www.diigo.com/list/canal_cedec", "https://www.facebook.com/cedec.intef" ]
+    {
+      "keywords": [
+        "cedec, rea, oer, proyecto edia, exelearning"
+      ],
+      "@type": "Person",
+      "created": [
+        {
+          "@type": "Article",
+          "name": {
+            "es": "La Feria de la Historia: 9 proyectos para Historia de EspaÃ±a"
+          },
+          "@id": "urn:uuid:c10b8f80-023a-4f2c-8b7d-99f835108cb5"
+        },
+        {
+          "@type": "Article",
+          "name": {
+            "en": "Una infografÃ­a para explicar los REA"
+          },
+          "@id": "urn:uuid:0eb61158-1fa7-4a73-affd-a7c6f3b6a328"
+        },
+        {
+          "@type": "Article",
+          "name": {
+            "en": "â€œEDIA Projectâ€ OER to change the way of learning in Secondary Schools."
+          },
+          "@id": "urn:uuid:a3f7178b-9cc0-482b-8d83-9b47f4de4ff9"
+        }
+      ],
+      "name": {
+        "es": "Miguel Ãngel Pereira",
+        "en": "Miguel  Ãngel Pereira"
+      },
+      "location": [
+        {}
+      ],
+      "@id": "urn:uuid:3ab8ff31-d782-4cb5-9dc3-542fad2347d5",
+      "email": "miguelangel.pereira@mecd.es",
+      "url": "http://cedec.educalab.es"
+    }
+  ],
+  "mainEntity": {
+    "image": "http://cedec.educalab.es/images/stories/logo_cedec.png",
+    "keywords": [
+      "proyectoEDIA",
+      "ABP",
+      "cedec",
+      "rea",
+      "exe learning"
+    ],
+    "@type": "Organization",
+    "created": [
+      {
+        "@type": "Article",
+        "name": {
+          "en": "â€œEDIA Projectâ€ OER to change the way of learning in Secondary Schools."
+        },
+        "@id": "urn:uuid:a3f7178b-9cc0-482b-8d83-9b47f4de4ff9"
+      },
+      {
+        "@type": "Article",
+        "name": {
+          "en": "Una infografÃ­a para explicar los REA"
+        },
+        "@id": "urn:uuid:0eb61158-1fa7-4a73-affd-a7c6f3b6a328"
+      },
+      {
+        "@type": "Article",
+        "name": {
+          "es": "La Feria de la Historia: 9 proyectos para Historia de EspaÃ±a"
+        },
+        "@id": "urn:uuid:c10b8f80-023a-4f2c-8b7d-99f835108cb5"
+      },
+      {
+        "@type": "Article",
+        "name": {
+          "en": "EDIA's images repository. Open images for open resources"
+        },
+        "@id": "urn:uuid:52396ba1-8f37-4e26-a2d1-195107f1be1a"
+      },
+      {
+        "@type": "Article",
+        "name": {
+          "en": "Towards a real learning with EDIAâ€™s OER resources"
+        },
+        "@id": "urn:uuid:c9e42e52-01e1-42c2-9e14-3598b38de9f8"
+      }
+    ],
+    "description": {
+      "es": "El Centro Nacional de Desarrollo Curricular en Sistemas no Propietarios (CeDeC) es un organismo dependiente del Ministerio de EducaciÃ³n, Cultura y Deporte a travÃ©s del Instituto Nacional de TecnologÃ­as Educativas y FormaciÃ³n del Profesorado (INTEF) y de la ConsejerÃ­a de EducaciÃ³n y Cultura del Gobierno de Extremadura.\r\nTiene como finalidad el diseÃ±o, la promociÃ³n y el desarrollo de materiales educativos digitales a travÃ©s del software libre. Nuestro objetivo es poner a disposiciÃ³n de toda la comunidad educativa materiales y recursos digitales de libre acceso y que permitan profundizar en la implantaciÃ³n de las TecnologÃ­as de la InformaciÃ³n y ComunicaciÃ³n en el Ãmbito Educativo.",
+      "en": "The Centro Nacional de Desarrollo Curricular en Sistemas no Propietarios (CeDeC) is a department of the Ministry of Education of Spain dedicated to the production of Open Educational Resources.\r\n\r\nIn addition to publishing materials to support secondary education, CeDeC has launched a guide to creating content by teachers and several values â€‹â€‹education materials. Cedec also promotes the use of Creative Commons licenses among teachers."
+    },
+    "alternateName": {
+      "es": "CeDeC"
+    },
+    "url": "http://cedec.educalab.es/",
+    "mentionedIn": [
+      {
+        "@type": "Article",
+        "name": {
+          "en": "Towards a real learning with EDIAâ€™s OER resources"
+        },
+        "@id": "urn:uuid:c9e42e52-01e1-42c2-9e14-3598b38de9f8"
+      },
+      {
+        "@type": "Article",
+        "name": {
+          "es": "La Feria de la Historia: 9 proyectos para Historia de EspaÃ±a"
+        },
+        "@id": "urn:uuid:c10b8f80-023a-4f2c-8b7d-99f835108cb5"
+      },
+      {
+        "@type": "Article",
+        "name": {
+          "en": "EDIA's images repository. Open images for open resources"
+        },
+        "@id": "urn:uuid:52396ba1-8f37-4e26-a2d1-195107f1be1a"
+      }
+    ],
+    "provides": [
+      {
+        "@type": "Service",
+        "name": {
+          "en": "CEDEC Repository"
+        },
+        "@id": "urn:uuid:a6bf875b-9bb0-46cf-b9c0-1868ecb31a9a"
+      }
+    ],
+    "name": {
+      "es": "Centro National de Desarrollo Curricular en Sistemas no Propietarios"
+    },
+    "location": [
+      {
+        "geo": {
+          "lon": -6.342739,
+          "lat": 38.913603
+        },
+        "address": {
+          "addressCountry": "ES",
+          "streetAddress": "Lope de Vega 21",
+          "postalCode": 6800,
+          "addressLocality": "MÃ©rida",
+          "addressRegion": "Badajoz"
+        }
+      }
+    ],
+    "@id": "urn:uuid:70b73511-b9ec-4e95-8b40-50de0f1cc9a0",
+    "memberOf": [
+      {
+        "@type": "Service",
+        "name": {
+          "es": "ProcomÃºn"
+        },
+        "@id": "urn:uuid:76b480ac-1cb3-4ed4-90c3-c0480141bac2"
+      }
+    ],
+    "email": "cedec@ite.educacion.es",
+    "sameAs": [
+      "http://www.slideshare.net/cedecite",
+      "http://vimeo.com/user5635695",
+      "http://www.youtube.com/user/cedec00/featured",
+      "https://twitter.com/CeDeC_intef",
+      "http://www.diigo.com/list/canal_cedec",
+      "https://www.facebook.com/cedec.intef"
+    ]
   },
-  "articleBody" : [ {
-    "@value" : "<p>Teachers and students around Spain are using OER created by the <a target=\"_blank\" href=\"http://cedec.educalab.es/es/descargade-contenidos\">CeDeC EDIA Project</a> team as the main (and sometimes, the only) support for their learning activities in the classroom. The most important point of these resources is their focus on methodology. Students that learn with the OER EDIA project build their own learning working together in cooperative teams, along with the Project-based learning (PBL) methodology.</p>\r\n<p>Another important matter is the use of <a target=\"_blank\" href=\"http://exelearning.net/\">exelearning.net</a> as the main creation tool. The development of this author tool allows any teacher (or anyone out of the educational world) to use, adapt and spread the resources without any special training. Exelearning.net is also in permanent development due to the dedication and cooperation of volunteers, firms and public institutions like <a target=\"_blank\" href=\"http://cedec.educalab.es/\">CeDeC</a>, <a target=\"_blank\" href=\"http://educalab.es/intef\">Intef</a> and several Regional Departments of Education (Murcia, Galicia, Madrid and AndalucÃ­a).</p>\r\n<p>Antonio Calvin Secondary School is one of these schools where EDIA Projects are contributing to a new way of learning. During the last two years students from this school (located in Almagro, in Castilla La Mancha) working with their teacher, Virginia Capilla are using <a target=\"_blank\" href=\"http://cedec.educalab.es/es/ccss/1641-trabajo-por-proyectos-en-geografia-e-historia-en-secundaria\">EDIA's OER designed for Geography and History</a> as their main support in the classroom. The results of their work and learning are experiences by creating products such as a multimedia tourist guide for different countries, personal learning spaces (like blogs or collaborative sites), podcasts, TV reports and many others. The experience developed at Antonio Calvin Secondary School will continue during the following courses with other students and teachers, creating new ways to learn.</p>\r\n<p>Domingo Chica Pardo, at San JosÃ© School in Velez-MÃ¡laga, is the example of how EDIA's OER has contributed to change the educational reality. This teacher has adopted<a href=\"http://cedec.educalab.es/es/rea-ingles\"> English EDIA OER </a>to guide his pupils through learning. For instance, some of them have worked in a virtual London travel while creating an article focused on the teenagers' entertainment. This one has been one of their experiences in a special year that enabled them to create audio guides of their own town, multimedia posters and many other products.</p>\r\n<p>These two experiences are examples of how EDIA Project connects with both Technology and methodology, trying to encourage a new way of learning and managing schools, classrooms and even students. Along with this, EDIA is presenting a model create OER products based on the creation of permanent teams formed by teachers who are dedicated to create, spread and even check OER's quality and implementation. The different teams are coordinated by CeDeC staff and they cooperate in order to make OER a global and effective learning tool.</p>\r\n<p>Nowadays, EDIA's teams keep on creating new OER resources for the different subjects working along with the Project-based Learning methodology. In addition to this, the support of teachers testing the OER is making them better and, most importantly, it fully fits in any classroom and with any student's reality, needs and expectations.</p>\r\n<p>You can learn more about CeDeC and EDIA Project at</p>\r\n<ul>\r\n\t<li><a target=\"_blank\" title=\"Enlace\" href=\"http://cedec.educalab.es/\">CeDeC official web page.</a></li>\r\n\t<li><a target=\"_blank\" href=\"https://oerworldmap.org/resource/?q=centro+nacional#urn:uuid:70b73511-b9ec-4e95-8b40-50de0f1cc9a0\">CeDeC entry at OER world map</a></li>\r\n</ul>",
-    "@language" : "en"
-  } ],
-  "@type" : "Article",
-  "mentions" : [ {
-    "image" : "http://exelearning.net/html_manual/exe_es/exe.jpg",
-    "mentionedIn" : [ {
-      "@type" : "Article",
-      "name" : [ {
-        "@value" : "â€œEDIA Projectâ€ OER to change the way of learning in Secondary Schools.",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:a3f7178b-9cc0-482b-8d83-9b47f4de4ff9"
-    } ],
-    "keywords" : [ "authoring tool", "oer-editor" ],
-    "availableChannel" : [ {
-      "serviceUrl" : "http://exelearning.net/?lang=en"
-    } ],
-    "@type" : "Service",
-    "name" : [ {
-      "@value" : "eXeLearning",
-      "@language" : "en"
-    } ],
-    "description" : [ {
-      "@value" : "eXeLearning is an open source authoring tool, which can generate interactive contents in XHTML or HTML5 format. It was originally developed in New Zealand by the University of Auckland and the Tairawhiti Polytechnic Institute back in 2007. 2009 the Instituto de TecnologÃ­as Educativas del Ministerio de EducaciÃ³n del Gobierno de EspaÃ±a (now INTEF) decided to continue the development of eXeLearning.",
-      "@language" : "en"
-    } ],
-    "alternateName" : [ {
-      "@value" : "eXe",
-      "@language" : "en"
-    } ],
-    "location" : { },
-    "@id" : "urn:uuid:8519f191-79ed-49c7-8c84-fd9afdb65bb5",
-    "startDate" : "2007"
-  }, {
-    "image" : "https://procomun.educalab.es/sites/all/themes/nexus/logo.png",
-    "audience" : [ {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Upper secondary education",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/isced/1997/level3"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Pre-Primary Education",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/isced/1997/level0"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Primary education or first stage of basic education",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/isced/1997/level1"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Lower secondary education or second stage of basic education",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/isced/1997/level2"
-    } ],
-    "availableChannel" : [ {
-      "serviceUrl" : "https://procomun.educalab.es/",
-      "availableLanguage" : [ "es", "ca", "eu" ]
-    } ],
-    "@type" : "Service",
-    "about" : [ {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Language acquisition \\u2013 French",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n0231-fr"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Literature and linguistics",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n0232"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Services",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n10"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Audio-visual techniques and media production",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n0211"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Sports",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n1014"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Natural sciences, mathematics and statistics",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n05"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Biological and related sciences",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n051"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Personal services",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n101"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Education science",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n0111"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Humanities (except languages)",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n022"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Language acquisition",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n0231"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Physics",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n0533"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Earth sciences",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n0532"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Social and behavioural sciences",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n031"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Languages",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n023"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Mathematics",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n0541"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Music and performing arts",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n0215"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Engineering, manufacturing and construction",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n07"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Social sciences, journalism and information",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n03"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Information and Communication Technologies (ICTs)",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n06"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Arts",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n021"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Arts and humanities",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n02"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Spanish literature and linguistics",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n0232-es"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Chemistry",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n0531"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Economics",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n0311"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Philosophy and ethics",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n0223"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Mathematics and statistics",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n054"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Education",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n01"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "History and archaeology",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n0222"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Physical sciences",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n053"
-    } ],
-    "description" : [ {
-      "@value" : "Place for educational and learning purposes, primarily by the teaching community and students, but also for the general public. Everyone can search, view and download learning objects in different formats.",
-      "@language" : "en"
-    }, {
-      "@value" : "Espacio destinado a usos educativos y de aprendizaje, fundamentalmente por parte de la comunidad docente y el alumnado, pero tambiÃ©n por el pÃºblico en general. Todos podrÃ¡n buscar, consultar y descargar objetos de aprendizaje en distintos formatos.",
-      "@language" : "es"
-    } ],
-    "license" : [ {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Creative Commons Attribution Share-Alike",
-        "@language" : "en"
-      } ],
-      "@id" : "https://github.com/hbz/oerworldmap/public/json/licenses.json#cc-by-sa"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Creative Commons Attribution Non-Commercial No-Derivatives",
-        "@language" : "en"
-      } ],
-      "@id" : "https://github.com/hbz/oerworldmap/public/json/licenses.json#by-nc-nd"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Creative Commons Attribution Non-Commercial Share-Alike",
-        "@language" : "en"
-      } ],
-      "@id" : "https://github.com/hbz/oerworldmap/public/json/licenses.json#by-nc-sa"
-    } ],
-    "mentionedIn" : [ {
-      "@type" : "Article",
-      "name" : [ {
-        "@value" : "â€œEDIA Projectâ€ OER to change the way of learning in Secondary Schools.",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:a3f7178b-9cc0-482b-8d83-9b47f4de4ff9"
-    } ],
-    "provider" : [ {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "EducaLAB",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:646fa625-2b3b-4fba-94c2-c3403c2bef5f"
-    } ],
-    "member" : [ {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Centro National de Desarrollo Curricular en Sistemas no Propietarios",
-        "@language" : "es"
-      } ],
-      "@id" : "urn:uuid:70b73511-b9ec-4e95-8b40-50de0f1cc9a0"
-    } ],
-    "name" : [ {
-      "@value" : "ProcomÃºn",
-      "@language" : "es"
-    } ],
-    "location" : { },
-    "@id" : "urn:uuid:76b480ac-1cb3-4ed4-90c3-c0480141bac2"
-  }, {
-    "audience" : [ {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "First stage of tertiary education",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/isced/1997/level5"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Lower secondary education or second stage of basic education",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/isced/1997/level2"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Upper secondary education",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/isced/1997/level3"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Primary education or first stage of basic education",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/isced/1997/level1"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Second stage of tertiary education",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/isced/1997/level6"
-    } ],
-    "availableChannel" : [ {
-      "serviceUrl" : "http://cedec.educalab.es/es/descargade-contenidos",
-      "availableLanguage" : [ "es" ]
-    } ],
-    "@type" : "Service",
-    "about" : [ {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Education",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n01"
-    } ],
-    "description" : [ {
-      "@value" : "Open educational resources for Primary and Secondary education created with the exelearning.net tool and based on the Project Based Learning focusing.\r\n",
-      "@language" : "en"
-    } ],
-    "alternateName" : [ {
-      "@value" : "Proyecto EDIA",
-      "@language" : "es"
-    } ],
-    "license" : [ {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Creative Commons Attribution Share-Alike",
-        "@language" : "en"
-      } ],
-      "@id" : "https://github.com/hbz/oerworldmap/public/json/licenses.json#cc-by-sa"
-    } ],
-    "mentionedIn" : [ {
-      "@type" : "Article",
-      "name" : [ {
-        "@value" : "La Feria de la Historia: 9 proyectos para Historia de EspaÃ±a",
-        "@language" : "es"
-      } ],
-      "@id" : "urn:uuid:c10b8f80-023a-4f2c-8b7d-99f835108cb5"
-    }, {
-      "@type" : "Article",
-      "name" : [ {
-        "@value" : "Towards a real learning with EDIAâ€™s OER resources",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:c9e42e52-01e1-42c2-9e14-3598b38de9f8"
-    }, {
-      "@type" : "Article",
-      "name" : [ {
-        "@value" : "EDIA's images repository. Open images for open resources",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:52396ba1-8f37-4e26-a2d1-195107f1be1a"
-    }, {
-      "@type" : "Article",
-      "name" : [ {
-        "@value" : "â€œEDIA Projectâ€ OER to change the way of learning in Secondary Schools.",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:a3f7178b-9cc0-482b-8d83-9b47f4de4ff9"
-    } ],
-    "provider" : [ {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Centro National de Desarrollo Curricular en Sistemas no Propietarios",
-        "@language" : "es"
-      } ],
-      "@id" : "urn:uuid:70b73511-b9ec-4e95-8b40-50de0f1cc9a0"
-    } ],
-    "name" : [ {
-      "@value" : "CEDEC Repository",
-      "@language" : "en"
-    } ],
-    "location" : {
-      "geo" : {
-        "lon" : -6.342739,
-        "lat" : 38.913603
+  "articleBody": {
+    "en": "<p>Teachers and students around Spain are using OER created by the <a target=\"_blank\" href=\"http://cedec.educalab.es/es/descargade-contenidos\">CeDeC EDIA Project</a> team as the main (and sometimes, the only) support for their learning activities in the classroom. The most important point of these resources is their focus on methodology. Students that learn with the OER EDIA project build their own learning working together in cooperative teams, along with the Project-based learning (PBL) methodology.</p>\r\n<p>Another important matter is the use of <a target=\"_blank\" href=\"http://exelearning.net/\">exelearning.net</a> as the main creation tool. The development of this author tool allows any teacher (or anyone out of the educational world) to use, adapt and spread the resources without any special training. Exelearning.net is also in permanent development due to the dedication and cooperation of volunteers, firms and public institutions like <a target=\"_blank\" href=\"http://cedec.educalab.es/\">CeDeC</a>, <a target=\"_blank\" href=\"http://educalab.es/intef\">Intef</a> and several Regional Departments of Education (Murcia, Galicia, Madrid and AndalucÃ­a).</p>\r\n<p>Antonio Calvin Secondary School is one of these schools where EDIA Projects are contributing to a new way of learning. During the last two years students from this school (located in Almagro, in Castilla La Mancha) working with their teacher, Virginia Capilla are using <a target=\"_blank\" href=\"http://cedec.educalab.es/es/ccss/1641-trabajo-por-proyectos-en-geografia-e-historia-en-secundaria\">EDIA's OER designed for Geography and History</a> as their main support in the classroom. The results of their work and learning are experiences by creating products such as a multimedia tourist guide for different countries, personal learning spaces (like blogs or collaborative sites), podcasts, TV reports and many others. The experience developed at Antonio Calvin Secondary School will continue during the following courses with other students and teachers, creating new ways to learn.</p>\r\n<p>Domingo Chica Pardo, at San JosÃ© School in Velez-MÃ¡laga, is the example of how EDIA's OER has contributed to change the educational reality. This teacher has adopted<a href=\"http://cedec.educalab.es/es/rea-ingles\"> English EDIA OER </a>to guide his pupils through learning. For instance, some of them have worked in a virtual London travel while creating an article focused on the teenagers' entertainment. This one has been one of their experiences in a special year that enabled them to create audio guides of their own town, multimedia posters and many other products.</p>\r\n<p>These two experiences are examples of how EDIA Project connects with both Technology and methodology, trying to encourage a new way of learning and managing schools, classrooms and even students. Along with this, EDIA is presenting a model create OER products based on the creation of permanent teams formed by teachers who are dedicated to create, spread and even check OER's quality and implementation. The different teams are coordinated by CeDeC staff and they cooperate in order to make OER a global and effective learning tool.</p>\r\n<p>Nowadays, EDIA's teams keep on creating new OER resources for the different subjects working along with the Project-based Learning methodology. In addition to this, the support of teachers testing the OER is making them better and, most importantly, it fully fits in any classroom and with any student's reality, needs and expectations.</p>\r\n<p>You can learn more about CeDeC and EDIA Project at</p>\r\n<ul>\r\n\t<li><a target=\"_blank\" title=\"Enlace\" href=\"http://cedec.educalab.es/\">CeDeC official web page.</a></li>\r\n\t<li><a target=\"_blank\" href=\"https://oerworldmap.org/resource/?q=centro+nacional#urn:uuid:70b73511-b9ec-4e95-8b40-50de0f1cc9a0\">CeDeC entry at OER world map</a></li>\r\n</ul>"
+  },
+  "@type": "Article",
+  "mentions": [
+    {
+      "image": "http://exelearning.net/html_manual/exe_es/exe.jpg",
+      "mentionedIn": [
+        {
+          "@type": "Article",
+          "name": {
+            "en": "â€œEDIA Projectâ€ OER to change the way of learning in Secondary Schools."
+          },
+          "@id": "urn:uuid:a3f7178b-9cc0-482b-8d83-9b47f4de4ff9"
+        }
+      ],
+      "keywords": [
+        "authoring tool",
+        "oer-editor"
+      ],
+      "availableChannel": [
+        {
+          "serviceUrl": "http://exelearning.net/?lang=en"
+        }
+      ],
+      "@type": "Service",
+      "name": {
+        "en": "eXeLearning"
       },
-      "address" : {
-        "addressCountry" : "ES",
-        "streetAddress" : "Lope de Vega, 21",
-        "postalCode" : 6800,
-        "addressLocality" : "MÃ©rida"
-      }
+      "description": {
+        "en": "eXeLearning is an open source authoring tool, which can generate interactive contents in XHTML or HTML5 format. It was originally developed in New Zealand by the University of Auckland and the Tairawhiti Polytechnic Institute back in 2007. 2009 the Instituto de TecnologÃ­as Educativas del Ministerio de EducaciÃ³n del Gobierno de EspaÃ±a (now INTEF) decided to continue the development of eXeLearning."
+      },
+      "alternateName": {
+        "en": "eXe"
+      },
+      "location": [
+        {}
+      ],
+      "@id": "urn:uuid:8519f191-79ed-49c7-8c84-fd9afdb65bb5",
+      "startDate": "2007"
     },
-    "@id" : "urn:uuid:a6bf875b-9bb0-46cf-b9c0-1868ecb31a9a",
-    "email" : "cedec@ite.educacion.es"
-  } ],
-  "name" : [ {
-    "@value" : "â€œEDIA Projectâ€ OER to change the way of learning in Secondary Schools.",
-    "@language" : "en"
-  } ],
-  "description" : [ {
-    "@value" : "<p>Teachers and students around Spain are using OER created by the <a target=\"_blank\" href=\"es/descargade-contenidos\">CeDeC EDIA Project</a> team as the main (and sometimes, the only) support for their learning activities in the classroom. The most important point of these resources is their focus on methodology. Students that learn with the OER EDIA project build their own learning working together in cooperative teams, along with the Project-based learning (PBL) methodology.</p>",
-    "@language" : "en"
-  } ],
-  "@id" : "urn:uuid:a3f7178b-9cc0-482b-8d83-9b47f4de4ff9",
-  "@context" : "https://oerworldmap.org/assets/json/context.json"
+    {
+      "image": "https://procomun.educalab.es/sites/all/themes/nexus/logo.png",
+      "audience": [
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Upper secondary education"
+          },
+          "@id": "https://w3id.org/isced/1997/level3"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Pre-Primary Education"
+          },
+          "@id": "https://w3id.org/isced/1997/level0"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Primary education or first stage of basic education"
+          },
+          "@id": "https://w3id.org/isced/1997/level1"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Lower secondary education or second stage of basic education"
+          },
+          "@id": "https://w3id.org/isced/1997/level2"
+        }
+      ],
+      "availableChannel": [
+        {
+          "serviceUrl": "https://procomun.educalab.es/",
+          "availableLanguage": [
+            "es",
+            "ca",
+            "eu"
+          ]
+        }
+      ],
+      "@type": "Service",
+      "about": [
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Language acquisition \\u2013 French"
+          },
+          "@id": "https://w3id.org/class/esc/n0231-fr"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Literature and linguistics"
+          },
+          "@id": "https://w3id.org/class/esc/n0232"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Services"
+          },
+          "@id": "https://w3id.org/class/esc/n10"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Audio-visual techniques and media production"
+          },
+          "@id": "https://w3id.org/class/esc/n0211"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Sports"
+          },
+          "@id": "https://w3id.org/class/esc/n1014"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Natural sciences, mathematics and statistics"
+          },
+          "@id": "https://w3id.org/class/esc/n05"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Biological and related sciences"
+          },
+          "@id": "https://w3id.org/class/esc/n051"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Personal services"
+          },
+          "@id": "https://w3id.org/class/esc/n101"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Education science"
+          },
+          "@id": "https://w3id.org/class/esc/n0111"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Humanities (except languages)"
+          },
+          "@id": "https://w3id.org/class/esc/n022"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Language acquisition"
+          },
+          "@id": "https://w3id.org/class/esc/n0231"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Physics"
+          },
+          "@id": "https://w3id.org/class/esc/n0533"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Earth sciences"
+          },
+          "@id": "https://w3id.org/class/esc/n0532"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Social and behavioural sciences"
+          },
+          "@id": "https://w3id.org/class/esc/n031"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Languages"
+          },
+          "@id": "https://w3id.org/class/esc/n023"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Mathematics"
+          },
+          "@id": "https://w3id.org/class/esc/n0541"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Music and performing arts"
+          },
+          "@id": "https://w3id.org/class/esc/n0215"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Engineering, manufacturing and construction"
+          },
+          "@id": "https://w3id.org/class/esc/n07"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Social sciences, journalism and information"
+          },
+          "@id": "https://w3id.org/class/esc/n03"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Information and Communication Technologies (ICTs)"
+          },
+          "@id": "https://w3id.org/class/esc/n06"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Arts"
+          },
+          "@id": "https://w3id.org/class/esc/n021"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Arts and humanities"
+          },
+          "@id": "https://w3id.org/class/esc/n02"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Spanish literature and linguistics"
+          },
+          "@id": "https://w3id.org/class/esc/n0232-es"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Chemistry"
+          },
+          "@id": "https://w3id.org/class/esc/n0531"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Economics"
+          },
+          "@id": "https://w3id.org/class/esc/n0311"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Philosophy and ethics"
+          },
+          "@id": "https://w3id.org/class/esc/n0223"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Mathematics and statistics"
+          },
+          "@id": "https://w3id.org/class/esc/n054"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Education"
+          },
+          "@id": "https://w3id.org/class/esc/n01"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "History and archaeology"
+          },
+          "@id": "https://w3id.org/class/esc/n0222"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Physical sciences"
+          },
+          "@id": "https://w3id.org/class/esc/n053"
+        }
+      ],
+      "description": {
+        "en": "Place for educational and learning purposes, primarily by the teaching community and students, but also for the general public. Everyone can search, view and download learning objects in different formats.",
+        "es": "Espacio destinado a usos educativos y de aprendizaje, fundamentalmente por parte de la comunidad docente y el alumnado, pero tambiÃ©n por el pÃºblico en general. Todos podrÃ¡n buscar, consultar y descargar objetos de aprendizaje en distintos formatos."
+      },
+      "license": [
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Creative Commons Attribution Share-Alike"
+          },
+          "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#cc-by-sa"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Creative Commons Attribution Non-Commercial No-Derivatives"
+          },
+          "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#by-nc-nd"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Creative Commons Attribution Non-Commercial Share-Alike"
+          },
+          "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#by-nc-sa"
+        }
+      ],
+      "mentionedIn": [
+        {
+          "@type": "Article",
+          "name": {
+            "en": "â€œEDIA Projectâ€ OER to change the way of learning in Secondary Schools."
+          },
+          "@id": "urn:uuid:a3f7178b-9cc0-482b-8d83-9b47f4de4ff9"
+        }
+      ],
+      "provider": [
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "EducaLAB"
+          },
+          "@id": "urn:uuid:646fa625-2b3b-4fba-94c2-c3403c2bef5f"
+        }
+      ],
+      "member": [
+        {
+          "@type": "Organization",
+          "name": {
+            "es": "Centro National de Desarrollo Curricular en Sistemas no Propietarios"
+          },
+          "@id": "urn:uuid:70b73511-b9ec-4e95-8b40-50de0f1cc9a0"
+        }
+      ],
+      "name": {
+        "es": "ProcomÃºn"
+      },
+      "location": [
+        {}
+      ],
+      "@id": "urn:uuid:76b480ac-1cb3-4ed4-90c3-c0480141bac2"
+    },
+    {
+      "audience": [
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "First stage of tertiary education"
+          },
+          "@id": "https://w3id.org/isced/1997/level5"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Lower secondary education or second stage of basic education"
+          },
+          "@id": "https://w3id.org/isced/1997/level2"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Upper secondary education"
+          },
+          "@id": "https://w3id.org/isced/1997/level3"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Primary education or first stage of basic education"
+          },
+          "@id": "https://w3id.org/isced/1997/level1"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Second stage of tertiary education"
+          },
+          "@id": "https://w3id.org/isced/1997/level6"
+        }
+      ],
+      "availableChannel": [
+        {
+          "serviceUrl": "http://cedec.educalab.es/es/descargade-contenidos",
+          "availableLanguage": [
+            "es"
+          ]
+        }
+      ],
+      "@type": "Service",
+      "about": [
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Education"
+          },
+          "@id": "https://w3id.org/class/esc/n01"
+        }
+      ],
+      "description": {
+        "en": "Open educational resources for Primary and Secondary education created with the exelearning.net tool and based on the Project Based Learning focusing.\r\n"
+      },
+      "alternateName": {
+        "es": "Proyecto EDIA"
+      },
+      "license": [
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Creative Commons Attribution Share-Alike"
+          },
+          "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#cc-by-sa"
+        }
+      ],
+      "mentionedIn": [
+        {
+          "@type": "Article",
+          "name": {
+            "es": "La Feria de la Historia: 9 proyectos para Historia de EspaÃ±a"
+          },
+          "@id": "urn:uuid:c10b8f80-023a-4f2c-8b7d-99f835108cb5"
+        },
+        {
+          "@type": "Article",
+          "name": {
+            "en": "Towards a real learning with EDIAâ€™s OER resources"
+          },
+          "@id": "urn:uuid:c9e42e52-01e1-42c2-9e14-3598b38de9f8"
+        },
+        {
+          "@type": "Article",
+          "name": {
+            "en": "EDIA's images repository. Open images for open resources"
+          },
+          "@id": "urn:uuid:52396ba1-8f37-4e26-a2d1-195107f1be1a"
+        },
+        {
+          "@type": "Article",
+          "name": {
+            "en": "â€œEDIA Projectâ€ OER to change the way of learning in Secondary Schools."
+          },
+          "@id": "urn:uuid:a3f7178b-9cc0-482b-8d83-9b47f4de4ff9"
+        }
+      ],
+      "provider": [
+        {
+          "@type": "Organization",
+          "name": {
+            "es": "Centro National de Desarrollo Curricular en Sistemas no Propietarios"
+          },
+          "@id": "urn:uuid:70b73511-b9ec-4e95-8b40-50de0f1cc9a0"
+        }
+      ],
+      "name": {
+        "en": "CEDEC Repository"
+      },
+      "location": [
+        {
+          "geo": {
+            "lon": -6.342739,
+            "lat": 38.913603
+          },
+          "address": {
+            "addressCountry": "ES",
+            "streetAddress": "Lope de Vega, 21",
+            "postalCode": 6800,
+            "addressLocality": "MÃ©rida"
+          }
+        }
+      ],
+      "@id": "urn:uuid:a6bf875b-9bb0-46cf-b9c0-1868ecb31a9a",
+      "email": "cedec@ite.educacion.es"
+    }
+  ],
+  "name": {
+    "en": "â€œEDIA Projectâ€ OER to change the way of learning in Secondary Schools."
+  },
+  "description": {
+    "en": "<p>Teachers and students around Spain are using OER created by the <a target=\"_blank\" href=\"es/descargade-contenidos\">CeDeC EDIA Project</a> team as the main (and sometimes, the only) support for their learning activities in the classroom. The most important point of these resources is their focus on methodology. Students that learn with the OER EDIA project build their own learning working together in cooperative teams, along with the Project-based learning (PBL) methodology.</p>"
+  },
+  "@id": "urn:uuid:a3f7178b-9cc0-482b-8d83-9b47f4de4ff9",
+  "@context": "https://oerworldmap.org/assets/json/context.json"
 }

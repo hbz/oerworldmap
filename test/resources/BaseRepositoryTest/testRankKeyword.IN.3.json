@@ -1,182 +1,176 @@
 {
-  "image" : "https://www.bibb.de/system/layout/logo.png",
-  "keywords" : [ "berufliche Bildung", "vocational education and training", "TVET" ],
-  "@type" : "Organization",
-  "participantIn" : [ {
-    "funder" : [ {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Federal Ministry of Education and Research",
-        "@language" : "en"
-      }, {
-        "@value" : "Bundesministerium fÃ¼r Bildung und Forschung",
-        "@language" : "de"
-      } ],
-      "@id" : "urn:uuid:e495cc00-9377-48b6-8c9a-ba5ced16f8ba"
-    } ],
-    "agent" : [ {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "DIPF - Deutsches Institut fÃ¼r Internationale PÃ¤dagogische Forschung",
-        "@language" : "de"
-      }, {
-        "@value" : "DIPF - German Institute for International Educational Research",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:f4f8af31-ac5d-497c-9c96-ec958c465b09"
-    } ],
-    "@type" : "Action",
-    "name" : [ {
-      "@value" : "Informationsstelle OER: Information, Transfer und Vernetzung zu Open Educational Resources",
-      "@language" : "en"
-    } ],
-    "description" : [ {
-      "@value" : "Mit der Informationsstelle OER wird eine themenspezifische Online-Plattform geschaffen, die fÃ¼r Ã–ffentlichkeit und fachliche Zielgruppen umfassende Informationen zum Thema Open Educational Resources zur VerfÃ¼gung stellt, den aktuellen Kenntnisstand fÃ¼r die Praxis aufbereitet, Informationen zu Best-Practice-Beispielen bÃ¼ndelt und die Vielfalt vorhandener Initiativen abbildet. Die breite Sichtbarmachung des Themas erfolgt Ã¼ber die inhaltliche, funktionale und informationelle Verzahnung einschlÃ¤giger InformationsbestÃ¤nde und Medienangebote des Deutschen Bildungsservers, der bisherigen Transferstelle OER und des Hochschulbibliothekszentrums NRW (OER World Map/OER-Atlas), die in Form einer integrierten, informationsmethodisch abgestimmten und nutzerorientiert konzipierten Internet-PrÃ¤senz den einfachen Zugriff auf aktuelle Informationen ermÃ¶glicht. Mit Blick auf die Adressierung auch neuer potenzieller Zielgruppen und die bildungsbereichsÃ¼bergreifende ErschlieÃŸung des Themenfeldes im Kontext des Lebenslangen Lernens sollen in Zusammenarbeit mit Stakeholdern, Interessengruppen und OER-Initiativen bislang desiderate adressaten- und domÃ¤nenspezifische Informationsmodule entwickelt werden.\r\n\r\nIm Ergebnis entsteht eine umfangreiche Wissensbasis in Gestalt u.a. von redaktionellen Dossiers und systematisch strukturierten Informationssammlungen, deren Reichweite durch die Integration multimedialer Formate (z.B. Podcasts, Videos, didaktisch aufbereitete Online-Module) und Kommunikationsplattformen auf der Basis von Social-Media-Anwendungen erweitert wird. Das Vorhaben zielt zudem darauf, die Zusammenarbeit und Vernetzung der unterschiedlichen OER-Akteure und Initiativen durch geeignete Kommunikationsinstrumente, projektbegleitende Workshops und die Ã–ffentlichkeitsarbeit der Informationsstelle zu unterstÃ¼tzen. In diesem Zusammenhang besteht eine Aufgabe auch in der Dokumentation und BÃ¼ndelung von Diskussionsprozessen und Ergebnissen der FÃ¶rdermaÃŸnahme des BMBF OERinfo zur Sensibilisierung und Qualifizierung von OER-Multiplikatoren im Dialog mit den gefÃ¶rderten Projekten.",
-      "@language" : "en"
-    } ],
-    "alternateName" : [ {
-      "@value" : "OERinfo",
-      "@language" : "en"
-    } ],
-    "startTime" : "2016-11-01",
-    "@id" : "urn:uuid:efed6ca2-b228-480f-be03-090a19de7b42",
-    "isPartOf" : {
-      "@type" : "Action",
-      "name" : [ {
-        "@value" : "Richtlinie zur FÃ¶rderung von Offenen Bildungsmaterialien (Open Educational Resources â€“ OERinfo)",
-        "@language" : "de"
-      } ],
-      "@id" : "urn:uuid:3f11cdbd-a74a-4aa4-83b3-b4148bfdbe82"
-    },
-    "affiliate" : [ {
-      "@type" : "Person",
-      "name" : [ {
-        "@value" : "Luca Mollenhauer",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:0759ba7b-eaaa-4e16-bca8-49993cfe1265"
-    }, {
-      "@type" : "Person",
-      "name" : [ {
-        "@value" : "JÃ¶ran MuuÃŸ-Merholz",
-        "@language" : "de"
-      } ],
-      "@id" : "urn:uuid:4e6f0a59-30c2-4045-9f6f-b599740c42c5"
-    }, {
-      "@type" : "Person",
-      "name" : [ {
-        "@value" : "Jan Neumann",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:839897e6-178f-11e5-871b-3c970e4a9cbf"
-    }, {
-      "@type" : "Person",
-      "name" : [ {
-        "@value" : "Gabriele Fahrenkrog",
-        "@language" : "de"
-      } ],
-      "@id" : "urn:uuid:7a0b4714-9164-4a96-a09c-dd28f0a0bb52"
-    } ],
-    "participant" : [ {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "J&K - JÃ¶ran und Konsorten",
-        "@language" : "de"
-      }, {
-        "@value" : "J&K - JÃ¶ran und Konsorten",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:8cf07e97-c7fb-4dfc-a748-3a2f99e65a0a"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Deutsches Institut fÃ¼r Erwachsenenbildung â€“ Leibniz-Zentrum fÃ¼r Lebenslanges Lernen e.V.",
-        "@language" : "de"
-      } ],
-      "@id" : "urn:uuid:40ac91f7-60ca-4800-9bed-df4219f7a5e2"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Bundesinstitut fÃ¼r Berufsbildung",
-        "@language" : "de"
-      }, {
-        "@value" : "Federal Institute for Vocational Education and Training",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:efdeb7a5-4975-4ac0-b55b-00b9b371b579"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "North Rhine-Westphalian Library Center",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:e08975fe-acc0-4733-8496-2cfc034a120a"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Learning Lab",
-        "@language" : "en"
-      }, {
-        "@value" : "Learning Lab",
-        "@language" : "de"
-      } ],
-      "@id" : "urn:uuid:9cca10a2-ad75-4e01-90ba-3bc7978b527f"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "FWU Institut fÃ¼r Film und Bild in Wissenschaft und Unterricht gemeinnÃ¼tzige GmbH",
-        "@language" : "de"
-      } ],
-      "@id" : "urn:uuid:eafff7d6-4a74-46c1-8502-55ec2b8d44c8"
-    } ],
-    "url" : "http://open-educational-resources.de/"
-  } ],
-  "description" : [ {
-    "@value" : "##Kompetenzzentrum zur Erforschung und Weiterentwicklung der Berufsbildung\r\n\r\nDas Bundesinstitut fÃ¼r Berufsbildung (BIBB) ist das anerkannte Kompetenzzentrum zur Erforschung und Weiterentwicklung der beruflichen Aus- und Weiterbildung in Deutschland. Das BIBB identifiziert Zukunftsaufgaben der Berufsbildung, fÃ¶rdert Innovationen in der nationalen wie internationalen Berufsbildung und entwickelt neue, praxisorientierte LÃ¶sungsvorschlÃ¤ge fÃ¼r die berufliche Aus- und Weiterbildung.",
-    "@language" : "de"
-  }, {
-    "@value" : "##Federal Institute for Vocational Education and Training (BIBB)\r\n\r\nThe Federal Institute for Vocational Education and Training (BIBB) is recognized as a center of excellence for vocational research and for the progressive development of vocational education and training (VET) in Germany.\r\nBIBB works to identify future challenges in VET, stimulate innovation in national and international vocational systems, and develop new, practiceoriented solutions for both initial and continuing vocational education and training.",
-    "@language" : "en"
-  } ],
-  "alternateName" : [ {
-    "@value" : "BIBB",
-    "@language" : "de"
-  } ],
-  "@context" : "https://oerworldmap.org/assets/json/context.json",
-  "url" : "https://www.bibb.de",
-  "name" : [ {
-    "@value" : "Bundesinstitut fÃ¼r Berufsbildung",
-    "@language" : "de"
-  }, {
-    "@value" : "Federal Institute for Vocational Education and Training",
-    "@language" : "en"
-  } ],
-  "comment" : [ {
-    "dateCreated" : "2016-12-19T09:14:51.52+01:00",
-    "@type" : "Comment",
-    "author" : [ {
-      "@type" : "Person",
-      "name" : [ {
-        "@value" : "Jan Neumann",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:839897e6-178f-11e5-871b-3c970e4a9cbf"
-    } ],
-    "@id" : "urn:uuid:a2b7e63a-bf14-4e74-a3ad-6ae3cde0024f"
-  } ],
-  "location" : {
-    "geo" : {
-      "lon" : 7.138207718089687,
-      "lat" : 50.706490785412115
-    },
-    "address" : {
-      "addressCountry" : "DE",
-      "streetAddress" : "Robert-Schuman-Platz 3  ",
-      "postalCode" : 53175,
-      "addressLocality" : "Bonn",
-      "addressRegion" : "DE.NW"
+  "image": "https://www.bibb.de/system/layout/logo.png",
+  "keywords": [
+    "berufliche Bildung",
+    "vocational education and training",
+    "TVET"
+  ],
+  "@type": "Organization",
+  "participantIn": [
+    {
+      "funder": [
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Federal Ministry of Education and Research",
+            "de": "Bundesministerium fÃ¼r Bildung und Forschung"
+          },
+          "@id": "urn:uuid:e495cc00-9377-48b6-8c9a-ba5ced16f8ba"
+        }
+      ],
+      "agent": [
+        {
+          "@type": "Organization",
+          "name": {
+            "de": "DIPF - Deutsches Institut fÃ¼r Internationale PÃ¤dagogische Forschung",
+            "en": "DIPF - German Institute for International Educational Research"
+          },
+          "@id": "urn:uuid:f4f8af31-ac5d-497c-9c96-ec958c465b09"
+        }
+      ],
+      "@type": "Action",
+      "name": {
+        "en": "Informationsstelle OER: Information, Transfer und Vernetzung zu Open Educational Resources"
+      },
+      "description": {
+        "en": "Mit der Informationsstelle OER wird eine themenspezifische Online-Plattform geschaffen, die fÃ¼r Ã–ffentlichkeit und fachliche Zielgruppen umfassende Informationen zum Thema Open Educational Resources zur VerfÃ¼gung stellt, den aktuellen Kenntnisstand fÃ¼r die Praxis aufbereitet, Informationen zu Best-Practice-Beispielen bÃ¼ndelt und die Vielfalt vorhandener Initiativen abbildet. Die breite Sichtbarmachung des Themas erfolgt Ã¼ber die inhaltliche, funktionale und informationelle Verzahnung einschlÃ¤giger InformationsbestÃ¤nde und Medienangebote des Deutschen Bildungsservers, der bisherigen Transferstelle OER und des Hochschulbibliothekszentrums NRW (OER World Map/OER-Atlas), die in Form einer integrierten, informationsmethodisch abgestimmten und nutzerorientiert konzipierten Internet-PrÃ¤senz den einfachen Zugriff auf aktuelle Informationen ermÃ¶glicht. Mit Blick auf die Adressierung auch neuer potenzieller Zielgruppen und die bildungsbereichsÃ¼bergreifende ErschlieÃŸung des Themenfeldes im Kontext des Lebenslangen Lernens sollen in Zusammenarbeit mit Stakeholdern, Interessengruppen und OER-Initiativen bislang desiderate adressaten- und domÃ¤nenspezifische Informationsmodule entwickelt werden.\r\n\r\nIm Ergebnis entsteht eine umfangreiche Wissensbasis in Gestalt u.a. von redaktionellen Dossiers und systematisch strukturierten Informationssammlungen, deren Reichweite durch die Integration multimedialer Formate (z.B. Podcasts, Videos, didaktisch aufbereitete Online-Module) und Kommunikationsplattformen auf der Basis von Social-Media-Anwendungen erweitert wird. Das Vorhaben zielt zudem darauf, die Zusammenarbeit und Vernetzung der unterschiedlichen OER-Akteure und Initiativen durch geeignete Kommunikationsinstrumente, projektbegleitende Workshops und die Ã–ffentlichkeitsarbeit der Informationsstelle zu unterstÃ¼tzen. In diesem Zusammenhang besteht eine Aufgabe auch in der Dokumentation und BÃ¼ndelung von Diskussionsprozessen und Ergebnissen der FÃ¶rdermaÃŸnahme des BMBF OERinfo zur Sensibilisierung und Qualifizierung von OER-Multiplikatoren im Dialog mit den gefÃ¶rderten Projekten."
+      },
+      "alternateName": {
+        "en": "OERinfo"
+      },
+      "startTime": "2016-11-01",
+      "@id": "urn:uuid:efed6ca2-b228-480f-be03-090a19de7b42",
+      "isPartOf": {
+        "@type": "Action",
+        "name": {
+          "de": "Richtlinie zur FÃ¶rderung von Offenen Bildungsmaterialien (Open Educational Resources â€“ OERinfo)"
+        },
+        "@id": "urn:uuid:3f11cdbd-a74a-4aa4-83b3-b4148bfdbe82"
+      },
+      "affiliate": [
+        {
+          "@type": "Person",
+          "name": {
+            "en": "Luca Mollenhauer"
+          },
+          "@id": "urn:uuid:0759ba7b-eaaa-4e16-bca8-49993cfe1265"
+        },
+        {
+          "@type": "Person",
+          "name": {
+            "de": "JÃ¶ran MuuÃŸ-Merholz"
+          },
+          "@id": "urn:uuid:4e6f0a59-30c2-4045-9f6f-b599740c42c5"
+        },
+        {
+          "@type": "Person",
+          "name": {
+            "en": "Jan Neumann"
+          },
+          "@id": "urn:uuid:839897e6-178f-11e5-871b-3c970e4a9cbf"
+        },
+        {
+          "@type": "Person",
+          "name": {
+            "de": "Gabriele Fahrenkrog"
+          },
+          "@id": "urn:uuid:7a0b4714-9164-4a96-a09c-dd28f0a0bb52"
+        }
+      ],
+      "participant": [
+        {
+          "@type": "Organization",
+          "name": {
+            "de": "J&K - JÃ¶ran und Konsorten",
+            "en": "J&K - JÃ¶ran und Konsorten"
+          },
+          "@id": "urn:uuid:8cf07e97-c7fb-4dfc-a748-3a2f99e65a0a"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "de": "Deutsches Institut fÃ¼r Erwachsenenbildung â€“ Leibniz-Zentrum fÃ¼r Lebenslanges Lernen e.V."
+          },
+          "@id": "urn:uuid:40ac91f7-60ca-4800-9bed-df4219f7a5e2"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "de": "Bundesinstitut fÃ¼r Berufsbildung",
+            "en": "Federal Institute for Vocational Education and Training"
+          },
+          "@id": "urn:uuid:efdeb7a5-4975-4ac0-b55b-00b9b371b579"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "North Rhine-Westphalian Library Center"
+          },
+          "@id": "urn:uuid:e08975fe-acc0-4733-8496-2cfc034a120a"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Learning Lab",
+            "de": "Learning Lab"
+          },
+          "@id": "urn:uuid:9cca10a2-ad75-4e01-90ba-3bc7978b527f"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "de": "FWU Institut fÃ¼r Film und Bild in Wissenschaft und Unterricht gemeinnÃ¼tzige GmbH"
+          },
+          "@id": "urn:uuid:eafff7d6-4a74-46c1-8502-55ec2b8d44c8"
+        }
+      ],
+      "url": "http://open-educational-resources.de/"
     }
+  ],
+  "description": {
+    "de": "##Kompetenzzentrum zur Erforschung und Weiterentwicklung der Berufsbildung\r\n\r\nDas Bundesinstitut fÃ¼r Berufsbildung (BIBB) ist das anerkannte Kompetenzzentrum zur Erforschung und Weiterentwicklung der beruflichen Aus- und Weiterbildung in Deutschland. Das BIBB identifiziert Zukunftsaufgaben der Berufsbildung, fÃ¶rdert Innovationen in der nationalen wie internationalen Berufsbildung und entwickelt neue, praxisorientierte LÃ¶sungsvorschlÃ¤ge fÃ¼r die berufliche Aus- und Weiterbildung.",
+    "en": "##Federal Institute for Vocational Education and Training (BIBB)\r\n\r\nThe Federal Institute for Vocational Education and Training (BIBB) is recognized as a center of excellence for vocational research and for the progressive development of vocational education and training (VET) in Germany.\r\nBIBB works to identify future challenges in VET, stimulate innovation in national and international vocational systems, and develop new, practiceoriented solutions for both initial and continuing vocational education and training."
   },
-  "@id" : "urn:uuid:efdeb7a5-4975-4ac0-b55b-00b9b371b579",
-  "email" : "zentrale@bibb.de"
+  "alternateName": {
+    "de": "BIBB"
+  },
+  "@context": "https://oerworldmap.org/assets/json/context.json",
+  "url": "https://www.bibb.de",
+  "name": {
+    "de": "Bundesinstitut fÃ¼r Berufsbildung",
+    "en": "Federal Institute for Vocational Education and Training"
+  },
+  "comment": [
+    {
+      "dateCreated": "2016-12-19T09:14:51.52+01:00",
+      "@type": "Comment",
+      "author": [
+        {
+          "@type": "Person",
+          "name": {
+            "en": "Jan Neumann"
+          },
+          "@id": "urn:uuid:839897e6-178f-11e5-871b-3c970e4a9cbf"
+        }
+      ],
+      "@id": "urn:uuid:a2b7e63a-bf14-4e74-a3ad-6ae3cde0024f"
+    }
+  ],
+  "location": [
+    {
+      "geo": {
+        "lon": 7.138207718089687,
+        "lat": 50.706490785412115
+      },
+      "address": {
+        "addressCountry": "DE",
+        "streetAddress": "Robert-Schuman-Platz 3  ",
+        "postalCode": 53175,
+        "addressLocality": "Bonn",
+        "addressRegion": "DE.NW"
+      }
+    }
+  ],
+  "@id": "urn:uuid:efdeb7a5-4975-4ac0-b55b-00b9b371b579",
+  "email": "zentrale@bibb.de"
 }

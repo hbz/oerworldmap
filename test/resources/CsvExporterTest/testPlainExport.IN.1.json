@@ -1,0 +1,48 @@
+{
+  "about": {
+    "@type": "Person",
+    "@id": "456",
+    "name": {
+      "en": "Hans Dampf"
+    },
+    "authorOf": [
+      {
+        "@type": "Article",
+        "@id": "123",
+        "name": {
+          "en": "Ganz spannend!"
+        },
+        "articleBody": "Super \"toll\"",
+        "author": [
+          {
+            "@type": "Person",
+            "@id": "456",
+            "name": {
+              "en": "Hans Dampf"
+            }
+          }
+        ]
+      },
+      {
+        "@type": "Article",
+        "@id": "987",
+        "name": "Noch spannenderen!",
+        "author": [
+          {
+            "@type": "Person",
+            "@id": "456",
+            "name": {
+              "en": "Hans Dampf"
+            }
+          }
+        ]
+      }
+    ],
+    "address": {
+      "streetAddress": "Streetstreet 1",
+      "postalCode": "123456",
+      "addressCountry": "Countrycountry",
+      "@type": "Place"
+    }
+  }
+}

@@ -1,33 +1,24 @@
 {
   "@type": "Organization",
   "@id": "info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70123",
-  "name": [
-    {
-      "@value": "Oh Yeah Company",
-      "@language": "de"
-    }
-  ],
+  "name": {
+    "de": "Oh Yeah Company"
+  },
   "affiliate": [
     {
       "@type": "Person",
-      "name": [
-        {
-          "@value": "Hans Wurst",
-          "@language": "de"
-        }
-      ],
+      "name": {
+        "de": "Hans Wurst"
+      },
       "@id": "info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70456"
     }
   ],
   "employee": {
     "@type": "Person",
     "@id": "info:urn:uuid:49d8b330-e3d5-40ca-b5cb-2a8dfca70456",
-    "name": [
-      {
-        "@value": "Hans Wurst",
-        "@language": "de"
-      }
-    ]
+    "name": {
+      "de": "Hans Wurst"
+    }
   },
   "@context": "https://oerworldmap.org/assets/json/context.json"
 }

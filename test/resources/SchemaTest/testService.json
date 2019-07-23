@@ -1,49 +1,34 @@
 {
-  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "@context": "https://oerworldmap.org/assets/json/context.json",
   "@id": "urn:uuid:88b18924-9f41-11e5-ab8c-001999ac7927",
   "@type": "Service",
-  "name": [
-    {
-      "@language": "en",
-      "@value": "OER Machine"
-    }
-  ],
-  "alternateName": [
-    {
-      "@language": "en",
-      "@value": "OERMa"
-    }
-  ],
+  "name": {
+    "en": "OER Machine"
+  },
+  "alternateName": {
+    "en": "OERMa"
+  },
   "serviceType": [
     "production machinery"
   ],
-  "description": [
-    {
-      "@language": "en",
-      "@value": "OER machine (OERMa) provides production machinery for the automatic creation of OER in education of government officials. Also known under the name of L.O.B.B.Y."
-    }
-  ],
+  "description": {
+    "en": "OER machine (OERMa) provides production machinery for the automatic creation of OER in education of government officials. Also known under the name of L.O.B.B.Y."
+  },
   "image": "https://pixabay.com/static/uploads/photo/2013/07/19/18/18/cletrac-165369_960_720.jpg",
   "provider": [
     {
       "@id": "urn:uuid:839897e6-178f-11e5-871b-3c970e4a9cbf",
       "@type": "Person",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "Jan Neumann"
-        }
-      ]
+      "name": {
+        "en": "Jan Neumann"
+      }
     },
     {
       "@id": "urn:uuid:2cc541fb-66f1-4231-9af9-f47494ba51a5",
       "@type": "Organization",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "Stein"
-        }
-      ]
+      "name": {
+        "en": "Stein"
+      }
     }
   ],
   "availableChannel": [
@@ -62,147 +47,116 @@
   "startDate": "2011-11-11",
   "endDate": "2012-12-12",
   "email": "oermachine@example.com",
-  "location": [{
-    "geo": {
-      "lon": 1.1,
-      "lat": -2.2
-    },
-    "address": {
-      "addressCountry": "SH",
-      "streetAddress": "Rue de l'Example",
-      "@type": "PostalAddress",
-      "postalCode": "0815",
-      "addressRegion": "Testico",
-      "addressLocality": "St. Test"
-    },
-    "@type": "Place"
-  }],
+  "location": [
+    {
+      "geo": {
+        "lon": 1.1,
+        "lat": -2.2
+      },
+      "address": {
+        "addressCountry": "SH",
+        "streetAddress": "Rue de l'Example",
+        "@type": "PostalAddress",
+        "postalCode": "0815",
+        "addressRegion": "Testico",
+        "addressLocality": "St. Test"
+      },
+      "@type": "Place"
+    }
+  ],
   "about": [
     {
       "@id": "https://w3id.org/class/esc/n052",
       "@type": "Concept",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "foo"
-        }
-      ]
+      "name": {
+        "en": "foo"
+      }
     },
     {
       "@id": "https://w3id.org/class/esc/n051",
       "@type": "Concept",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "bar"
-        }
-      ]
+      "name": {
+        "en": "bar"
+      }
     }
   ],
   "license": [
     {
       "@id": "https://github.com/hbz/oerworldmap/public/json/licenses.json#cc-by",
       "@type": "Concept",
-      "name": [
-        {
-          "@value": "Creative Commons Attribution",
-          "@language": "en"
-        }
-      ]
+      "name": {
+        "en": "Creative Commons Attribution"
+      }
     }
   ],
   "audience": [
     {
       "@id": "https://w3id.org/isced/1997/level1",
       "@type": "Concept",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "Level 1"
-        }
-      ]
+      "name": {
+        "en": "Level 1"
+      }
     },
     {
       "@id": "https://w3id.org/isced/1997/level2",
       "@type": "Concept",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "Level 2"
-        }
-      ]
+      "name": {
+        "en": "Level 2"
+      }
     }
   ],
   "mentionedIn": [
     {
       "@id": "urn:uuid:10a0c842-2fa6-11e5-a60f-001999ac7927",
       "@type": "Article",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "Story"
-        }
-      ]
+      "name": {
+        "en": "Story"
+      }
     }
   ],
   "instrumentIn": [
     {
       "@id": "urn:uuid:e8cd9900-3b79-11e5-bd3d-54ee7558c81f",
       "@type": "Action",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "Project"
-        }
-      ]
+      "name": {
+        "en": "Project"
+      }
     }
   ],
   "resultOf": [
     {
       "@id": "urn:uuid:9fd1fd1c-15d7-11e5-b82b-332b7535164b",
       "@type": "Action",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "Projekt"
-        }
-      ]
+      "name": {
+        "en": "Projekt"
+      }
     }
   ],
   "affiliate": [
     {
       "@id": "urn:uuid:839897e6-178f-11e5-871b-3c970e4a9cbf",
       "@type": "Person",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "Jan"
-        }
-      ]
+      "name": {
+        "en": "Jan"
+      }
     }
   ],
   "member": [
     {
       "@id": "urn:uuid:5a02169e-c2bc-11e6-b6a3-db9a03145ff2",
       "@type": "Organization",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "Jan"
-        }
-      ]
+      "name": {
+        "en": "Jan"
+      }
     }
   ],
   "memberOf": [
     {
       "@id": "urn:uuid:ff56c436-7e76-11e5-b76b-54ee7558c81f",
       "@type": "Organization",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "OEC"
-        }
-      ]
+      "name": {
+        "en": "OEC"
+      }
     }
   ],
   "keywords": [

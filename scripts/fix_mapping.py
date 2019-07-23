@@ -29,21 +29,21 @@ def process_index(index):
 
 def process_mapping(mapping):
     for properties in mapping:
-        mapping[properties]['properties'] = process_properties(mapping[properties]['properties'], False)
+        mapping[properties]['properties'] = process_properties(mapping[properties]['properties'])
     return mapping
 
 
-def process_properties(properties, is_name_branch):
+def process_properties(properties):
     not_analyzed = ['@id', '@type', '@context', '@language', 'email', 'url', 'image', 'award',
                     'availableLanguage', 'prefLabel', 'postalCode', 'hashtag', 'addressRegion',
-                    'status', 'spatialCoverage']
-    country_name = ['addressCountry']
-    ngrams = ['@value']
-    name = ['name']
-    keywords = ['keywords']
+                    'status', 'spatialCoverage', '@value']
     date_time = ['startDate', 'endDate', 'startTime', 'endTime', 'dateCreated', 'hasAwardDate', 'datePublished']
     geo_point = ['geo']
     geo_shape = ['geometry']
+    name = ['name']
+    ngrams = ['alternateName', 'articleBody', 'description', 'displayName', 'scopeNote', 'text']
+    keywords = ['keywords']
+    country_name = ['addressCountry']
     integer = ['link_count', 'lighthouse_count', 'like_count']
 
     for property in properties:
@@ -55,11 +55,10 @@ def process_properties(properties, is_name_branch):
             properties[property] = set_geo_point()
         elif property in geo_shape:
             properties[property] = set_geo_shape()
+        elif property in name:
+            properties[property] = set_ngram("title_analyzer")
         elif property in ngrams:
-            if is_name_branch:
-                properties[property] = set_ngram("title_analyzer")
-            else:
-                properties[property] = set_ngram("standard")
+            properties[property] = set_ngram("standard")
         elif property in keywords:
             properties[property] = set_keywords_normalizer()
         elif property in country_name:
@@ -67,9 +66,7 @@ def process_properties(properties, is_name_branch):
         elif property in integer:
             properties[property] = set_integer()
         elif 'properties' in properties[property]:
-            if property in name:
-                is_name_branch = True
-            properties[property]['properties'] = process_properties(properties[property]['properties'], is_name_branch)
+            properties[property]['properties'] = process_properties(properties[property]['properties'])
 
     return properties
 
@@ -102,35 +99,56 @@ def set_geo_shape():
 
 def set_ngram(variations_search_analyzer):
     return {
-        "type": "text",
-        "fields": {
-            "variations": {
-                "type": "text",
-                "analyzer": "title_analyzer",
-                "search_analyzer": variations_search_analyzer
-            },
-            "simple_tokenized": {
-                "type": "text",
-                "analyzer": "simple",
-                "search_analyzer": "standard"
-            },
-            "sort": {
-                "type": "keyword"
-            },
+        "properties": {
             "de": {
                 "analyzer": "german_analyzer",
                 "search_analyzer": "german_analyzer",
-                "type": "text"
+                "type": "text",
+                "fields": {
+                    "variations": {
+                        "type": "text",
+                        "analyzer": "title_analyzer",
+                        "search_analyzer": variations_search_analyzer
+                    },
+                    "simple_tokenized": {
+                        "type": "text",
+                        "analyzer": "simple",
+                        "search_analyzer": "standard"
+                    },
+                    "sort": {
+                        "type": "keyword"
+                    },
+                    "splits": {
+                        "type": "text",
+                        "analyzer": "split_analyzer",
+                        "search_analyzer": "standard"
+                    }
+                }
             },
             "en": {
                 "analyzer": "english_analyzer",
                 "search_analyzer": "english_analyzer",
-                "type": "text"
-            },
-            "splits": {
                 "type": "text",
-                "analyzer": "split_analyzer",
-                "search_analyzer": "standard"
+                "fields": {
+                    "variations": {
+                        "type": "text",
+                        "analyzer": "title_analyzer",
+                        "search_analyzer": variations_search_analyzer
+                    },
+                    "simple_tokenized": {
+                        "type": "text",
+                        "analyzer": "simple",
+                        "search_analyzer": "standard"
+                    },
+                    "sort": {
+                        "type": "keyword"
+                    },
+                    "splits": {
+                        "type": "text",
+                        "analyzer": "split_analyzer",
+                        "search_analyzer": "standard"
+                    }
+                }
             }
         }
     }

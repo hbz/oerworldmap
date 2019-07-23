@@ -1,137 +1,132 @@
 {
-  "image" : "http://ununi.tv/wp-content/uploads/2015/11/opened_teaserbild1-590x308.png",
-  "agent" : [ {
-    "image" : "https://www.fernuni-hagen.de/images/webag/feulogo.gif",
-    "@type" : "Organization",
-    "agentIn" : [ {
-      "@type" : "Action",
-      "name" : [ {
-        "@value" : "OpenEd-Talk @ ununi.TV",
-        "@language" : "en"
-      }, {
-        "@value" : "OpenEd-Talk @ ununi.TV",
-        "@language" : "de"
-      } ],
-      "@id" : "urn:uuid:81232d43-76e2-477a-8020-fe1092c0b2c1"
-    } ],
-    "name" : [ {
-      "@value" : "FernUniversitÃ¤t Hagen",
-      "@language" : "en"
-    }, {
-      "@value" : "FernUniversitÃ¤t Hagen",
-      "@language" : "de"
-    } ],
-    "description" : [ {
-      "@value" : "The FernUniversitÃ¤t in Hagen â€“ University of Hagen - is the only state-maintained distance teaching university in the German-speaking countries and regions. They benefit from our modern distance education system which combines pedagogically well prepared study units with individual support, net-based co-operation in seminars and working groups, online communication offers and face-to-face sessions (Blended Learning). Contact and contact persons for the students are to be found on the main campus at Hagen as well as at the around 30 study centres in Germany, Austria and Central and Eastern Europe. Since we offer a real alternative to on-campus studies with high-quality final degrees (Bachelor, Master and Doctorate), we particularly also stand for the trend towards lifelong learning. That is why about 80,000 students have chosen to study with us.",
-      "@language" : "en"
-    }, {
-      "@value" : "Die FernUniversitÃ¤t in Hagen ist einzigartig. Denn sie ist die einzige staatliche FernuniversitÃ¤t im deutschen Sprachraum. Seit nunmehr 40 Jahren ist sie die richtige Anlaufstelle fÃ¼r alle diejenigen, die eine vollwertige akademische Ausbildung anstreben, sich jedoch nicht an einer PrÃ¤senzuniversitÃ¤t einschreiben wollen oder kÃ¶nnen. Aktuell sind dies 77.000 Studierende. Damit ist die FernUniversitÃ¤t zahlenmÃ¤ÃŸig die grÃ¶ÃŸte Hochschule in Deutschland.",
-      "@language" : "de"
-    } ],
-    "alternateName" : [ {
-      "@value" : "FU Hagen",
-      "@language" : "en"
-    }, {
-      "@value" : "FU Hagen",
-      "@language" : "de"
-    } ],
-    "location" : {
-      "geo" : {
-        "lon" : 7.494446,
-        "lat" : 51.376854
+  "image": "http://ununi.tv/wp-content/uploads/2015/11/opened_teaserbild1-590x308.png",
+  "agent": [
+    {
+      "image": "https://www.fernuni-hagen.de/images/webag/feulogo.gif",
+      "@type": "Organization",
+      "agentIn": [
+        {
+          "@type": "Action",
+          "name": {
+            "en": "OpenEd-Talk @ ununi.TV",
+            "de": "OpenEd-Talk @ ununi.TV"
+          },
+          "@id": "urn:uuid:81232d43-76e2-477a-8020-fe1092c0b2c1"
+        }
+      ],
+      "name": {
+        "en": "FernUniversitÃ¤t Hagen",
+        "de": "FernUniversitÃ¤t Hagen"
       },
-      "address" : {
-        "addressCountry" : "DE",
-        "streetAddress" : "UniversitÃ¤tsstraÃŸe 11 ",
-        "postalCode" : 58097,
-        "addressLocality" : "Hagen",
-        "addressRegion" : "Nordrhein-Westfalen"
-      }
-    },
-    "@id" : "urn:uuid:97048f8d-209f-4a09-8b55-52bd6a3c5d69",
-    "email" : "info@fernuni-hagen.de",
-    "url" : "http://www.fernuni-hagen.de",
-    "sameAs" : [ "https://www.xing.com/net/fernunihagen", "http://www.twitter.com/fernunihagen", "http://www.youtube.com/user/fernuniversitaet", "http://www.facebook.com/fernunihagen", "https://instagram.com/fernunihagen" ]
-  }, {
-    "image" : "http://frolleinflow.files.wordpress.com/2015/07/cropped-cropped-couch_la.jpg",
-    "@type" : "Organization",
-    "agentIn" : [ {
-      "@type" : "Action",
-      "name" : [ {
-        "@value" : "OpenEd-Talk @ ununi.TV",
-        "@language" : "en"
-      }, {
-        "@value" : "OpenEd-Talk @ ununi.TV",
-        "@language" : "de"
-      } ],
-      "@id" : "urn:uuid:81232d43-76e2-477a-8020-fe1092c0b2c1"
-    } ],
-    "name" : [ {
-      "@value" : "FrolleinFlow GbR - Institut fÃ¼r kreative Flaneure",
-      "@language" : "en"
-    }, {
-      "@value" : "FrolleinFlow GbR - Institut fÃ¼r kreative Flaneure",
-      "@language" : "de"
-    } ],
-    "description" : [ {
-      "@value" : "FrolleinFlow develops future orientated studies, speaking engagements, consultings and different online offerings to ease the entry to digital networked work- and learning surroundings for people, institutions and regions. ",
-      "@language" : "en"
-    }, {
-      "@value" : "FrolleinFlow entwickelt zukunftsorientierte Studien, VortrÃ¤ge, Beratungsangebote und verschiedene Online-Projekte, damit Personen, Institutionen und Regionen an modernen, vernetzten Arbeits- und Lernumgebungen andocken kÃ¶nnen.",
-      "@language" : "de"
-    } ],
-    "alternateName" : [ {
-      "@value" : "FrolleinFlow",
-      "@language" : "en"
-    }, {
-      "@value" : "FrolleinFlow",
-      "@language" : "de"
-    } ],
-    "location" : {
-      "geo" : {
-        "lon" : 13.35081,
-        "lat" : 52.54177
+      "description": {
+        "en": "The FernUniversitÃ¤t in Hagen â€“ University of Hagen - is the only state-maintained distance teaching university in the German-speaking countries and regions. They benefit from our modern distance education system which combines pedagogically well prepared study units with individual support, net-based co-operation in seminars and working groups, online communication offers and face-to-face sessions (Blended Learning). Contact and contact persons for the students are to be found on the main campus at Hagen as well as at the around 30 study centres in Germany, Austria and Central and Eastern Europe. Since we offer a real alternative to on-campus studies with high-quality final degrees (Bachelor, Master and Doctorate), we particularly also stand for the trend towards lifelong learning. That is why about 80,000 students have chosen to study with us.",
+        "de": "Die FernUniversitÃ¤t in Hagen ist einzigartig. Denn sie ist die einzige staatliche FernuniversitÃ¤t im deutschen Sprachraum. Seit nunmehr 40 Jahren ist sie die richtige Anlaufstelle fÃ¼r alle diejenigen, die eine vollwertige akademische Ausbildung anstreben, sich jedoch nicht an einer PrÃ¤senzuniversitÃ¤t einschreiben wollen oder kÃ¶nnen. Aktuell sind dies 77.000 Studierende. Damit ist die FernUniversitÃ¤t zahlenmÃ¤ÃŸig die grÃ¶ÃŸte Hochschule in Deutschland."
       },
-      "address" : {
-        "addressCountry" : "DE",
-        "streetAddress" : "Torfstr. 16",
-        "postalCode" : 13353,
-        "addressLocality" : "Berlin",
-        "addressRegion" : "Berlin"
-      }
+      "alternateName": {
+        "en": "FU Hagen",
+        "de": "FU Hagen"
+      },
+      "location": [
+        {
+          "geo": {
+            "lon": 7.494446,
+            "lat": 51.376854
+          },
+          "address": {
+            "addressCountry": "DE",
+            "streetAddress": "UniversitÃ¤tsstraÃŸe 11 ",
+            "postalCode": 58097,
+            "addressLocality": "Hagen",
+            "addressRegion": "Nordrhein-Westfalen"
+          }
+        }
+      ],
+      "@id": "urn:uuid:97048f8d-209f-4a09-8b55-52bd6a3c5d69",
+      "email": "info@fernuni-hagen.de",
+      "url": "http://www.fernuni-hagen.de",
+      "sameAs": [
+        "https://www.xing.com/net/fernunihagen",
+        "http://www.twitter.com/fernunihagen",
+        "http://www.youtube.com/user/fernuniversitaet",
+        "http://www.facebook.com/fernunihagen",
+        "https://instagram.com/fernunihagen"
+      ]
     },
-    "@id" : "urn:uuid:d01ff49c-90c5-4635-b22e-c11eda9e401d",
-    "email" : "frolleinflow@gmail.com",
-    "url" : "http://frolleinflow.com",
-    "sameAs" : [ "http://facebook.com/frolleinflow", "https://twitter.com/frolleinflow", "http://pinterest.com/frolleinflow" ]
-  } ],
-  "@type" : "Action",
-  "description" : [ {
-    "@value" : "The open ed-talk is performed in erratic time lags. It is created and hosted by the FernUniversitÃ¤t Hagen (Distance University of Hagen) representing higher education and Frollein Flow as representative of crowd education on ununi.tv as a video conference. ",
-    "@language" : "en"
-  }, {
-    "@value" : "Der OpenEd-Talk wird von der Fernuni Hagen als Vertreter der \"Higher Education\" und von FrolleinFlow als Vertreterin der \"Crowd Education\" in unregelmÃ¤ÃŸigen AbstÃ¤nden auf ununi.TV per Videokonferenz durchgefÃ¼hrt. ",
-    "@language" : "de"
-  } ],
-  "alternateName" : [ {
-    "@value" : "opened",
-    "@language" : "en"
-  }, {
-    "@value" : "opened",
-    "@language" : "de"
-  } ],
-  "@context" : "https://oerworldmap.org/assets/json/context.json",
-  "url" : "http://opened.ununi.tv",
-  "name" : [ {
-    "@value" : "OpenEd-Talk @ ununi.TV",
-    "@language" : "en"
-  }, {
-    "@value" : "OpenEd-Talk @ ununi.TV",
-    "@language" : "de"
-  } ],
-  "location" : { },
-  "startTime" : "2011-11-16",
-  "@id" : "urn:uuid:81232d43-76e2-477a-8020-fe1092c0b2c1",
-  "email" : "frolleinflow@gmail.com",
-  "sameAs" : [ "https://plus.google.com/+ununitv", "http://twitter.com/ununitv", "http://pinterest.com/ununitv", "http://facebook.com/ununitv" ]
+    {
+      "image": "http://frolleinflow.files.wordpress.com/2015/07/cropped-cropped-couch_la.jpg",
+      "@type": "Organization",
+      "agentIn": [
+        {
+          "@type": "Action",
+          "name": {
+            "en": "OpenEd-Talk @ ununi.TV",
+            "de": "OpenEd-Talk @ ununi.TV"
+          },
+          "@id": "urn:uuid:81232d43-76e2-477a-8020-fe1092c0b2c1"
+        }
+      ],
+      "name": {
+        "en": "FrolleinFlow GbR - Institut fÃ¼r kreative Flaneure",
+        "de": "FrolleinFlow GbR - Institut fÃ¼r kreative Flaneure"
+      },
+      "description": {
+        "en": "FrolleinFlow develops future orientated studies, speaking engagements, consultings and different online offerings to ease the entry to digital networked work- and learning surroundings for people, institutions and regions. ",
+        "de": "FrolleinFlow entwickelt zukunftsorientierte Studien, VortrÃ¤ge, Beratungsangebote und verschiedene Online-Projekte, damit Personen, Institutionen und Regionen an modernen, vernetzten Arbeits- und Lernumgebungen andocken kÃ¶nnen."
+      },
+      "alternateName": {
+        "en": "FrolleinFlow",
+        "de": "FrolleinFlow"
+      },
+      "location": [
+        {
+          "geo": {
+            "lon": 13.35081,
+            "lat": 52.54177
+          },
+          "address": {
+            "addressCountry": "DE",
+            "streetAddress": "Torfstr. 16",
+            "postalCode": 13353,
+            "addressLocality": "Berlin",
+            "addressRegion": "Berlin"
+          }
+        }
+      ],
+      "@id": "urn:uuid:d01ff49c-90c5-4635-b22e-c11eda9e401d",
+      "email": "frolleinflow@gmail.com",
+      "url": "http://frolleinflow.com",
+      "sameAs": [
+        "http://facebook.com/frolleinflow",
+        "https://twitter.com/frolleinflow",
+        "http://pinterest.com/frolleinflow"
+      ]
+    }
+  ],
+  "@type": "Action",
+  "description": {
+    "en": "The open ed-talk is performed in erratic time lags. It is created and hosted by the FernUniversitÃ¤t Hagen (Distance University of Hagen) representing higher education and Frollein Flow as representative of crowd education on ununi.tv as a video conference. ",
+    "de": "Der OpenEd-Talk wird von der Fernuni Hagen als Vertreter der \"Higher Education\" und von FrolleinFlow als Vertreterin der \"Crowd Education\" in unregelmÃ¤ÃŸigen AbstÃ¤nden auf ununi.TV per Videokonferenz durchgefÃ¼hrt. "
+  },
+  "alternateName": {
+    "en": "opened",
+    "de": "opened"
+  },
+  "@context": "https://oerworldmap.org/assets/json/context.json",
+  "url": "http://opened.ununi.tv",
+  "name": {
+    "en": "OpenEd-Talk @ ununi.TV",
+    "de": "OpenEd-Talk @ ununi.TV"
+  },
+  "location": [
+    {}
+  ],
+  "startTime": "2011-11-16",
+  "@id": "urn:uuid:81232d43-76e2-477a-8020-fe1092c0b2c1",
+  "email": "frolleinflow@gmail.com",
+  "sameAs": [
+    "https://plus.google.com/+ununitv",
+    "http://twitter.com/ununitv",
+    "http://pinterest.com/ununitv",
+    "http://facebook.com/ununitv"
+  ]
 }

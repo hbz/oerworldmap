@@ -1,5 +1,5 @@
 {
-  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "@context": "https://oerworldmap.org/assets/json/context.json",
   "@id": "urn:uuid:277db498-9901-11e5-960c-e72e56893d88",
   "@type": "Event",
   "email": "test@example.org",
@@ -7,54 +7,36 @@
     {
       "@id": "urn:uuid:7f565a1a-360c-11e5-af13-cf937ed6e25a",
       "@type": "Organization",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "Siemens Stiftung"
-        }
-      ]
+      "name": {
+        "en": "Siemens Stiftung"
+      }
     },
     {
       "@id": "urn:uuid:839897e6-178f-11e5-871b-3c970e4a9cbf",
       "@type": "Person",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "Jan Neuman"
-        }
-      ]
+      "name": {
+        "en": "Jan Neuman"
+      }
     }
   ],
   "performer": [
     {
       "@id": "urn:uuid:839897e6-178f-11e5-871b-3c970e4a9cbf",
       "@type": "Person",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "Jan Neumann"
-        }
-      ]
+      "name": {
+        "en": "Jan Neumann"
+      }
     }
   ],
-  "name": [
-    {
-      "@value": "Example Event",
-      "@language": "en"
-    }
-  ],
-  "alternateName": [
-    {
-      "@value": "ExE",
-      "@language": "en"
-    }
-  ],
-  "description": [
-    {
-      "@value": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc",
-      "@language": "en"
-    }
-  ],
+  "name": {
+    "en": "Example Event"
+  },
+  "alternateName": {
+    "en": "ExE"
+  },
+  "description": {
+    "en": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc"
+  },
   "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Example.png",
   "url": "http://example.org",
   "sameAs": [
@@ -70,31 +52,30 @@
   ],
   "startDate": "2015-11-11",
   "endDate": "2015-02-10",
-  "location": [{
-    "geo": {
-      "lon": 1.1,
-      "lat": -2.2
-    },
-    "address": {
-      "addressCountry": "SH",
-      "streetAddress": "Rue Example",
-      "@type": "PostalAddress",
-      "postalCode": "1234",
-      "addressRegion": "Beispielregion",
-      "addressLocality": "St. Test"
-    },
-    "@type": "Place"
-  }],
+  "location": [
+    {
+      "geo": {
+        "lon": 1.1,
+        "lat": -2.2
+      },
+      "address": {
+        "addressCountry": "SH",
+        "streetAddress": "Rue Example",
+        "@type": "PostalAddress",
+        "postalCode": "1234",
+        "addressRegion": "Beispielregion",
+        "addressLocality": "St. Test"
+      },
+      "@type": "Place"
+    }
+  ],
   "mentionedIn": [
     {
       "@id": "urn:uuid:632bd214-ef41-11e4-878e-bfb252324d1d",
       "@type": "Article",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "Foobar story"
-        }
-      ]
+      "name": {
+        "en": "Foobar story"
+      }
     }
   ],
   "hashtag": "#exe2015",
@@ -104,23 +85,17 @@
   "about": [
     {
       "@id": "https://w3id.org/class/esc/n052",
-      "@type" : "Concept",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "Natural sciences, mathematics and statistics"
-        }
-      ]
+      "@type": "Concept",
+      "name": {
+        "en": "Natural sciences, mathematics and statistics"
+      }
     },
     {
       "@id": "https://w3id.org/class/esc/n051",
       "@type": "Concept",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "Biological and related sciences"
-        }
-      ]
+      "name": {
+        "en": "Biological and related sciences"
+      }
     }
   ]
 }

@@ -7,42 +7,35 @@
   "provider": [
     {
       "@type": "Organization",
-      "name": [
+      "name": {
+        "en": "dontfindmeabbreviated Inc."
+      },
+      "location": [
         {
-          "@value": "dontfindmeabbreviated Inc.",
-          "@language": "en"
+          "geo": {
+            "lon": 11.112233,
+            "lat": 22.223344
+          },
+          "address": {
+            "addressCountry": "AO",
+            "addressLocality": "Another Town",
+            "addressRegion": "Another Region"
+          }
         }
       ],
-      "location": {
-        "geo": {
-          "lon": 11.112233,
-          "lat": 22.223344
-        },
-        "address": {
-          "addressCountry": "AO",
-          "addressLocality": "Another Town",
-          "addressRegion": "Another Region"
-        }
-      },
       "@id": "urn:uuid:9843bac3-028f-4be8-ac54-threeeb00002",
       "url": "https://dontfindmeabbreviated.ao/"
     }
   ],
   "@type": "Service",
-  "name": [
-    {
-      "@value": "dontfindmeabbreviated",
-      "@language": "en"
-    }
-  ],
-  "description": [
-    {
-      "@value": "dontfindmeabbreviated is service we can find just by typing the first three (ore more) letters.",
-      "@language": "en"
-    }
-  ],
+  "name": {
+    "en": "dontfindmeabbreviated"
+  },
+  "description": {
+    "en": "dontfindmeabbreviated is service we can find just by typing the first three (ore more) letters."
+  },
   "@id": "urn:uuid:9843bac3-028f-4be8-ac54-threeeb00001",
   "startDate": "2012-01-01",
   "email": "faq@dontfindmeabbreviated.ao",
-  "@context" : "https://oerworldmap.org/assets/json/context.json"
+  "@context": "https://oerworldmap.org/assets/json/context.json"
 }

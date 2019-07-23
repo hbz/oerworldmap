@@ -1,11 +1,8 @@
 {
-  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "@context": "https://oerworldmap.org/assets/json/context.json",
   "@id": "info:bob",
   "@type": "Person",
-  "name": [
-    {
-      "@value": "Bob",
-      "@language": "de"
-    }
-  ]
+  "name": {
+    "de": "Bob"
+  }
 }

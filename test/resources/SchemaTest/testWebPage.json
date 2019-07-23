@@ -1,36 +1,33 @@
 {
-  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "@context": "https://oerworldmap.org/assets/json/context.json",
   "@id": "urn:uuid:fa0b36f4-ff55-11e6-8ed8-374f53ecaca7",
   "@type": "WebPage",
-  "additionalType" : [ {
-    "@type" : "Concept",
-    "name" : [ {
-      "@value" : "Policy",
-      "@language" : "en"
-    }, {
-      "@value" : "Policy",
-      "@language" : "de"
-    }, {
-      "@value" : "Policy",
-      "@language" : "pt"
-    } ],
-    "@id" : "https://oerworldmap.org/assets/json/publications.json#policy"
-  } ],
-  "name": [
+  "additionalType": [
     {
-      "@language": "en",
-      "@value": "My OER Policy"
+      "@type": "Concept",
+      "name": {
+        "en": "Policy",
+        "de": "Policy",
+        "pt": "Policy"
+      },
+      "@id": "https://oerworldmap.org/assets/json/publications.json#policy"
     }
   ],
-  "inLanguage": ["en"],
-  "description": [
-      {
-        "@language": "en",
-        "@value": "This is the OER-Erkenschwick OER policy."
-      }
-    ],
-    "datePublished": "2018-08-08",
-  "keywords": [ "OER", "Erkenschwick", "policy" ],
+  "name": {
+    "en": "My OER Policy"
+  },
+  "inLanguage": [
+    "en"
+  ],
+  "description": {
+    "en": "This is the OER-Erkenschwick OER policy."
+  },
+  "datePublished": "2018-08-08",
+  "keywords": [
+    "OER",
+    "Erkenschwick",
+    "policy"
+  ],
   "url": "http://example.org",
   "license": [
     {

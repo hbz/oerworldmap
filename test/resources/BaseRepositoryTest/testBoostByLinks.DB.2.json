@@ -1,25 +1,21 @@
 {
-  "@type" : "Organization",
-  "name" : [ {
-    "@value" : "OER OER OER ABC",
-    "@language" : "en"
-  } ],
-  "@id" : "urn:uuid:167b8283-fff2-4b4e-b0a0-90908330002",
-  "@context" : "https://oerworldmap.org/assets/json/context.json",
-  "description" : [ {
-    "@value" : "Some distorting text. This organization normally should hit 2. when searching for \"OER\", but the fact that it yes is linked by other resources should make it ranked 1.",
-    "@language" : "en"
-  } ],
+  "@type": "Organization",
+  "name": {
+    "en": "OER OER OER ABC"
+  },
+  "@id": "urn:uuid:167b8283-fff2-4b4e-b0a0-90908330002",
+  "@context": "https://oerworldmap.org/assets/json/context.json",
+  "description": {
+    "en": "Some distorting text. This organization normally should hit 2. when searching for \"OER\", but the fact that it yes is linked by other resources should make it ranked 1."
+  },
   "affiliate": {
     "@type": "Person",
     "@id": "urn:uuid:167b8283-fff2-4b4e-b0a0-90908330003",
-    "name": [ {
-      "@value" : "Hans Worst",
-      "@language" : "en"
-    } ],
-    "description" : [ {
-      "@value" : "This is a linking person.",
-      "@language" : "en"
-    } ]
+    "name": {
+      "en": "Hans Worst"
+    },
+    "description": {
+      "en": "This is a linking person."
+    }
   }
 }

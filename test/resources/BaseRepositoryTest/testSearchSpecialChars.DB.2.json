@@ -1,23 +1,19 @@
 {
   "@type": "Organization",
-  "name": [
-    {
-      "@value": "OER:ultra",
-      "@language": "en"
-    }
-  ],
-  "description": [
-    {
-      "@value": "OER:ultra is an organization that should be found by searching for 'OER:' as well as by searching for 'OER', 'ultra', 'OERultra' and 'OER ultra'.",
-      "@language": "en"
-    }
-  ],
-  "location": {
-    "geo": {
-      "lon": 48.484848,
-      "lat": 48.484848
-    }
+  "name": {
+    "en": "OER:ultra"
   },
+  "description": {
+    "en": "OER:ultra is an organization that should be found by searching for 'OER:' as well as by searching for 'OER', 'ultra', 'OERultra' and 'OER ultra'."
+  },
+  "location": [
+    {
+      "geo": {
+        "lon": 48.484848,
+        "lat": 48.484848
+      }
+    }
+  ],
   "@id": "urn:uuid:9843bac3-028f-4be8-ac54-OERultra",
-  "@context" : "https://oerworldmap.org/assets/json/context.json"
+  "@context": "https://oerworldmap.org/assets/json/context.json"
 }

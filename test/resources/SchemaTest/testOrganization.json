@@ -1,189 +1,149 @@
 {
-	"@context" : "https://oerworldmap.org/assets/json/context.json",
-	"@id": "urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac7927",
-	"@type": "Organization",
-	"name": [
-		{
-			"@language": "en",
-			"@value": "Manufacturing Educational Resource Develeopment Enterprise"
-		}
-	],
-	"alternateName": [
-		{
-			"@language": "en",
-			"@value": "M.E.R.D.E."
-		}
-	],
-	"location": [{
-		"geo": {
-			"lon": 1.1,
-			"lat": -2.2
-		},
-		"address": {
-			"addressCountry": "SH",
-			"streetAddress": "Rue Example",
-			"@type": "PostalAddress",
-			"postalCode": "1234",
-			"addressRegion": "Beispielregion",
-			"addressLocality": "St. Test"
-		},
-		"@type": "Place"
-	}],
-	"url": "url:http://example.com/merde",
-	"sameAs": [
-		"url://twitter.com/merde117",
-		"url://facebook.com/merde117"
-	],
-	"email": "merde@example.com",
-	"description": [
-		{
-			"@value": "<p>Manufacturing Educational Resource Develeopment Enterprise (M.E.R.D.E.) brings you cutting edge OER technology.</p><p> We are specialized in lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.</p><p> Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.</p>",
-			"@language": "en"
-		}
-	],
-	"image": "https://pixabay.com/static/uploads/photo/2014/08/16/11/17/dog-feces-419260_960_720.jpg",
-	"contactPoint": [
-		{
-			"@id": "urn:uuid:54e6d150-9f49-11e5-b0ff-001999ac7927",
-			"@type": "Person",
-			"name": [
-				{
-					"@language": "en",
-					"@value": "Foobar"
-				}
-			]
-		}
-	],
-	"additionalType": [
+  "@context": "https://oerworldmap.org/assets/json/context.json",
+  "@id": "urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac7927",
+  "@type": "Organization",
+  "name": {
+    "en": "Manufacturing Educational Resource Develeopment Enterprise"
+  },
+  "alternateName": {
+    "en": "M.E.R.D.E."
+  },
+  "location": [
+    {
+      "geo": {
+        "lon": 1.1,
+        "lat": -2.2
+      },
+      "address": {
+        "addressCountry": "SH",
+        "streetAddress": "Rue Example",
+        "@type": "PostalAddress",
+        "postalCode": "1234",
+        "addressRegion": "Beispielregion",
+        "addressLocality": "St. Test"
+      },
+      "@type": "Place"
+    }
+  ],
+  "url": "url:http://example.com/merde",
+  "sameAs": [
+    "url://twitter.com/merde117",
+    "url://facebook.com/merde117"
+  ],
+  "email": "merde@example.com",
+  "description": {
+    "en": "<p>Manufacturing Educational Resource Develeopment Enterprise (M.E.R.D.E.) brings you cutting edge OER technology.</p><p> We are specialized in lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.</p><p> Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.</p>"
+  },
+  "image": "https://pixabay.com/static/uploads/photo/2014/08/16/11/17/dog-feces-419260_960_720.jpg",
+  "contactPoint": [
+    {
+      "@id": "urn:uuid:54e6d150-9f49-11e5-b0ff-001999ac7927",
+      "@type": "Person",
+      "name": {
+        "en": "Foobar"
+      }
+    }
+  ],
+  "additionalType": [
     {
       "@id": "https://oerworldmap.org/assets/json/organizations.json#school",
       "@type": "Concept"
     }
-	],
-	"provides": [
-		{
-			"@id": "urn:uuid:88b18924-9f41-11e5-ab8c-001999ac7927",
-			"@type": "Service",
-			"name": [
-				{
-					"@language": "en",
-					"@value": "Foobar"
-				}
-			]
-		}
-	],
-	"countryChampionFor": [
-		"CX"
-	],
-	"agentIn": [
-		{
-			"@id": "urn:uuid:64c64474-9dc4-11e5-8952-54ee7558c81f",
-			"@type": "Action",
-			"name": [
-				{
-					"@language": "en",
-					"@value": "Foobar"
-				}
-			]
-		}
-	],
-	"participantIn": [
-		{
-			"@id": "urn:uuid:e8cd9900-3b79-11e5-bd3d-54ee7558c81f",
-			"@type": "Action",
-			"name": [
-				{
-					"@language": "en",
-					"@value": "Foobar"
-				}
-			]
-		}
-	],
-	"created": [
-		{
-			"@id": "urn:uuid:967fca4e-15cf-11e5-abe2-4785fa5f5d27",
-			"@type": "Article",
-			"name": [
-				{
-					"@language": "en",
-					"@value": "Foobar"
-				}
-			]
-		}
-	],
-	"affiliate": [
-		{
-			"@id": "urn:uuid:f3662ed2-15d0-11e5-a98c-dfd0cff00d2f",
-			"@type": "Person",
-			"name": [
-				{
-					"@language": "en",
-					"@value": "Foobar"
-				}
-			]
-		}
-	],
+  ],
+  "provides": [
+    {
+      "@id": "urn:uuid:88b18924-9f41-11e5-ab8c-001999ac7927",
+      "@type": "Service",
+      "name": {
+        "en": "Foobar"
+      }
+    }
+  ],
+  "countryChampionFor": [
+    "CX"
+  ],
+  "agentIn": [
+    {
+      "@id": "urn:uuid:64c64474-9dc4-11e5-8952-54ee7558c81f",
+      "@type": "Action",
+      "name": {
+        "en": "Foobar"
+      }
+    }
+  ],
+  "participantIn": [
+    {
+      "@id": "urn:uuid:e8cd9900-3b79-11e5-bd3d-54ee7558c81f",
+      "@type": "Action",
+      "name": {
+        "en": "Foobar"
+      }
+    }
+  ],
+  "created": [
+    {
+      "@id": "urn:uuid:967fca4e-15cf-11e5-abe2-4785fa5f5d27",
+      "@type": "Article",
+      "name": {
+        "en": "Foobar"
+      }
+    }
+  ],
+  "affiliate": [
+    {
+      "@id": "urn:uuid:f3662ed2-15d0-11e5-a98c-dfd0cff00d2f",
+      "@type": "Person",
+      "name": {
+        "en": "Foobar"
+      }
+    }
+  ],
   "member": [
     {
       "@id": "urn:uuid:148cfcc8-c2bc-11e6-99c2-d78a6e7637b0",
       "@type": "Organization",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "Foobar"
-        }
-      ]
+      "name": {
+        "en": "Foobar"
+      }
     },
     {
       "@id": "urn:uuid:64c64474-9dc4-11e5-8952-54ee7558c81f",
       "@type": "Action",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "Foobar"
-        }
-      ]
+      "name": {
+        "en": "Foobar"
+      }
     }
   ],
-	"memberOf": [
-		{
-			"@id": "urn:uuid:ff56c436-7e76-11e5-b76b-54ee7558c81f",
-			"@type": "Organization",
-			"name": [
-				{
-					"@language": "en",
-					"@value": "Foobar"
-				}
-			]
-		}
-	],
-	"keywords": [
-		"foo",
-		"bar",
-		"baz"
-	],
-	"mentionedIn": [
-		{
-			"@id": "urn:uuid:10a0c842-2fa6-11e5-a60f-001999ac7927",
-			"@type": "Article",
-			"name": [
-				{
-					"@language": "en",
-					"@value": "Foobar"
-				}
-			]
-		}
-	],
-	"organizerFor": [
-		{
-			"@id": "urn:uuid:dda9c992-427f-11e5-92ed-54ee7558c81f",
-			"@type": "Event",
-			"name": [
-				{
-					"@language": "en",
-					"@value": "Foobar"
-				}
-			]
-		}
-	]
+  "memberOf": [
+    {
+      "@id": "urn:uuid:ff56c436-7e76-11e5-b76b-54ee7558c81f",
+      "@type": "Organization",
+      "name": {
+        "en": "Foobar"
+      }
+    }
+  ],
+  "keywords": [
+    "foo",
+    "bar",
+    "baz"
+  ],
+  "mentionedIn": [
+    {
+      "@id": "urn:uuid:10a0c842-2fa6-11e5-a60f-001999ac7927",
+      "@type": "Article",
+      "name": {
+        "en": "Foobar"
+      }
+    }
+  ],
+  "organizerFor": [
+    {
+      "@id": "urn:uuid:dda9c992-427f-11e5-92ed-54ee7558c81f",
+      "@type": "Event",
+      "name": {
+        "en": "Foobar"
+      }
+    }
+  ]
 }

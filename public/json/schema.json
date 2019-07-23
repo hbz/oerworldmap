@@ -229,7 +229,8 @@
         "description": {
           "title": "WebPage.description",
           "description": "descriptions.WebPage.description",
-          "$ref": "#/definitions/LocalizedText"
+          "$ref": "#/definitions/LocalizedString",
+          "_display": { "rows":  5 }
         },
         "keywords": {
           "title": "WebPage.keywords",
@@ -539,7 +540,8 @@
         "description": {
           "title": "Policy.description",
           "description": "descriptions.Policy.description",
-          "$ref": "#/definitions/LocalizedText"
+          "$ref": "#/definitions/LocalizedString",
+          "_display": { "rows":  5 }
         },
         "keywords": {
           "title": "Policy.keywords",
@@ -936,12 +938,14 @@
         "description": {
           "title": "Article.description",
           "description": "descriptions.Article.description",
-          "$ref": "#/definitions/LocalizedText"
+          "$ref": "#/definitions/LocalizedString",
+          "_display": { "rows":  5 }
         },
         "articleBody": {
           "title": "Article.articleBody",
           "description": "descriptions.Article.articleBody",
-          "$ref": "#/definitions/LocalizedText"
+          "$ref": "#/definitions/LocalizedString",
+          "_display": { "rows":  5 }
         },
         "dateCreated": {
           "title": "Article.dateCreated",
@@ -1162,7 +1166,8 @@
         "text": {
           "title": "Comment.text",
           "description": "descriptions.Comment.text",
-          "$ref": "#/definitions/LocalizedText"
+          "$ref": "#/definitions/LocalizedString",
+          "_display": { "rows":  5 }
         },
         "dateCreated": {
           "title": "Comment.dateCreated",
@@ -1258,7 +1263,8 @@
         "description": {
           "title": "Action.description",
           "description": "descriptions.Action.description",
-          "$ref": "#/definitions/LocalizedText"
+          "$ref": "#/definitions/LocalizedString",
+          "_display": { "rows":  5 }
         },
         "image": {
           "title": "Action.image",
@@ -1632,7 +1638,8 @@
         "description": {
           "title": "Service.description",
           "description": "descriptions.Service.description",
-          "$ref": "#/definitions/LocalizedText"
+          "$ref": "#/definitions/LocalizedString",
+          "_display": { "rows":  5 }
         },
         "startDate": {
           "title": "Service.startDate",
@@ -2092,7 +2099,8 @@
         "description": {
           "title": "Person.description",
           "description": "descriptions.Person.description",
-          "$ref": "#/definitions/LocalizedText"
+          "$ref": "#/definitions/LocalizedString",
+          "_display": { "rows":  5 }
         },
         "countryChampionFor": {
           "title": "Person.countryChampionFor",
@@ -2476,7 +2484,8 @@
         "description": {
           "title": "Organization.description",
           "description": "descriptions.Organization.description",
-          "$ref": "#/definitions/LocalizedText"
+          "$ref": "#/definitions/LocalizedString",
+          "_display": { "rows":  5 }
         },
         "countryChampionFor": {
           "type": "array",
@@ -2843,7 +2852,8 @@
         "description": {
           "title": "Event.description",
           "description": "descriptions.Event.description",
-          "$ref": "#/definitions/LocalizedText"
+          "$ref": "#/definitions/LocalizedString",
+          "_display": { "rows":  5 }
         },
         "image": {
           "title": "Event.image",
@@ -3129,7 +3139,8 @@
         "description": {
           "title": "Product.description",
           "description": "descriptions.Product.description",
-          "$ref": "#/definitions/LocalizedText"
+          "$ref": "#/definitions/LocalizedString",
+          "_display": { "rows":  5 }
         },
         "url": {
           "title": "Product.url",
@@ -3337,8 +3348,9 @@
         "description": {
           "title": "Grant.description",
           "description": "descriptions.Grant.description",
-          "$ref": "#/definitions/LocalizedText",
+          "$ref": "#/definitions/LocalizedString",
           "_display": {
+            "rows":  5,
             "className": "hidden"
           }
         },
@@ -3653,7 +3665,8 @@
         "description": {
           "title": "LighthouseAction.description",
           "description": "descriptions.LighthouseAction.description",
-          "$ref": "#/definitions/LocalizedText"
+          "$ref": "#/definitions/LocalizedString",
+          "_display": { "rows":  5 }
         },
         "startTime": {
           "title": "LighthouseAction.startTime",
@@ -3670,52 +3683,196 @@
       "$schema": "http://json-schema.org/draft-04/schema#",
       "title": "Localized string",
       "description": "A language-tagged string",
-      "type": "array",
-      "items": {
-        "type": "object",
-        "_widget": "LocalizedString",
-        "properties": {
-          "@value": {
-            "type": "string"
-          },
-          "@language": {
-            "title": "LocalizedString.@language",
-            "$ref": "#/definitions/Language"
-          }
-        },
-        "required": [
-          "@language",
-          "@value"
-        ],
-        "additionalProperties": false
-      }
-    },
-    "LocalizedText": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
-      "title": "Localized text",
-      "description": "A language-tagged text",
-      "type": "array",
-      "items": {
-        "type": "object",
-        "_widget": "LocalizedString",
-        "properties": {
-          "@value": {
-            "type": "string",
-            "_display": {
-              "rows": 5
-            }
-          },
-          "@language": {
-            "title": "LocalizedText.@language",
-            "$ref": "#/definitions/Language"
-          }
-        },
-        "required": [
-          "@language",
-          "@value"
-        ],
-        "additionalProperties": false
-      }
+      "type": "object",
+      "properties": {
+        "aa": { "type": "string" },
+        "ab": { "type": "string" },
+        "ae": { "type": "string" },
+        "af": { "type": "string" },
+        "ak": { "type": "string" },
+        "am": { "type": "string" },
+        "an": { "type": "string" },
+        "ar": { "type": "string" },
+        "as": { "type": "string" },
+        "av": { "type": "string" },
+        "ay": { "type": "string" },
+        "az": { "type": "string" },
+        "ba": { "type": "string" },
+        "be": { "type": "string" },
+        "bg": { "type": "string" },
+        "bh": { "type": "string" },
+        "bi": { "type": "string" },
+        "bm": { "type": "string" },
+        "bn": { "type": "string" },
+        "bo": { "type": "string" },
+        "br": { "type": "string" },
+        "bs": { "type": "string" },
+        "ca": { "type": "string" },
+        "ce": { "type": "string" },
+        "ch": { "type": "string" },
+        "co": { "type": "string" },
+        "cr": { "type": "string" },
+        "cs": { "type": "string" },
+        "cu": { "type": "string" },
+        "cv": { "type": "string" },
+        "cy": { "type": "string" },
+        "da": { "type": "string" },
+        "de": { "type": "string" },
+        "dv": { "type": "string" },
+        "dz": { "type": "string" },
+        "ee": { "type": "string" },
+        "el": { "type": "string" },
+        "en": { "type": "string" },
+        "eo": { "type": "string" },
+        "es": { "type": "string" },
+        "et": { "type": "string" },
+        "eu": { "type": "string" },
+        "fa": { "type": "string" },
+        "ff": { "type": "string" },
+        "fi": { "type": "string" },
+        "fj": { "type": "string" },
+        "fo": { "type": "string" },
+        "fr": { "type": "string" },
+        "fy": { "type": "string" },
+        "ga": { "type": "string" },
+        "gd": { "type": "string" },
+        "gl": { "type": "string" },
+        "gn": { "type": "string" },
+        "gu": { "type": "string" },
+        "gv": { "type": "string" },
+        "ha": { "type": "string" },
+        "hi": { "type": "string" },
+        "ho": { "type": "string" },
+        "hr": { "type": "string" },
+        "ht": { "type": "string" },
+        "hu": { "type": "string" },
+        "hy": { "type": "string" },
+        "hz": { "type": "string" },
+        "ia": { "type": "string" },
+        "ie": { "type": "string" },
+        "ig": { "type": "string" },
+        "ii": { "type": "string" },
+        "ik": { "type": "string" },
+        "io": { "type": "string" },
+        "is": { "type": "string" },
+        "it": { "type": "string" },
+        "iu": { "type": "string" },
+        "ja": { "type": "string" },
+        "jv": { "type": "string" },
+        "ka": { "type": "string" },
+        "kg": { "type": "string" },
+        "ki": { "type": "string" },
+        "kj": { "type": "string" },
+        "kk": { "type": "string" },
+        "kl": { "type": "string" },
+        "km": { "type": "string" },
+        "kn": { "type": "string" },
+        "ko": { "type": "string" },
+        "kr": { "type": "string" },
+        "ks": { "type": "string" },
+        "ku": { "type": "string" },
+        "kv": { "type": "string" },
+        "kw": { "type": "string" },
+        "ky": { "type": "string" },
+        "la": { "type": "string" },
+        "lb": { "type": "string" },
+        "lg": { "type": "string" },
+        "li": { "type": "string" },
+        "ln": { "type": "string" },
+        "lo": { "type": "string" },
+        "lt": { "type": "string" },
+        "lu": { "type": "string" },
+        "lv": { "type": "string" },
+        "mg": { "type": "string" },
+        "mh": { "type": "string" },
+        "mi": { "type": "string" },
+        "mk": { "type": "string" },
+        "ml": { "type": "string" },
+        "mn": { "type": "string" },
+        "mo": { "type": "string" },
+        "mr": { "type": "string" },
+        "ms": { "type": "string" },
+        "mt": { "type": "string" },
+        "my": { "type": "string" },
+        "na": { "type": "string" },
+        "nb": { "type": "string" },
+        "nd": { "type": "string" },
+        "ne": { "type": "string" },
+        "ng": { "type": "string" },
+        "nl": { "type": "string" },
+        "nn": { "type": "string" },
+        "no": { "type": "string" },
+        "nr": { "type": "string" },
+        "nv": { "type": "string" },
+        "nvi": { "type": "string" },
+        "ny": { "type": "string" },
+        "oc": { "type": "string" },
+        "oj": { "type": "string" },
+        "om": { "type": "string" },
+        "or": { "type": "string" },
+        "os": { "type": "string" },
+        "pa": { "type": "string" },
+        "pi": { "type": "string" },
+        "pl": { "type": "string" },
+        "ps": { "type": "string" },
+        "pt": { "type": "string" },
+        "qu": { "type": "string" },
+        "rm": { "type": "string" },
+        "rn": { "type": "string" },
+        "ro": { "type": "string" },
+        "ru": { "type": "string" },
+        "rw": { "type": "string" },
+        "sa": { "type": "string" },
+        "sc": { "type": "string" },
+        "sd": { "type": "string" },
+        "se": { "type": "string" },
+        "sg": { "type": "string" },
+        "si": { "type": "string" },
+        "sk": { "type": "string" },
+        "sl": { "type": "string" },
+        "sm": { "type": "string" },
+        "smi": { "type": "string" },
+        "sn": { "type": "string" },
+        "so": { "type": "string" },
+        "sq": { "type": "string" },
+        "sr": { "type": "string" },
+        "ss": { "type": "string" },
+        "st": { "type": "string" },
+        "su": { "type": "string" },
+        "sv": { "type": "string" },
+        "sw": { "type": "string" },
+        "ta": { "type": "string" },
+        "te": { "type": "string" },
+        "tg": { "type": "string" },
+        "th": { "type": "string" },
+        "ti": { "type": "string" },
+        "tk": { "type": "string" },
+        "tl": { "type": "string" },
+        "tn": { "type": "string" },
+        "to": { "type": "string" },
+        "tr": { "type": "string" },
+        "ts": { "type": "string" },
+        "tt": { "type": "string" },
+        "tw": { "type": "string" },
+        "ty": { "type": "string" },
+        "ug": { "type": "string" },
+        "uk": { "type": "string" },
+        "ur": { "type": "string" },
+        "uz": { "type": "string" },
+        "ve": { "type": "string" },
+        "vi": { "type": "string" },
+        "vo": { "type": "string" },
+        "wa": { "type": "string" },
+        "wo": { "type": "string" },
+        "xh": { "type": "string" },
+        "yo": { "type": "string" },
+        "za": { "type": "string" },
+        "zh": { "type": "string" },
+        "zu": { "type": "string" }
+      },
+      "_widget": "LocalizedString",
+      "additionalProperties": false,
+      "suggested": [ "en" ]
     },
     "iso-8601-date": {
       "$schema": "http://json-schema.org/draft-04/schema#",

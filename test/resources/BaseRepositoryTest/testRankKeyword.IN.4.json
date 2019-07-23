@@ -1,1977 +1,1988 @@
 {
-  "image" : "http://www.oeconsortium.org/media/logos/9x9_web_logo_f1052932a70a0d1cf565d2e13238794e.jpg",
-  "@type" : "Organization",
-  "name" : [ {
-    "@value" : "9x9",
-    "@language" : "en"
-  } ],
-  "description" : [ {
-    "@value" : "9x9 is a cloud based video platform which powers the aggregation, hosting, management and distribution of videos to a variety of client devices including PCs, Smart Phones, Smart TVs and Tablet Devices. OCW courses can be transformed into multiple TV-like channels on 9x9, grouped according to user preferences, discovered more easily, and shared virally via social networks. 9x9 services are available for free to end users and selected non-profit organizations.",
-    "@language" : "en"
-  } ],
-  "comment" : [ {
-    "dateCreated" : "2016-09-16T20:11:20.084+02:00",
-    "@type" : "Comment",
-    "author" : [ {
-      "@type" : "Person",
-      "name" : [ {
-        "@value" : "Jan Neumann",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:839897e6-178f-11e5-871b-3c970e4a9cbf"
-    } ],
-    "@id" : "urn:uuid:30bd3b82-d979-462e-9955-b8fb8c9a4a2b",
-    "text" : [ {
-      "@value" : "Website is not working, google search brings not results. It seems to have started in 2011.",
-      "@language" : "en"
-    } ]
-  } ],
-  "location" : {
-    "geo" : {
-      "lon" : -121.974657,
-      "lat" : 37.381757
-    },
-    "address" : {
-      "addressCountry" : "US",
-      "streetAddress" : "Augustine Drive",
-      "@type" : "PostalAddress",
-      "postalCode" : "95054",
-      "addressLocality" : "Santa Clara"
-    },
-    "@type" : "Place"
+  "image": "http://www.oeconsortium.org/media/logos/9x9_web_logo_f1052932a70a0d1cf565d2e13238794e.jpg",
+  "@type": "Organization",
+  "name": {
+    "en": "9x9"
   },
-  "@id" : "urn:uuid:70692b7e-77eb-11e5-9f9f-c48e8ff4ea31",
-  "memberOf" : [ {
-    "image" : "http://www.oeconsortium.org/wp-content/themes/ocwc-mainsite/images/logo.png",
-    "organizerFor" : [ {
-      "@type" : "Event",
-      "name" : [ {
-        "@value" : "Open Education Global Conference 2017",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:9c3fdacf-2bfa-430f-8273-178b0c64aa19"
-    }, {
-      "@type" : "Event",
-      "name" : [ {
-        "@value" : "Open Education Global Conference 2016",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:e6db620c-7b16-48f2-a1ee-fccc5ddff4b2"
-    }, {
-      "@type" : "Event",
-      "name" : [ {
-        "@value" : "Open Education Week 2016",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:4772a754-07be-4e26-89d2-a6407a1c9a77"
-    }, {
-      "@type" : "Event",
-      "name" : [ {
-        "@value" : "Open Education Week 2017",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:1fff9044-cce9-40e0-a9c2-a92b9d83bc7d"
-    } ],
-    "@type" : "Organization",
-    "member" : [ {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Korea University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a105c-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Dallas County Community College District",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069cbb0-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Mountain Heights Academy",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70696f12-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "The Open University of Israel",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706aa1de-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "AIU High School",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706931d2-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Chattanooga State Comunity College",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069bdf0-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad Carlos III de Madrid",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706ac10a-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Kyoto University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a1624-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Colegio Visconde de Porto Seguro",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70693c36-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "National Sun Yat-Sen University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a448c-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Kaohsiung Medical University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a08aa-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "ComisiÃ³n Internacional Asesora de Ciencia y TecnologÃ­a (CIACT)",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70693e3e-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Escuela de Empresas USFQ",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70694abe-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Escuela Virtual de Deportes",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70694cc6-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "University of California, Irvine",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b4972-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : " ETH Zurich",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069dbd2-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universiti Teknologi MARA",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b4666-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "New Jersey Institute of Technology",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a51de-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "The Saylor Academy",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069908c-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Houston Community College District",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069f554-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Michigan State University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a256a-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad Nacional de Colombia ",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706aff80-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Cuyahoga Community College",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069c9c6-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Turkish OpenCourseWare Consortium",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70692408-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "University of Cape Town",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b4c4c-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Sophia University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a7d8a-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad de Murcia",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706adaf0-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Southern Taiwan University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a8186-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Waseda University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b8db0-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "UC Berkeley",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706ab69c-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Ankara University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069a734-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad de Oviedo",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706add7a-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "KONYANG UNIVERSITY",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a0e72-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universiti Malaysia Sarawak",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b33b0-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "University of Notre Dame",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b5ffc-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Oregon Community College Distance Learning Association",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a5d1e-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Qassim university College of Medicine",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a68ae-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Helsinki Metropolia University of Applied Sciences",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069f180-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "National Hsinchu University of Education",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a3af0-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "BS Grupo SAC",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70693826-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "OOPS",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706978c2-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "National Chengchi University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a3136-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "People's Open Access Education Initiative",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a62f0-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Handong Global University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069ebb8-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Doshisha University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069d420-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "National Taiwan University of Science and Technology",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a4c20-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universiti Kebangsaan Malaysia",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b2e06-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "International Christian University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069ff18-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Indian Institute of Management Bangalore",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069fb44-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Open Assembly",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70678134-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "BCcampus",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:374cce8a-2fbc-11e5-a656-001999ac7927"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad de La Laguna",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706ad082-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "African Virtual University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7067ff60-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "GUIDE - Global Universities in Distance Education",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706954aa-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Hanze University of Applied Sciences",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069ef96-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "University of Michigan",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b5a70-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "FundaciÃ³n Universitaria San Pablo CEU",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069e76c-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "OpenStudy",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70697ca0-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "National Cheng Kung University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a3320-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "UNIVERSITY OF SEOUL",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b62d6-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Peer 2 Peer University ",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069807e-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "TU Delft",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706aaee0-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Global OER Graduate Network",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:c4a55240-bbdb-48fd-b40e-6bd96f4ba8f5"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "AGH University of Science and Technology",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70699f14-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Eastern Mediterranean University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069d614-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "UniversitÃ© de Lyon",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b2b40-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Korea OCW Consortium",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70691058-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Maricopa Community Colleges",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a1fb6-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Osaka University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a5f08-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universiti Teknologi Malaysia",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b422e-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Monterey Institute for Technology and Education",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70696d1e-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "San Diego Community College District",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a6e4e-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Cerritos College",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069bc06-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "IE University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069f950-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad Internacional de la Rioja (UNIR)",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706af4c2-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "College of the Canyons",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069c7e6-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universia",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069282c-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universitat Oberta de Catalunya",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b1e98-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Kagawa Nutrition University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a06c0-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "TecnolÃ³gico de Monterrey",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a950e-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Virtual University of Pakistan",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b8888-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Northern Essex Community College ",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a577e-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "College of Southern Maryland",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069c5f2-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad de Salamanca",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706ae004-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Nagoya University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a2d62-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Instituto TecnolÃ³gico de Las AmÃ©ricas (ITLA)",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069fd24-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Open University Netherlands",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a5b3e-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Greek Academic Network OCW / OER Consortium",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706909e6-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "The University of Nottingham",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706aa724-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "The Higher Education Academy (HEA)",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70698b96-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Academica",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70692fc0-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Fu Jen Catholic University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069e398-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Telkom University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a9a2c-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "College of DuPage",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069c408-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Pusan National University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a66c4-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "SUNGKYUNKWAN UNIVERSITY",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a8a64-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "SOOKMYUNG WOMEN\"S UNIVERSITY",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a7b96-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Utah State University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70699992-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "UniversitÃ  Telematica Internazionale UNINETTUNO",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b1bfa-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Teachers Without Borders",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70698858-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "National Open University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a3ee2-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universiti Sains Malaysia ",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b3c7a-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "National Open University of Nigeria",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a40cc-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "University of Tokyo",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b71ea-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad Itaca",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706af774-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Hungkuang University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069f748-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "CATHOLIC UNIVERSITY OF DAEGU",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069b9fe-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Connexions",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70694438-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "European Association of Distance Teaching Universities (EADTU)",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70695090-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Swinburne University of Technology",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a8d70-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Johns Hopkins Bloomberg School of Public Health",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a02e2-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "NetEase (Bejing) Techology Co., Ltd",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706973d6-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universitas Terbuka (Indonesian Open University)",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b145c-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad Estatal a Distancia",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706aecf2-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "iBerry",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70695892-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Pasadena City College",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a60f2-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Sterling College",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a8370-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad Internacional de AndalucÃ­Â­a",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706af238-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "National Ilan University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a3cee-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad TÃ©cnica Particular de Loja",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b0c82-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Neusoft Institute, Guangdong",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a4ff4-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "ULSAN UNIVERSITY",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706abbd8-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad Nacional de Educacion a Distancia",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b04a8-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Tufts University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706ab174-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Athabasca University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069acfc-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Kwansei Gakuin University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a143a-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Delaware County Community College",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069cd9a-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Shahid Beheshti University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70698484-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Broward College",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069b7ba-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Jesus University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a0102-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Providence University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a64e4-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad Nacional Agraria La Molina",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706afa44-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Ulsan National Institute of Science and Technology (UNIST)",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706ab926-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Middle East Technical University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a2754-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Korea Education & Research Information Service",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70696526-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Stockholm university",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a855a-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Northern Virginia Community College - Extended Learning Institute",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a595e-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "South East European University (SEE University)",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a7f7e-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "West Coast University (WCU)",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b92c4-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Connecticut Distance Learning Consortium",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70694230-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "National Tsing Hua University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a4e00-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Kyushu University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a1be2-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Paris Tech",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069181e-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Delaware Technical Community College",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069cfd4-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universitat PolitÃ¨cnica de Catalunya. BarcelonaTech (UPC)",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b212c-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Roane State Community College",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a6c6e-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Instituto Israelita de Ensino e Pesquisa Albert Einstein",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70695e0a-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Seoul`s Woman University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a7402-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Facultad de Medicina de la Universidad Nacional Mayor de San Marcos",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706907ac-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "FundaÃ§Ã£o Getulio Vargas - FGV Online",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069e582-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universitas Indonesia",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b11c8-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Shanghai Jiaotong University(SJTU)",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a75ec-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Taipei Medical University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a9004-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad Icesi",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706aef86-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "University of the Western Cape",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b6e3e-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Athens Technical College",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069afcc-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Prepr Foundation",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069829a-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "National Chiao Tung University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a3500-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Mohave Community College",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a2966-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "University of Sumatera Utara",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b695c-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "The Open University of Japan",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706aa486-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "OCWFrance",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706913e6-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Kun Shan University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a123c-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Boston Children's Hospital",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706935d8-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "American Public University System",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069a2de-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Lektorium LLC.",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069671a-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Japan OCW Consortium",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70690cc0-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "University of Leuven (KU Leuven) ",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b4f30-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Lord Fairfax Community College",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a1dcc-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "MERLOT - Multimedia Educational Resource for Learning and Online Teaching",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70696b2a-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad de Granada",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706acdee-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "National Taiwan Normal University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a4662-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad AutÃ³noma de Madrid",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706abe76-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Bay de Noc Community College",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069b5bc-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Kabul Polytechnic University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a04c2-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "University of Malaya",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b520a-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "King Fahd University of Petroleum & Minerals",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a0a9e-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad de Malaga",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706ad5c8-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "EWHA WOMANS UNIVERSITY",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069ddd0-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "The  Research Council of Oman",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069203e-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidade do Sul de Santa Catarina (UNISUL)",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706ae7ca-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "University of Maryland University College",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b54da-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Escola Superior de AdministraÃ§Ã£o e GestÃ£o (ESAGS)",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069d9f2-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "SeoulTech",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a720e-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Ankabut, The UAE Advanced Network for Research & Education",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70687dd2-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Taiwan Open Course Consortium",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70691c4c-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Virginia Community College System",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b834c-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "National Taiwan University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a4a40-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "University of Massachusetts Boston",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b57a0-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "BahÃ¡â€™Ã­ Institute for Higher Education",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069b2ec-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Silla University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a77d6-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "China Education and Research Network",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7068fa00-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "UniversitÃ  degli Studi Guglielmo Marconi",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b0f20-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad de Sevilla",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706ae2a2-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad de CÃ¡diz",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706ac628-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "THE CATHOLIC UNIVERSITY OF KOREA",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a9cb6-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad PolitÃ©cnica de Valencia",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b073c-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "VIA University College - Denmark",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b7e4c-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "National Taiwan Ocean University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a484c-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Tutorial University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706ab412-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Soochow University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a79b6-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universitat AutÃ²noma de Barcelona",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b16dc-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universiti Pendidikan Sultan Idris (Sultan Idris Education University)",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b36a8-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "ABED - Brazilian Association for Distance Education",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70692db8-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Kyung Hee University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a19f8-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "SEMYUNG UNIVERSITY",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a702e-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Hanyang University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069eda2-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "National Pingtung University of Science and Technology",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a42a2-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Jozef Stefan Institute",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:6af6b838-2655-11e5-80ee-033038be6ec9"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "National Dong Hwa University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a38fc-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Cerego",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70693a2e-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Tamkang University ",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a928e-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universiti Putra Malaysia (UPM)",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b398c-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Fontys University of Applied Sciences, School of ICT",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069e1ae-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Hallym University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069e9ba-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "SURFnet",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70698664-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "University of Nantes",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b5d36-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Chung Hua University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069bfd0-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Moscow Institute of Physics and Technology (MIPT) State Univercity",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a2b64-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Telecom Bretagne",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a97a2-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "MEITAL- Inter-University Center for e-Learning -  Israel",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069690e-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "YONSEI UNIVERSITY",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b97ec-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "iversity",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069612a-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Commonwealth Of Learning",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:e72fb33f-77d2-4445-b368-104a9b4424b5"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Organisation internationale de la Francophonie",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70697e94-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Northeastern State University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a559e-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad de Zaragoza",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706ae536-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universiti Malaysia Sabah",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b30d6-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universiti Teknikal Malaysia Melaka",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b3f54-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Ritsumeikan University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a6a8e-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad de Alicante",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706ac39e-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Hokkaido University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069f356-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Kirkwood Community College",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a0c92-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "MarylandOnline",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a21a0-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "University of Southern Queensland",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b65ce-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universitat Rovira i Virgili",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b283e-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Massachusetts Institute of Technology",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a238a-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Kyung Hee Cyber University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a1804-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Hong Kong Cyberport Management Company Limited",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706956a8-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad Nacional AutÃ³noma de MÃ©xico",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706afcec-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "North Central Texas College",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a53be-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "National Central University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a2f56-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Tokyo Institute of Technology",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706aac4c-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "University of the People",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069951e-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "National Chung Hsing University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706a36ea-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "DeakinDigital",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7066ee04-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Citrus Community College District",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069c1ce-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "EduNet Vietnam",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069d808-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Tidewater Community College",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706aa9c2-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad de Monterrey",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706ad866-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Dong-A University",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069d1be-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad del Valle - Colombia",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706ad32a-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad PolitÃ©cnica Madrid",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b09e4-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad de Cantabria",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706ac8da-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "University of Wisconsin- Eau Claire",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b7960-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad Nacional de CÃ³rdoba",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b0214-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "9x9",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70692b7e-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidad de Deusto",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706acb5a-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "National Council for Science and the Environment",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706970fc-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universidade Federal de Santa Catarina (UFSC)",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706aea4a-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Universitat de ValÃ©ncia",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b195c-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Open College at Kaplan University (OC@KU)",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:70697ab6-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Farabi Institute of Higher Education",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:7069dfba-77eb-11e5-9f9f-c48e8ff4ea31"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "University of Tsukuba",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:706b74ce-77eb-11e5-9f9f-c48e8ff4ea31"
-    } ],
-    "name" : [ {
-      "@value" : "Open Education Consortium",
-      "@language" : "en"
-    } ],
-    "description" : [ {
-      "@value" : "The Open Education Consortium (OEC) is a global network of educational institutions, individuals and organizations that support an approach to education based on openness, including collaboration, innovation and collective development and use of open educational materials. The OEC is a non-profit, social benefit organization registered in the United States and operating worldwide.",
-      "@language" : "en"
-    } ],
-    "alternateName" : [ {
-      "@value" : "OEC",
-      "@language" : "en"
-    } ],
-    "location" : {
-      "geo" : {
-        "lon" : -71.35834,
-        "lat" : 42.45709
+  "description": {
+    "en": "9x9 is a cloud based video platform which powers the aggregation, hosting, management and distribution of videos to a variety of client devices including PCs, Smart Phones, Smart TVs and Tablet Devices. OCW courses can be transformed into multiple TV-like channels on 9x9, grouped according to user preferences, discovered more easily, and shared virally via social networks. 9x9 services are available for free to end users and selected non-profit organizations."
+  },
+  "comment": [
+    {
+      "dateCreated": "2016-09-16T20:11:20.084+02:00",
+      "@type": "Comment",
+      "author": [
+        {
+          "@type": "Person",
+          "name": {
+            "en": "Jan Neumann"
+          },
+          "@id": "urn:uuid:839897e6-178f-11e5-871b-3c970e4a9cbf"
+        }
+      ],
+      "@id": "urn:uuid:30bd3b82-d979-462e-9955-b8fb8c9a4a2b",
+      "text": {
+        "en": "Website is not working, google search brings not results. It seems to have started in 2011."
+      }
+    }
+  ],
+  "location": [
+    {
+      "geo": {
+        "lon": -121.974657,
+        "lat": 37.381757
       },
-      "address" : {
-        "addressCountry" : "US",
-        "streetAddress" : "60 Thoreau St, Suite 238",
-        "@type" : "PostalAddress",
-        "postalCode" : "01742",
-        "addressLocality" : "Concord",
-        "addressRegion" : "MA"
+      "address": {
+        "addressCountry": "US",
+        "streetAddress": "Augustine Drive",
+        "@type": "PostalAddress",
+        "postalCode": "95054",
+        "addressLocality": "Santa Clara"
       },
-      "@type" : "Place"
-    },
-    "@id" : "urn:uuid:ff56c436-7e76-11e5-b76b-54ee7558c81f",
-    "affiliate" : [ {
-      "@type" : "Person",
-      "name" : [ {
-        "@value" : "Sophie TOUZE",
-        "@language" : "en"
-      }, {
-        "@value" : "Sophie TOUZE",
-        "@language" : "fr"
-      } ],
-      "@id" : "urn:uuid:685ffbfd-f9ae-4c48-bbf5-e75f58353830"
-    }, {
-      "@type" : "Person",
-      "name" : [ {
-        "@value" : "Igor Lesko",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:480d91e9-a071-4752-9032-fc73a030adb8"
-    } ],
-    "url" : "http://www.oeconsortium.org/",
-    "sameAs" : [ "https://www.facebook.com/oeconsortium", "https://www.youtube.com/channel/UC-jcvZ6z94387QDu52g9VNA", "https://twitter.com/oeconsortium", "http://www.slideshare.net/OCWConsortium" ]
-  } ],
-  "@context" : "https://oerworldmap.org/assets/json/context.json",
-  "url" : "http://www.9x9.tv",
-  "sameAs" : [ "http://www.oeconsortium.org/members/view/472/" ]
+      "@type": "Place"
+    }
+  ],
+  "@id": "urn:uuid:70692b7e-77eb-11e5-9f9f-c48e8ff4ea31",
+  "memberOf": [
+    {
+      "image": "http://www.oeconsortium.org/wp-content/themes/ocwc-mainsite/images/logo.png",
+      "organizerFor": [
+        {
+          "@type": "Event",
+          "name": {
+            "en": "Open Education Global Conference 2017"
+          },
+          "@id": "urn:uuid:9c3fdacf-2bfa-430f-8273-178b0c64aa19"
+        },
+        {
+          "@type": "Event",
+          "name": {
+            "en": "Open Education Global Conference 2016"
+          },
+          "@id": "urn:uuid:e6db620c-7b16-48f2-a1ee-fccc5ddff4b2"
+        },
+        {
+          "@type": "Event",
+          "name": {
+            "en": "Open Education Week 2016"
+          },
+          "@id": "urn:uuid:4772a754-07be-4e26-89d2-a6407a1c9a77"
+        },
+        {
+          "@type": "Event",
+          "name": {
+            "en": "Open Education Week 2017"
+          },
+          "@id": "urn:uuid:1fff9044-cce9-40e0-a9c2-a92b9d83bc7d"
+        }
+      ],
+      "@type": "Organization",
+      "member": [
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Korea University"
+          },
+          "@id": "urn:uuid:706a105c-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Dallas County Community College District"
+          },
+          "@id": "urn:uuid:7069cbb0-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Mountain Heights Academy"
+          },
+          "@id": "urn:uuid:70696f12-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "The Open University of Israel"
+          },
+          "@id": "urn:uuid:706aa1de-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "AIU High School"
+          },
+          "@id": "urn:uuid:706931d2-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Chattanooga State Comunity College"
+          },
+          "@id": "urn:uuid:7069bdf0-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad Carlos III de Madrid"
+          },
+          "@id": "urn:uuid:706ac10a-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Kyoto University"
+          },
+          "@id": "urn:uuid:706a1624-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Colegio Visconde de Porto Seguro"
+          },
+          "@id": "urn:uuid:70693c36-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "National Sun Yat-Sen University"
+          },
+          "@id": "urn:uuid:706a448c-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Kaohsiung Medical University"
+          },
+          "@id": "urn:uuid:706a08aa-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "ComisiÃ³n Internacional Asesora de Ciencia y TecnologÃ­a (CIACT)"
+          },
+          "@id": "urn:uuid:70693e3e-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Escuela de Empresas USFQ"
+          },
+          "@id": "urn:uuid:70694abe-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Escuela Virtual de Deportes"
+          },
+          "@id": "urn:uuid:70694cc6-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "University of California, Irvine"
+          },
+          "@id": "urn:uuid:706b4972-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": " ETH Zurich"
+          },
+          "@id": "urn:uuid:7069dbd2-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universiti Teknologi MARA"
+          },
+          "@id": "urn:uuid:706b4666-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "New Jersey Institute of Technology"
+          },
+          "@id": "urn:uuid:706a51de-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "The Saylor Academy"
+          },
+          "@id": "urn:uuid:7069908c-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Houston Community College District"
+          },
+          "@id": "urn:uuid:7069f554-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Michigan State University"
+          },
+          "@id": "urn:uuid:706a256a-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad Nacional de Colombia "
+          },
+          "@id": "urn:uuid:706aff80-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Cuyahoga Community College"
+          },
+          "@id": "urn:uuid:7069c9c6-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Turkish OpenCourseWare Consortium"
+          },
+          "@id": "urn:uuid:70692408-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "University of Cape Town"
+          },
+          "@id": "urn:uuid:706b4c4c-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Sophia University"
+          },
+          "@id": "urn:uuid:706a7d8a-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad de Murcia"
+          },
+          "@id": "urn:uuid:706adaf0-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Southern Taiwan University"
+          },
+          "@id": "urn:uuid:706a8186-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Waseda University"
+          },
+          "@id": "urn:uuid:706b8db0-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "UC Berkeley"
+          },
+          "@id": "urn:uuid:706ab69c-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Ankara University"
+          },
+          "@id": "urn:uuid:7069a734-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad de Oviedo"
+          },
+          "@id": "urn:uuid:706add7a-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "KONYANG UNIVERSITY"
+          },
+          "@id": "urn:uuid:706a0e72-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universiti Malaysia Sarawak"
+          },
+          "@id": "urn:uuid:706b33b0-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "University of Notre Dame"
+          },
+          "@id": "urn:uuid:706b5ffc-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Oregon Community College Distance Learning Association"
+          },
+          "@id": "urn:uuid:706a5d1e-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Qassim university College of Medicine"
+          },
+          "@id": "urn:uuid:706a68ae-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Helsinki Metropolia University of Applied Sciences"
+          },
+          "@id": "urn:uuid:7069f180-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "National Hsinchu University of Education"
+          },
+          "@id": "urn:uuid:706a3af0-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "BS Grupo SAC"
+          },
+          "@id": "urn:uuid:70693826-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "OOPS"
+          },
+          "@id": "urn:uuid:706978c2-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "National Chengchi University"
+          },
+          "@id": "urn:uuid:706a3136-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "People's Open Access Education Initiative"
+          },
+          "@id": "urn:uuid:706a62f0-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Handong Global University"
+          },
+          "@id": "urn:uuid:7069ebb8-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Doshisha University"
+          },
+          "@id": "urn:uuid:7069d420-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "National Taiwan University of Science and Technology"
+          },
+          "@id": "urn:uuid:706a4c20-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universiti Kebangsaan Malaysia"
+          },
+          "@id": "urn:uuid:706b2e06-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "International Christian University"
+          },
+          "@id": "urn:uuid:7069ff18-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Indian Institute of Management Bangalore"
+          },
+          "@id": "urn:uuid:7069fb44-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Open Assembly"
+          },
+          "@id": "urn:uuid:70678134-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "BCcampus"
+          },
+          "@id": "urn:uuid:374cce8a-2fbc-11e5-a656-001999ac7927"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad de La Laguna"
+          },
+          "@id": "urn:uuid:706ad082-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "African Virtual University"
+          },
+          "@id": "urn:uuid:7067ff60-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "GUIDE - Global Universities in Distance Education"
+          },
+          "@id": "urn:uuid:706954aa-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Hanze University of Applied Sciences"
+          },
+          "@id": "urn:uuid:7069ef96-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "University of Michigan"
+          },
+          "@id": "urn:uuid:706b5a70-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "FundaciÃ³n Universitaria San Pablo CEU"
+          },
+          "@id": "urn:uuid:7069e76c-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "OpenStudy"
+          },
+          "@id": "urn:uuid:70697ca0-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "National Cheng Kung University"
+          },
+          "@id": "urn:uuid:706a3320-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "UNIVERSITY OF SEOUL"
+          },
+          "@id": "urn:uuid:706b62d6-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Peer 2 Peer University "
+          },
+          "@id": "urn:uuid:7069807e-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "TU Delft"
+          },
+          "@id": "urn:uuid:706aaee0-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Global OER Graduate Network"
+          },
+          "@id": "urn:uuid:c4a55240-bbdb-48fd-b40e-6bd96f4ba8f5"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "AGH University of Science and Technology"
+          },
+          "@id": "urn:uuid:70699f14-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Eastern Mediterranean University"
+          },
+          "@id": "urn:uuid:7069d614-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "UniversitÃ© de Lyon"
+          },
+          "@id": "urn:uuid:706b2b40-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Korea OCW Consortium"
+          },
+          "@id": "urn:uuid:70691058-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Maricopa Community Colleges"
+          },
+          "@id": "urn:uuid:706a1fb6-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Osaka University"
+          },
+          "@id": "urn:uuid:706a5f08-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universiti Teknologi Malaysia"
+          },
+          "@id": "urn:uuid:706b422e-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Monterey Institute for Technology and Education"
+          },
+          "@id": "urn:uuid:70696d1e-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "San Diego Community College District"
+          },
+          "@id": "urn:uuid:706a6e4e-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Cerritos College"
+          },
+          "@id": "urn:uuid:7069bc06-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "IE University"
+          },
+          "@id": "urn:uuid:7069f950-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad Internacional de la Rioja (UNIR)"
+          },
+          "@id": "urn:uuid:706af4c2-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "College of the Canyons"
+          },
+          "@id": "urn:uuid:7069c7e6-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universia"
+          },
+          "@id": "urn:uuid:7069282c-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universitat Oberta de Catalunya"
+          },
+          "@id": "urn:uuid:706b1e98-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Kagawa Nutrition University"
+          },
+          "@id": "urn:uuid:706a06c0-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "TecnolÃ³gico de Monterrey"
+          },
+          "@id": "urn:uuid:706a950e-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Virtual University of Pakistan"
+          },
+          "@id": "urn:uuid:706b8888-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Northern Essex Community College "
+          },
+          "@id": "urn:uuid:706a577e-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "College of Southern Maryland"
+          },
+          "@id": "urn:uuid:7069c5f2-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad de Salamanca"
+          },
+          "@id": "urn:uuid:706ae004-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Nagoya University"
+          },
+          "@id": "urn:uuid:706a2d62-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Instituto TecnolÃ³gico de Las AmÃ©ricas (ITLA)"
+          },
+          "@id": "urn:uuid:7069fd24-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Open University Netherlands"
+          },
+          "@id": "urn:uuid:706a5b3e-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Greek Academic Network OCW / OER Consortium"
+          },
+          "@id": "urn:uuid:706909e6-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "The University of Nottingham"
+          },
+          "@id": "urn:uuid:706aa724-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "The Higher Education Academy (HEA)"
+          },
+          "@id": "urn:uuid:70698b96-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Academica"
+          },
+          "@id": "urn:uuid:70692fc0-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Fu Jen Catholic University"
+          },
+          "@id": "urn:uuid:7069e398-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Telkom University"
+          },
+          "@id": "urn:uuid:706a9a2c-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "College of DuPage"
+          },
+          "@id": "urn:uuid:7069c408-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Pusan National University"
+          },
+          "@id": "urn:uuid:706a66c4-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "SUNGKYUNKWAN UNIVERSITY"
+          },
+          "@id": "urn:uuid:706a8a64-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "SOOKMYUNG WOMEN\"S UNIVERSITY"
+          },
+          "@id": "urn:uuid:706a7b96-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Utah State University"
+          },
+          "@id": "urn:uuid:70699992-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "UniversitÃ  Telematica Internazionale UNINETTUNO"
+          },
+          "@id": "urn:uuid:706b1bfa-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Teachers Without Borders"
+          },
+          "@id": "urn:uuid:70698858-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "National Open University"
+          },
+          "@id": "urn:uuid:706a3ee2-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universiti Sains Malaysia "
+          },
+          "@id": "urn:uuid:706b3c7a-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "National Open University of Nigeria"
+          },
+          "@id": "urn:uuid:706a40cc-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "University of Tokyo"
+          },
+          "@id": "urn:uuid:706b71ea-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad Itaca"
+          },
+          "@id": "urn:uuid:706af774-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Hungkuang University"
+          },
+          "@id": "urn:uuid:7069f748-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "CATHOLIC UNIVERSITY OF DAEGU"
+          },
+          "@id": "urn:uuid:7069b9fe-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Connexions"
+          },
+          "@id": "urn:uuid:70694438-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "European Association of Distance Teaching Universities (EADTU)"
+          },
+          "@id": "urn:uuid:70695090-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Swinburne University of Technology"
+          },
+          "@id": "urn:uuid:706a8d70-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Johns Hopkins Bloomberg School of Public Health"
+          },
+          "@id": "urn:uuid:706a02e2-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "NetEase (Bejing) Techology Co., Ltd"
+          },
+          "@id": "urn:uuid:706973d6-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universitas Terbuka (Indonesian Open University)"
+          },
+          "@id": "urn:uuid:706b145c-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad Estatal a Distancia"
+          },
+          "@id": "urn:uuid:706aecf2-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "iBerry"
+          },
+          "@id": "urn:uuid:70695892-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Pasadena City College"
+          },
+          "@id": "urn:uuid:706a60f2-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Sterling College"
+          },
+          "@id": "urn:uuid:706a8370-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad Internacional de AndalucÃ­Â­a"
+          },
+          "@id": "urn:uuid:706af238-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "National Ilan University"
+          },
+          "@id": "urn:uuid:706a3cee-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad TÃ©cnica Particular de Loja"
+          },
+          "@id": "urn:uuid:706b0c82-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Neusoft Institute, Guangdong"
+          },
+          "@id": "urn:uuid:706a4ff4-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "ULSAN UNIVERSITY"
+          },
+          "@id": "urn:uuid:706abbd8-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad Nacional de Educacion a Distancia"
+          },
+          "@id": "urn:uuid:706b04a8-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Tufts University"
+          },
+          "@id": "urn:uuid:706ab174-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Athabasca University"
+          },
+          "@id": "urn:uuid:7069acfc-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Kwansei Gakuin University"
+          },
+          "@id": "urn:uuid:706a143a-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Delaware County Community College"
+          },
+          "@id": "urn:uuid:7069cd9a-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Shahid Beheshti University"
+          },
+          "@id": "urn:uuid:70698484-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Broward College"
+          },
+          "@id": "urn:uuid:7069b7ba-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Jesus University"
+          },
+          "@id": "urn:uuid:706a0102-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Providence University"
+          },
+          "@id": "urn:uuid:706a64e4-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad Nacional Agraria La Molina"
+          },
+          "@id": "urn:uuid:706afa44-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Ulsan National Institute of Science and Technology (UNIST)"
+          },
+          "@id": "urn:uuid:706ab926-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Middle East Technical University"
+          },
+          "@id": "urn:uuid:706a2754-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Korea Education & Research Information Service"
+          },
+          "@id": "urn:uuid:70696526-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Stockholm university"
+          },
+          "@id": "urn:uuid:706a855a-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Northern Virginia Community College - Extended Learning Institute"
+          },
+          "@id": "urn:uuid:706a595e-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "South East European University (SEE University)"
+          },
+          "@id": "urn:uuid:706a7f7e-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "West Coast University (WCU)"
+          },
+          "@id": "urn:uuid:706b92c4-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Connecticut Distance Learning Consortium"
+          },
+          "@id": "urn:uuid:70694230-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "National Tsing Hua University"
+          },
+          "@id": "urn:uuid:706a4e00-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Kyushu University"
+          },
+          "@id": "urn:uuid:706a1be2-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Paris Tech"
+          },
+          "@id": "urn:uuid:7069181e-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Delaware Technical Community College"
+          },
+          "@id": "urn:uuid:7069cfd4-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universitat PolitÃ¨cnica de Catalunya. BarcelonaTech (UPC)"
+          },
+          "@id": "urn:uuid:706b212c-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Roane State Community College"
+          },
+          "@id": "urn:uuid:706a6c6e-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Instituto Israelita de Ensino e Pesquisa Albert Einstein"
+          },
+          "@id": "urn:uuid:70695e0a-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Seoul`s Woman University"
+          },
+          "@id": "urn:uuid:706a7402-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Facultad de Medicina de la Universidad Nacional Mayor de San Marcos"
+          },
+          "@id": "urn:uuid:706907ac-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "FundaÃ§Ã£o Getulio Vargas - FGV Online"
+          },
+          "@id": "urn:uuid:7069e582-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universitas Indonesia"
+          },
+          "@id": "urn:uuid:706b11c8-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Shanghai Jiaotong University(SJTU)"
+          },
+          "@id": "urn:uuid:706a75ec-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Taipei Medical University"
+          },
+          "@id": "urn:uuid:706a9004-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad Icesi"
+          },
+          "@id": "urn:uuid:706aef86-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "University of the Western Cape"
+          },
+          "@id": "urn:uuid:706b6e3e-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Athens Technical College"
+          },
+          "@id": "urn:uuid:7069afcc-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Prepr Foundation"
+          },
+          "@id": "urn:uuid:7069829a-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "National Chiao Tung University"
+          },
+          "@id": "urn:uuid:706a3500-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Mohave Community College"
+          },
+          "@id": "urn:uuid:706a2966-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "University of Sumatera Utara"
+          },
+          "@id": "urn:uuid:706b695c-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "The Open University of Japan"
+          },
+          "@id": "urn:uuid:706aa486-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "OCWFrance"
+          },
+          "@id": "urn:uuid:706913e6-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Kun Shan University"
+          },
+          "@id": "urn:uuid:706a123c-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Boston Children's Hospital"
+          },
+          "@id": "urn:uuid:706935d8-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "American Public University System"
+          },
+          "@id": "urn:uuid:7069a2de-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Lektorium LLC."
+          },
+          "@id": "urn:uuid:7069671a-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Japan OCW Consortium"
+          },
+          "@id": "urn:uuid:70690cc0-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "University of Leuven (KU Leuven) "
+          },
+          "@id": "urn:uuid:706b4f30-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Lord Fairfax Community College"
+          },
+          "@id": "urn:uuid:706a1dcc-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "MERLOT - Multimedia Educational Resource for Learning and Online Teaching"
+          },
+          "@id": "urn:uuid:70696b2a-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad de Granada"
+          },
+          "@id": "urn:uuid:706acdee-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "National Taiwan Normal University"
+          },
+          "@id": "urn:uuid:706a4662-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad AutÃ³noma de Madrid"
+          },
+          "@id": "urn:uuid:706abe76-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Bay de Noc Community College"
+          },
+          "@id": "urn:uuid:7069b5bc-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Kabul Polytechnic University"
+          },
+          "@id": "urn:uuid:706a04c2-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "University of Malaya"
+          },
+          "@id": "urn:uuid:706b520a-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "King Fahd University of Petroleum & Minerals"
+          },
+          "@id": "urn:uuid:706a0a9e-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad de Malaga"
+          },
+          "@id": "urn:uuid:706ad5c8-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "EWHA WOMANS UNIVERSITY"
+          },
+          "@id": "urn:uuid:7069ddd0-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "The  Research Council of Oman"
+          },
+          "@id": "urn:uuid:7069203e-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidade do Sul de Santa Catarina (UNISUL)"
+          },
+          "@id": "urn:uuid:706ae7ca-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "University of Maryland University College"
+          },
+          "@id": "urn:uuid:706b54da-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Escola Superior de AdministraÃ§Ã£o e GestÃ£o (ESAGS)"
+          },
+          "@id": "urn:uuid:7069d9f2-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "SeoulTech"
+          },
+          "@id": "urn:uuid:706a720e-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Ankabut, The UAE Advanced Network for Research & Education"
+          },
+          "@id": "urn:uuid:70687dd2-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Taiwan Open Course Consortium"
+          },
+          "@id": "urn:uuid:70691c4c-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Virginia Community College System"
+          },
+          "@id": "urn:uuid:706b834c-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "National Taiwan University"
+          },
+          "@id": "urn:uuid:706a4a40-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "University of Massachusetts Boston"
+          },
+          "@id": "urn:uuid:706b57a0-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "BahÃ¡â€™Ã­ Institute for Higher Education"
+          },
+          "@id": "urn:uuid:7069b2ec-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Silla University"
+          },
+          "@id": "urn:uuid:706a77d6-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "China Education and Research Network"
+          },
+          "@id": "urn:uuid:7068fa00-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "UniversitÃ  degli Studi Guglielmo Marconi"
+          },
+          "@id": "urn:uuid:706b0f20-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad de Sevilla"
+          },
+          "@id": "urn:uuid:706ae2a2-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad de CÃ¡diz"
+          },
+          "@id": "urn:uuid:706ac628-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "THE CATHOLIC UNIVERSITY OF KOREA"
+          },
+          "@id": "urn:uuid:706a9cb6-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad PolitÃ©cnica de Valencia"
+          },
+          "@id": "urn:uuid:706b073c-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "VIA University College - Denmark"
+          },
+          "@id": "urn:uuid:706b7e4c-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "National Taiwan Ocean University"
+          },
+          "@id": "urn:uuid:706a484c-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Tutorial University"
+          },
+          "@id": "urn:uuid:706ab412-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Soochow University"
+          },
+          "@id": "urn:uuid:706a79b6-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universitat AutÃ²noma de Barcelona"
+          },
+          "@id": "urn:uuid:706b16dc-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universiti Pendidikan Sultan Idris (Sultan Idris Education University)"
+          },
+          "@id": "urn:uuid:706b36a8-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "ABED - Brazilian Association for Distance Education"
+          },
+          "@id": "urn:uuid:70692db8-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Kyung Hee University"
+          },
+          "@id": "urn:uuid:706a19f8-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "SEMYUNG UNIVERSITY"
+          },
+          "@id": "urn:uuid:706a702e-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Hanyang University"
+          },
+          "@id": "urn:uuid:7069eda2-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "National Pingtung University of Science and Technology"
+          },
+          "@id": "urn:uuid:706a42a2-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Jozef Stefan Institute"
+          },
+          "@id": "urn:uuid:6af6b838-2655-11e5-80ee-033038be6ec9"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "National Dong Hwa University"
+          },
+          "@id": "urn:uuid:706a38fc-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Cerego"
+          },
+          "@id": "urn:uuid:70693a2e-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Tamkang University "
+          },
+          "@id": "urn:uuid:706a928e-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universiti Putra Malaysia (UPM)"
+          },
+          "@id": "urn:uuid:706b398c-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Fontys University of Applied Sciences, School of ICT"
+          },
+          "@id": "urn:uuid:7069e1ae-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Hallym University"
+          },
+          "@id": "urn:uuid:7069e9ba-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "SURFnet"
+          },
+          "@id": "urn:uuid:70698664-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "University of Nantes"
+          },
+          "@id": "urn:uuid:706b5d36-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Chung Hua University"
+          },
+          "@id": "urn:uuid:7069bfd0-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Moscow Institute of Physics and Technology (MIPT) State Univercity"
+          },
+          "@id": "urn:uuid:706a2b64-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Telecom Bretagne"
+          },
+          "@id": "urn:uuid:706a97a2-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "MEITAL- Inter-University Center for e-Learning -  Israel"
+          },
+          "@id": "urn:uuid:7069690e-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "YONSEI UNIVERSITY"
+          },
+          "@id": "urn:uuid:706b97ec-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "iversity"
+          },
+          "@id": "urn:uuid:7069612a-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Commonwealth Of Learning"
+          },
+          "@id": "urn:uuid:e72fb33f-77d2-4445-b368-104a9b4424b5"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Organisation internationale de la Francophonie"
+          },
+          "@id": "urn:uuid:70697e94-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Northeastern State University"
+          },
+          "@id": "urn:uuid:706a559e-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad de Zaragoza"
+          },
+          "@id": "urn:uuid:706ae536-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universiti Malaysia Sabah"
+          },
+          "@id": "urn:uuid:706b30d6-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universiti Teknikal Malaysia Melaka"
+          },
+          "@id": "urn:uuid:706b3f54-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Ritsumeikan University"
+          },
+          "@id": "urn:uuid:706a6a8e-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad de Alicante"
+          },
+          "@id": "urn:uuid:706ac39e-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Hokkaido University"
+          },
+          "@id": "urn:uuid:7069f356-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Kirkwood Community College"
+          },
+          "@id": "urn:uuid:706a0c92-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "MarylandOnline"
+          },
+          "@id": "urn:uuid:706a21a0-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "University of Southern Queensland"
+          },
+          "@id": "urn:uuid:706b65ce-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universitat Rovira i Virgili"
+          },
+          "@id": "urn:uuid:706b283e-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Massachusetts Institute of Technology"
+          },
+          "@id": "urn:uuid:706a238a-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Kyung Hee Cyber University"
+          },
+          "@id": "urn:uuid:706a1804-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Hong Kong Cyberport Management Company Limited"
+          },
+          "@id": "urn:uuid:706956a8-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad Nacional AutÃ³noma de MÃ©xico"
+          },
+          "@id": "urn:uuid:706afcec-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "North Central Texas College"
+          },
+          "@id": "urn:uuid:706a53be-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "National Central University"
+          },
+          "@id": "urn:uuid:706a2f56-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Tokyo Institute of Technology"
+          },
+          "@id": "urn:uuid:706aac4c-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "University of the People"
+          },
+          "@id": "urn:uuid:7069951e-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "National Chung Hsing University"
+          },
+          "@id": "urn:uuid:706a36ea-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "DeakinDigital"
+          },
+          "@id": "urn:uuid:7066ee04-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Citrus Community College District"
+          },
+          "@id": "urn:uuid:7069c1ce-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "EduNet Vietnam"
+          },
+          "@id": "urn:uuid:7069d808-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Tidewater Community College"
+          },
+          "@id": "urn:uuid:706aa9c2-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad de Monterrey"
+          },
+          "@id": "urn:uuid:706ad866-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Dong-A University"
+          },
+          "@id": "urn:uuid:7069d1be-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad del Valle - Colombia"
+          },
+          "@id": "urn:uuid:706ad32a-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad PolitÃ©cnica Madrid"
+          },
+          "@id": "urn:uuid:706b09e4-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad de Cantabria"
+          },
+          "@id": "urn:uuid:706ac8da-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "University of Wisconsin- Eau Claire"
+          },
+          "@id": "urn:uuid:706b7960-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad Nacional de CÃ³rdoba"
+          },
+          "@id": "urn:uuid:706b0214-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "9x9"
+          },
+          "@id": "urn:uuid:70692b7e-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidad de Deusto"
+          },
+          "@id": "urn:uuid:706acb5a-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "National Council for Science and the Environment"
+          },
+          "@id": "urn:uuid:706970fc-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universidade Federal de Santa Catarina (UFSC)"
+          },
+          "@id": "urn:uuid:706aea4a-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Universitat de ValÃ©ncia"
+          },
+          "@id": "urn:uuid:706b195c-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Open College at Kaplan University (OC@KU)"
+          },
+          "@id": "urn:uuid:70697ab6-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Farabi Institute of Higher Education"
+          },
+          "@id": "urn:uuid:7069dfba-77eb-11e5-9f9f-c48e8ff4ea31"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "University of Tsukuba"
+          },
+          "@id": "urn:uuid:706b74ce-77eb-11e5-9f9f-c48e8ff4ea31"
+        }
+      ],
+      "name": {
+        "en": "Open Education Consortium"
+      },
+      "description": {
+        "en": "The Open Education Consortium (OEC) is a global network of educational institutions, individuals and organizations that support an approach to education based on openness, including collaboration, innovation and collective development and use of open educational materials. The OEC is a non-profit, social benefit organization registered in the United States and operating worldwide."
+      },
+      "alternateName": {
+        "en": "OEC"
+      },
+      "location": [
+        {
+          "geo": {
+            "lon": -71.35834,
+            "lat": 42.45709
+          },
+          "address": {
+            "addressCountry": "US",
+            "streetAddress": "60 Thoreau St, Suite 238",
+            "@type": "PostalAddress",
+            "postalCode": "01742",
+            "addressLocality": "Concord",
+            "addressRegion": "MA"
+          },
+          "@type": "Place"
+        }
+      ],
+      "@id": "urn:uuid:ff56c436-7e76-11e5-b76b-54ee7558c81f",
+      "affiliate": [
+        {
+          "@type": "Person",
+          "name": {
+            "en": "Sophie TOUZE",
+            "fr": "Sophie TOUZE"
+          },
+          "@id": "urn:uuid:685ffbfd-f9ae-4c48-bbf5-e75f58353830"
+        },
+        {
+          "@type": "Person",
+          "name": {
+            "en": "Igor Lesko"
+          },
+          "@id": "urn:uuid:480d91e9-a071-4752-9032-fc73a030adb8"
+        }
+      ],
+      "url": "http://www.oeconsortium.org/",
+      "sameAs": [
+        "https://www.facebook.com/oeconsortium",
+        "https://www.youtube.com/channel/UC-jcvZ6z94387QDu52g9VNA",
+        "https://twitter.com/oeconsortium",
+        "http://www.slideshare.net/OCWConsortium"
+      ]
+    }
+  ],
+  "@context": "https://oerworldmap.org/assets/json/context.json",
+  "url": "http://www.9x9.tv",
+  "sameAs": [
+    "http://www.oeconsortium.org/members/view/472/"
+  ]
 }

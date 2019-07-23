@@ -1,22 +1,27 @@
 {
-  "keywords" : [ "Open Education" ],
-  "@type" : "Organization",
-  "name" : [ {
-    "@value" : "Open Exchange",
-    "@language" : "en"
-  } ],
-  "location" : {
-    "geo" : {
-      "lon" : -0.1969,
-      "lat" : 5.55602
-    },
-    "address" : {
-      "addressCountry" : "GH",
-      "addressLocality" : "Accra",
-      "addressRegion" : "GH.AA"
-    }
+  "keywords": [
+    "Open Education"
+  ],
+  "@type": "Organization",
+  "name": {
+    "en": "Open Exchange"
   },
-  "@id" : "urn:uuid:167b8283-fff2-4b4e-b0a0-909083305804",
-  "@context" : "https://oerworldmap.org/assets/json/context.json",
-  "sameAs" : [ "https://www.youtube.com/channel/UCSSq60F_HFF3P2KS5s4zkVA" ]
+  "location": [
+    {
+      "geo": {
+        "lon": -0.1969,
+        "lat": 5.55602
+      },
+      "address": {
+        "addressCountry": "GH",
+        "addressLocality": "Accra",
+        "addressRegion": "GH.AA"
+      }
+    }
+  ],
+  "@id": "urn:uuid:167b8283-fff2-4b4e-b0a0-909083305804",
+  "@context": "https://oerworldmap.org/assets/json/context.json",
+  "sameAs": [
+    "https://www.youtube.com/channel/UCSSq60F_HFF3P2KS5s4zkVA"
+  ]
 }

@@ -1,19 +1,20 @@
 {
-  "@type" : "Organization",
-  "name" : [ {
-    "@value" : "graphthinking GmbH",
-    "@language" : "en"
-  } ],
-  "location" : [{
-    "address" : {
-      "addressCountry" : "DE",
-      "streetAddress" : "Reichenberger Straße 1",
-      "postalCode" : 10999,
-      "addressLocality" : "Berlin"
+  "@type": "Organization",
+  "name": {
+    "en": "graphthinking GmbH"
+  },
+  "location": [
+    {
+      "address": {
+        "addressCountry": "DE",
+        "streetAddress": "Reichenberger Straße 1",
+        "postalCode": 10999,
+        "addressLocality": "Berlin"
+      }
     }
-  }],
-  "@id" : "urn:uuid:2ba7cff1-15d4-41df-8552-6a669ebe31b5",
-  "url" : "http://etherpad.lobid.org/p/turtle-test/export/txt",
-  "email" : "foo@bar.de",
-  "@context" : "https://oerworldmap.org/assets/json/context.json"
+  ],
+  "@id": "urn:uuid:2ba7cff1-15d4-41df-8552-6a669ebe31b5",
+  "url": "http://etherpad.lobid.org/p/turtle-test/export/txt",
+  "email": "foo@bar.de",
+  "@context": "https://oerworldmap.org/assets/json/context.json"
 }

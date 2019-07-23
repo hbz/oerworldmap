@@ -9,6 +9,7 @@ import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.JsonLdConstants;
 import helpers.MimeTypes;
+import io.apigee.trireme.kernel.Charsets;
 import models.Commit;
 import models.Record;
 import models.Resource;
@@ -23,7 +24,7 @@ import play.mvc.With;
 import services.QueryContext;
 import services.SearchConfig;
 import services.export.CalendarExporter;
-import services.export.CsvWithNestedIdsExporter;
+import services.export.CsvExporter;
 import services.export.GeoJsonExporter;
 import services.export.JsonSchemaExporter;
 
@@ -31,6 +32,7 @@ import javax.inject.Inject;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -124,7 +126,12 @@ public class ResourceIndex extends OERWorldMap {
     for (Map.Entry<String, List<String>> filter : filters.entrySet()) {
       String filterKey = "filter.".concat(filter.getKey());
       for (String filterValue : filter.getValue()) {
-        filterString = filterString.concat("&".concat(filterKey).concat("=").concat(filterValue));
+        try {
+          filterString = filterString.concat("&".concat(filterKey).concat("=").concat(URLEncoder.encode(filterValue,
+            Charsets.UTF8.name())));
+        } catch (UnsupportedEncodingException e) {
+          Logger.error("Unhandeled encoding", e);
+        }
       }
     }
 
@@ -153,7 +160,7 @@ public class ResourceIndex extends OERWorldMap {
     if (format == null) {
       return notFound("Not found");
     } else if (format.equals("text/csv")) {
-      return ok(new CsvWithNestedIdsExporter().export(resourceList)).as("text/csv");
+      return ok(new CsvExporter().export(resourceList)).as("text/csv");
     } else if (format.equals("text/calendar")) {
       return ok(new CalendarExporter(Locale.ENGLISH).export(resourceList)).as("text/calendar");
     } else if (format.equals("application/json")) {
@@ -313,8 +320,7 @@ public class ResourceIndex extends OERWorldMap {
   }
 
   @With(Cached.class)
-  public Result read(String id, String version, String extension, String disposition)
-    throws IOException {
+  public Result read(String id, String version, String extension, String disposition) {
 
     Resource resource = mBaseRepository.getResource(id, version);
     if (null == resource) {
@@ -347,7 +353,7 @@ public class ResourceIndex extends OERWorldMap {
     } else if (format.equals("application/json")) {
       return ok(resource.toString()).as("application/json; charset=UTF-8");
     } else if (format.equals("text/csv")) {
-      return ok(new CsvWithNestedIdsExporter().export(resource)).as("text/csv; charset=UTF-8");
+      return ok(new CsvExporter().export(resource)).as("text/csv; charset=UTF-8");
     } else if (format.equals("application/geo+json")) {
       String geoJson = mGeoJsonExporter.export(resource);
       return geoJson != null ? ok(geoJson) : status(406);
@@ -411,7 +417,7 @@ public class ResourceIndex extends OERWorldMap {
     }
   }
 
-  public Result log(String aId, String compare, String to) throws IOException {
+  public Result log(String aId, String compare, String to) {
     ArrayNode log = JsonNodeFactory.instance.arrayNode();
     List<Commit> commits = mBaseRepository.log(aId);
     for (Commit commit : commits) {
