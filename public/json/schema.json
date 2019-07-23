@@ -3872,7 +3872,7 @@
       },
       "_widget": "LocalizedString",
       "additionalProperties": false,
-      "required": [ "en" ]
+      "suggested": [ "en" ]
     },
     "iso-8601-date": {
       "$schema": "http://json-schema.org/draft-04/schema#",

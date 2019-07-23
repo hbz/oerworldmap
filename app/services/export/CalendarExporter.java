@@ -120,7 +120,6 @@ public class CalendarExporter implements Exporter {
 
     VEvent event;
     if (endDate != null) {
-      System.out.println(startDate + " " + parseDate(startDate));
       event = new VEvent(parseDate(startDate), parseDate(endDate), name);
     } else {
       event = new VEvent(parseDate(startDate), name);
