@@ -59,7 +59,7 @@ public class ResourceIndex extends OERWorldMap {
   }
 
   @With(Cached.class)
-  public Result list(String q, int from, int size, String sort, boolean features, String extension,
+  public Result list(String q, int from, int size, String sort, String extension,
     String iso3166, String region, String disposition) {
 
     Map<String, List<String>> filters = new HashMap<>();
@@ -141,7 +141,7 @@ public class ResourceIndex extends OERWorldMap {
     }
     List<String> links = new ArrayList<>();
     for (String alternate : alternates) {
-      String linkUrl = baseUrl.concat(routes.ResourceIndex.list(q, 0, -1, sort, false, alternate,
+      String linkUrl = baseUrl.concat(routes.ResourceIndex.list(q, 0, -1, sort, alternate,
         iso3166, region, disposition).url().concat(filterString));
       links.add(String.format("<%s>; rel=\"alternate\"; type=\"%s\"", linkUrl,
         MimeTypes.fromExtension(alternate)));
@@ -165,23 +165,6 @@ public class ResourceIndex extends OERWorldMap {
       return ok(new CalendarExporter(Locale.ENGLISH).export(resourceList)).as("text/calendar");
     } else if (format.equals("application/json")) {
       Resource result = resourceList.toResource();
-      if (features) {
-        queryContext.setFetchSource(new String[]{"feature"});
-        JsonNode geoFeatures = mBaseRepository.queryRaw(q, 0, 9999, sort, filters, queryContext);
-        ObjectNode node = new ObjectNode(JsonNodeFactory.instance);
-        ArrayNode featuresArray = new ArrayNode(JsonNodeFactory.instance);
-        node.put("type", "FeatureCollection");
-        for (JsonNode resource : geoFeatures.get("hits").get("hits")) {
-          if (resource.has("_source") && resource.get("_source").has("feature")) {
-            // Skip features without geometry
-            if (resource.get("_source").get("feature").has("geometry")) {
-              featuresArray.add(resource.get("_source").get("feature"));
-            }
-          }
-        }
-        node.set("features", featuresArray);
-        result.put("features", node);
-      }
       if (!StringUtils.isEmpty(iso3166)) {
         if (!StringUtils.isEmpty(iso3166)) {
           result.put("iso3166", iso3166.toUpperCase());
