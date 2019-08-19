@@ -627,6 +627,11 @@
           "description": "descriptions.Policy.datePublished",
           "$ref": "#/definitions/iso-8601-date"
         },
+        "endDate": {
+          "title": "Policy.endDate",
+          "description": "descriptions.Policy.endDate",
+          "$ref": "#/definitions/iso-8601-date"
+        },
         "inLanguage": {
           "title": "Policy.inLanguage",
           "description": "descriptions.Policy.inLanguage",
