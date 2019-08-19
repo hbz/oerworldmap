@@ -1,23 +1,19 @@
 {
   "@type": "Organization",
-  "name": [
-    {
-      "@value": "OERforever!",
-      "@language": "en"
-    }
-  ],
-  "description": [
-    {
-      "@value": "OERforever! is an organization that should be found by searching for 'OERforever!' as well as by searching for 'OERforever'.",
-      "@language": "en"
-    }
-  ],
-  "location": {
-    "geo": {
-      "lon": 44.444444,
-      "lat": 44.444444
-    }
+  "name": {
+    "en": "OERforever!"
   },
+  "description": {
+    "en": "OERforever! is an organization that should be found by searching for 'OERforever!' as well as by searching for 'OERforever'."
+  },
+  "location": [
+    {
+      "geo": {
+        "lon": 44.444444,
+        "lat": 44.444444
+      }
+    }
+  ],
   "@id": "urn:uuid:9843bac3-028f-4be8-ac54-OERforever",
-  "@context" : "https://oerworldmap.org/assets/json/context.json"
+  "@context": "https://oerworldmap.org/assets/json/context.json"
 }

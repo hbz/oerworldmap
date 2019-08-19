@@ -1,75 +1,80 @@
 {
-  "keywords" : [ "conference", "konferenz" ],
-  "endDate" : "2018-01-18",
-  "@type" : "Event",
-  "description" : [ {
-    "@value" : "Die ersten sächsischen OER-Tage werden am 15.01.2018 is 18.01.2018 stattfinden. Seien Sie von Anfang an dabei! Wir haben ein vielfältiges Angebot zusammengestellt in dem jeder etwas finden wird.\r\n\r\nAm ersten Tag werden Fachvorträge angeboten, welche sowohl für OER-Neulinge als auch für Experten bestimmt sind. Wenn Sie sich für die Workshops am 16.01 interessieren, sind Sie herzlich eingeladen. Für den ersten und zweiten Tag bitten wir Sie das Anmeldeformular (unten) auzufüllen.\r\n\r\nAm dritten und vierten Tag, werden eine Reihe von Webinars stattfinden. Hierfür ist keine Anmeldung erforderlich. Hören Sie sich die Exerptengespäche an und diskutieren mit oder stellen Fragen über den Chat, egal wo sie sich an diesen Tagen befinden.",
-    "@language" : "en"
-  } ],
-  "inLanguage" : [ "de" ],
-  "@context" : "https://oerworldmap.org/assets/json/context.json",
-  "url" : "http://blogs.hrz.tu-freiberg.de/oersax/events/oer-tage/",
-  "primarySector" : [ {
-    "@type" : "Concept",
-    "name" : [ {
-      "@value" : "Hochschule",
-      "@language" : "de"
-    }, {
-      "@value" : "Higher Education",
-      "@language" : "en"
-    } ],
-    "@id" : "https://oerworldmap.org/assets/json/sectors.json#higherEd"
-  } ],
-  "organizer" : [ {
-    "image" : "http://www.slub-dresden.de/fileadmin/groups/slubsite/Ueber_uns/Presse/Downloadbereich_Logo/Logo-SLUB_Farbe.jpg",
-    "@type" : "Organization",
-    "name" : [ {
-      "@value" : "Sächsische Landesbibliothek – Staats- und Universitätsbibliothek Dresden",
-      "@language" : "de"
-    }, {
-      "@value" : "Saxon State and University Library Dresden",
-      "@language" : "en"
-    } ],
-    "location" : {
-      "geo" : {
-        "lon" : 13.736604,
-        "lat" : 51.028462
-      },
-      "address" : {
-        "addressCountry" : "DE",
-        "streetAddress" : "Zellescher Weg 18",
-        "addressLocality" : "Dresden",
-        "addressRegion" : "DE.SN"
-      }
-    },
-    "@id" : "urn:uuid:7ce0b73d-8162-4c32-b691-6915e848b911"
-  }, {
-    "image" : "https://blogs.hrz.tu-freiberg.de/oersax/wp-content/uploads/sites/52/2017/02/2017-02.17_OERsax-01-e1487229735607.png",
-    "@type" : "Action",
-    "name" : [ {
-      "@value" : "Etablierung von Open Educational Resources an sächsischen Hochschulen",
-      "@language" : "de"
-    } ],
-    "@id" : "urn:uuid:7b119875-bdeb-46bc-abc5-b637fcf2e83a"
-  } ],
-  "name" : [ {
-    "@value" : "Ersten sächsische OER-Tage",
-    "@language" : "en"
-  } ],
-  "location" : {
-    "geo" : {
-      "lon" : 13.736604,
-      "lat" : 51.028462
-    },
-    "address" : {
-      "addressCountry" : "DE",
-      "streetAddress" : "Sächsische Landesbibliothek – Staats- und Universitätsbibliothek Dresden (SLUB), Zellescher Weg 18",
-      "postalCode" : 1069,
-      "addressLocality" : "Dresden",
-      "addressRegion" : "DE.SN"
-    }
+  "keywords": [
+    "conference",
+    "konferenz"
+  ],
+  "endDate": "2018-01-18",
+  "@type": "Event",
+  "description": {
+    "de": "Die ersten sächsischen OER-Tage werden am 15.01.2018 is 18.01.2018 stattfinden. Seien Sie von Anfang an dabei! Wir haben ein vielfältiges Angebot zusammengestellt in dem jeder etwas finden wird.\r\n\r\nAm ersten Tag werden Fachvorträge angeboten, welche sowohl für OER-Neulinge als auch für Experten bestimmt sind. Wenn Sie sich für die Workshops am 16.01 interessieren, sind Sie herzlich eingeladen. Für den ersten und zweiten Tag bitten wir Sie das Anmeldeformular (unten) auzufüllen.\r\n\r\nAm dritten und vierten Tag, werden eine Reihe von Webinars stattfinden. Hierfür ist keine Anmeldung erforderlich. Hören Sie sich die Exerptengespäche an und diskutieren mit oder stellen Fragen über den Chat, egal wo sie sich an diesen Tagen befinden."
   },
-  "@id" : "urn:uuid:751c2006-4601-4c43-935b-4f7380784dd3",
-  "startDate" : "2018-01-15",
-  "hashtag" : "#oersax2018"
+  "inLanguage": [
+    "de"
+  ],
+  "@context": "https://oerworldmap.org/assets/json/context.json",
+  "url": "http://blogs.hrz.tu-freiberg.de/oersax/events/oer-tage/",
+  "primarySector": [
+    {
+      "@type": "Concept",
+      "name": {
+        "de": "Hochschule",
+        "en": "Higher Education"
+      },
+      "@id": "https://oerworldmap.org/assets/json/sectors.json#higherEd"
+    }
+  ],
+  "organizer": [
+    {
+      "image": "http://www.slub-dresden.de/fileadmin/groups/slubsite/Ueber_uns/Presse/Downloadbereich_Logo/Logo-SLUB_Farbe.jpg",
+      "@type": "Organization",
+      "name": {
+        "de": "Sächsische Landesbibliothek – Staats- und Universitätsbibliothek Dresden",
+        "en": "Saxon State and University Library Dresden"
+      },
+      "location": [
+        {
+          "geo": {
+            "lon": 13.736604,
+            "lat": 51.028462
+          },
+          "address": {
+            "addressCountry": "DE",
+            "streetAddress": "Zellescher Weg 18",
+            "addressLocality": "Dresden",
+            "addressRegion": "DE.SN"
+          }
+        }
+      ],
+      "@id": "urn:uuid:7ce0b73d-8162-4c32-b691-6915e848b911"
+    },
+    {
+      "image": "https://blogs.hrz.tu-freiberg.de/oersax/wp-content/uploads/sites/52/2017/02/2017-02.17_OERsax-01-e1487229735607.png",
+      "@type": "Action",
+      "name": {
+        "de": "Etablierung von Open Educational Resources an sächsischen Hochschulen"
+      },
+      "@id": "urn:uuid:7b119875-bdeb-46bc-abc5-b637fcf2e83a"
+    }
+  ],
+  "name": {
+    "en": "Ersten sächsische OER-Tage"
+  },
+  "location": [
+    {
+      "geo": {
+        "lon": 13.736604,
+        "lat": 51.028462
+      },
+      "address": {
+        "addressCountry": "DE",
+        "streetAddress": "Sächsische Landesbibliothek – Staats- und Universitätsbibliothek Dresden (SLUB), Zellescher Weg 18",
+        "postalCode": 1069,
+        "addressLocality": "Dresden",
+        "addressRegion": "DE.SN"
+      }
+    }
+  ],
+  "@id": "urn:uuid:751c2006-4601-4c43-935b-4f7380784dd3",
+  "startDate": "2018-01-15",
+  "hashtag": "#oersax2018"
 }

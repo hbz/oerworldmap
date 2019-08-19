@@ -1,18 +1,25 @@
 {
-  "@context" : "https://oerworldmap.org/assets/json/context.json",
-  "@type" : "Service",
-  "about" : [ {
-    "@id" : "https://w3id.org/class/esc/n0532"
-  }, {
-    "@id" : "https://w3id.org/class/esc/n0223"
-  }, {
-    "@id" : "https://w3id.org/class/esc/n053"
-  }, {
-    "@id" : "https://w3id.org/class/esc/n05"
-  }, {
-    "@id" : "https://w3id.org/class/esc/n022"
-  }, {
-    "@id" : "https://w3id.org/class/esc/n02"
-  } ],
-  "@id" : "info:service"
+  "@context": "https://oerworldmap.org/assets/json/context.json",
+  "@type": "Service",
+  "about": [
+    {
+      "@id": "https://w3id.org/class/esc/n0532"
+    },
+    {
+      "@id": "https://w3id.org/class/esc/n0223"
+    },
+    {
+      "@id": "https://w3id.org/class/esc/n053"
+    },
+    {
+      "@id": "https://w3id.org/class/esc/n05"
+    },
+    {
+      "@id": "https://w3id.org/class/esc/n022"
+    },
+    {
+      "@id": "https://w3id.org/class/esc/n02"
+    }
+  ],
+  "@id": "info:service"
 }

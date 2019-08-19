@@ -1,11 +1,8 @@
 {
   "@type": "Person",
   "@id": "info:123",
-  "name": [
-    {
-      "@language": "de",
-      "@value": "Foo"
-    }
-  ],
-  "@context" : "https://oerworldmap.org/assets/json/context.json"
+  "name": {
+    "de": "Foo"
+  },
+  "@context": "https://oerworldmap.org/assets/json/context.json"
 }

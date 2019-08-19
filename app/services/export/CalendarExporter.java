@@ -1,306 +1,196 @@
 package services.export;
 
-import helpers.JsonLdConstants;
 import models.Record;
 import models.Resource;
 import models.ResourceList;
-import org.apache.commons.lang3.StringUtils;
-import org.elasticsearch.common.Strings;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
+import net.fortuna.ical4j.model.Calendar;
+import net.fortuna.ical4j.model.Date;
+import net.fortuna.ical4j.model.DateTime;
+import net.fortuna.ical4j.model.Property;
+import net.fortuna.ical4j.model.PropertyList;
+import net.fortuna.ical4j.model.component.VEvent;
+import net.fortuna.ical4j.model.parameter.Cn;
+import net.fortuna.ical4j.model.property.CalScale;
+import net.fortuna.ical4j.model.property.Clazz;
+import net.fortuna.ical4j.model.property.Description;
+import net.fortuna.ical4j.model.property.DtStamp;
+import net.fortuna.ical4j.model.property.Geo;
+import net.fortuna.ical4j.model.property.Location;
+import net.fortuna.ical4j.model.property.Method;
+import net.fortuna.ical4j.model.property.Organizer;
+import net.fortuna.ical4j.model.property.ProdId;
+import net.fortuna.ical4j.model.property.Uid;
+import net.fortuna.ical4j.model.property.Url;
+import net.fortuna.ical4j.model.property.Version;
 
-import java.time.Instant;
-import java.util.HashMap;
-import java.util.List;
+import java.math.BigDecimal;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.text.ParseException;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
+import java.time.temporal.TemporalAccessor;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.TimeZone;
 
 /**
  * Created by fo and pvb
  */
 public class CalendarExporter implements Exporter {
 
-  // The following iCalendar fields are currently not in use:
-  // - SEQUENCE
-  // - STATUS
-  // - TRANSP
-  // - RRULE
-  // - CATEGORIES
+  private final Locale preferredLocale;
+  private final String dateStamp;
 
-  private static final String HEADER = //
-    "BEGIN:VCALENDAR\n" + //
-      "VERSION:2.0\n" + //
-      "PRODID:https://oerworldmap.org/\n" + //
-      "CALSCALE:GREGORIAN\n" + //
-      "METHOD:PUBLISH\n";
-  private static final String FOOTER = "END:VCALENDAR\n";
-  private static final String KEY_SEPARATOR = ":";
-  private static final String VALUE_SEPARATOR = ";";
+  private DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+    .appendPattern("yyyy[-MM[-dd['T'HH:mm[:ss]]]]")
+    .toFormatter();
 
-  private static final String EVENT_BEGIN = "BEGIN:VEVENT\n";
-  private static final String EVENT_END = "END:VEVENT\n";
-
-  private static final String UID = "UID:";
-  private static final String ORGANIZER = "ORGANIZER";
-  private static final String COMMON_NAME = ";CN=";      // in line ORGANIZER
-  private static final String MAILTO = "MAILTO:";       // in line ORGANIZER
-  private static final String LOCATION = "LOCATION:";
-  private static final String SUMMARY = "SUMMARY:";
-  private static final String DESCRIPTION = "DESCRIPTION:";
-  private static final String CAL_CLASS = "CLASS:PUBLIC\n";   // no non-public events up to now
-  private static final String GEO = "GEO:";
-  private static final String URL = "URL:";
-
-  private static final String DATE_START = "DTSTART:";
-  private static final String DATE_END = "DTEND:";
-  private static final String DATE_STAMP = "DTSTAMP:";
-  private static final String DEFAULT_TIME_START = "T000000";
-  private static final String DEFAULT_TIME_END = "T235959";
-
-  private static final String SIMPLE_DATE_REGEX = "^([\\d]{4})-([\\d]{2})-([\\d]{2})$";
-  private static final Pattern mSimpleDatePattern = Pattern.compile(SIMPLE_DATE_REGEX);
-
-  private static final Map<String, String> mFieldMap = new HashMap<>();
-
-  static {
-    mFieldMap.put(UID, JsonLdConstants.ID);
-    mFieldMap.put(SUMMARY, "name.@value");
-    mFieldMap.put(URL, "url");
-    mFieldMap.put(LOCATION, "location.address.streetAddress".concat(VALUE_SEPARATOR)
-      .concat("location.address.postalCode").concat(VALUE_SEPARATOR)
-      .concat("location.address.addressLocality").concat(VALUE_SEPARATOR)
-      .concat("location.address.addressRegion").concat(VALUE_SEPARATOR)
-      .concat("location.address.addressCountry").concat(VALUE_SEPARATOR));
-
-    mFieldMap.put(GEO, "location.geo.lat".concat(VALUE_SEPARATOR).concat("location.geo.lon"));
+  public CalendarExporter(Locale preferredLocale) {
+    this.preferredLocale = preferredLocale;
+    this.dateStamp = null;
   }
 
-  private final Locale mPreferredLocale;
-
-  public CalendarExporter(Locale aPreferredLocale) {
-    mPreferredLocale = aPreferredLocale;
+  public CalendarExporter(Locale preferredLocale, String dateStamp) {
+    this.preferredLocale = preferredLocale;
+    this.dateStamp = dateStamp;
   }
 
   @Override
-  public String export(Resource aResource) {
-    if (!aResource.getAsResource(Record.RESOURCE_KEY).getType().equals("Event")) {
+  public String export(Resource record) {
+    Resource resource = record.getAsResource(Record.RESOURCE_KEY);
+    if (!resource.getType().equals("Event")) {
       return null;
     }
-    return HEADER.concat(exportResourceWithoutHeader(aResource.getAsResource(Record.RESOURCE_KEY)))
-      .concat(FOOTER);
+    VEvent event = resourceToEvent(resource);
+    Calendar calendar = initCalendar();
+    if (event != null) {
+      calendar.getComponents().add(event);
+    }
+    return calendar.toString();
   }
 
   @Override
   public String export(ResourceList aResourceList) {
-    StringBuilder result = new StringBuilder(HEADER);
-    aResourceList.getItems().stream()
-      .filter(resource -> resource.getAsResource(Record.RESOURCE_KEY).getType()
-        .equals("Event")).forEach(resource ->
-      result.append(exportResourceWithoutHeader(resource.getAsResource(Record.RESOURCE_KEY)))
-    );
-    result.append(FOOTER);
-    return result.toString();
-  }
-
-  private String exportResourceWithoutHeader(final Resource aResource) {
-    final String startDate = parseStartDate(aResource);
-    final String dateStamp = getTimeStamp();
-    // Check required fields according to https://tools.ietf.org/html/rfc5545#section-3.6.1
-    if (StringUtils.isEmpty(startDate) || StringUtils.isEmpty(dateStamp)) {
-      // Missing UID is not checked here because it can never be null for an existing resource.
-      return "";
-    }
-    final StringBuilder result = new StringBuilder(EVENT_BEGIN);
-    for (Map.Entry<String, String> mapping : mFieldMap.entrySet()) {
-      boolean hasAppendedSomething = false;
-      String[] mappingValues = mapping.getValue().split(VALUE_SEPARATOR);
-      StringBuilder subResult = new StringBuilder();
-      for (String mappingValue : mappingValues) {
-        final String value = aResource.getNestedFieldValue(mappingValue, mPreferredLocale);
-        if (value != null && !Strings.isEmpty(value)) {
-          if (subResult.length() == 0) {
-            subResult.append(mapping.getKey());
-          } else {
-            if (subResult.length() > mapping.getKey().length()) {
-              subResult.append(VALUE_SEPARATOR);
-            }
-          }
-          subResult.append(value);
-          hasAppendedSomething = true;
+    Calendar calendar = initCalendar();
+    for (Resource record: aResourceList.getItems()) {
+      Resource resource = record.getAsResource(Record.RESOURCE_KEY);
+      if (resource.getType().equals("Event")) {
+        VEvent event = resourceToEvent(resource);
+        if (event != null) {
+          calendar.getComponents().add(event);
         }
       }
-      result.append(subResult);
-      if (hasAppendedSomething) {
-        result.append("\n");
-      }
     }
-    result.append(getDescription(aResource));
-    result.append(getExportedOrganizer(aResource));
-    result.append(startDate);
-    result.append(parseEndDate(aResource));
-    result.append(dateStamp);
-    result.append(CAL_CLASS);
-    completeFields(result, aResource);
-    result.append(EVENT_END);
-    return result.toString();
+    return calendar.toString();
   }
 
-  private void completeFields(final StringBuilder aStringBuilder, final Resource aResource) {
-    if (aResource.getNestedFieldValue("name.@value", mPreferredLocale) == null) {
-      // no summary could be added --> append empty summary to comply to ical specification
-      aStringBuilder.append("SUMMARY:\n");
-    }
+  private Calendar initCalendar() {
+    Calendar calendar = new Calendar();
+    calendar.getProperties().add(new ProdId("https://oerworldmap.org/"));
+    calendar.getProperties().add(Version.VERSION_2_0);
+    calendar.getProperties().add(CalScale.GREGORIAN);
+    calendar.getProperties().add(Method.PUBLISH);
+    return calendar;
   }
 
-  private String getExportedOrganizer(Resource aResource) {
-    StringBuilder result = new StringBuilder();
-    List<Resource> organizers = aResource.getAsList("organizer");
-    result.append(ORGANIZER);
-    boolean hasOrganizer = false;
-    if (organizers != null && !organizers.isEmpty()) {
-      for (Resource organizer : organizers) {
-        String name = organizer.getNestedFieldValue("name.@value", mPreferredLocale);
-        String email = organizer.getAsString("email");
-        boolean hasName = false;
-        if (name != null) {
-          if (email == null) {
-            result.append(":").append(name);
-          } else {
-            result.append(COMMON_NAME).append("\"").append(name).append("\"");
-          }
-          hasOrganizer = true;
-          hasName = true;
-        }
-        if (email == null) {
-          email = aResource.getAsString("email");
-        }
-        if (email != null) {
-          if (hasName) {
-            result.append(KEY_SEPARATOR);
-          }
-          result.append(MAILTO).append(email);
-        }
-        if (hasName) {
-          break;
-        }
-      }
-      result.append("\n");
+  private VEvent resourceToEvent(Resource resource) {
+    Map<String, String> pointerDict = resource.toPointerDict();
+    String startDate = pointerDict.get("/startDate");
+    if (startDate == null) {
+      return null;
     }
-    if (!hasOrganizer) {
-      result.append(":\n");
-    }
-    return result.toString();
-  }
+    String endDate = pointerDict.get("/endDate");
+    String organizer = pointerDict.get("/organizer/0/name/en");
+    String email = pointerDict.get("/organizer/0/email");
+    String location = String.join(";", Arrays.asList(
+      pointerDict.getOrDefault("/location/0/address/streetAddress", ""),
+      pointerDict.getOrDefault("/location/0/address/postalCode", ""),
+      pointerDict.getOrDefault("/location/0/address/addressLocality", ""),
+      pointerDict.getOrDefault("/location/0/address/addressRegion", ""),
+      pointerDict.getOrDefault("/location/0/address/addressCountry", "")
+    ));
+    String lat = pointerDict.get("/location/0/geo/lat");
+    String lon = pointerDict.get("/location/0/geo/lon");
+    String url = pointerDict.get("/url");
+    String name = pointerDict.get("/name/en");
+    String description = pointerDict.get("/description/en");
 
-  private String parseStartDate(final Resource aResource) {
-    final String originalStartDate = aResource.getAsString("startDate");
-    StringBuilder result = new StringBuilder();
-    if (originalStartDate == null || Strings.isEmpty(originalStartDate)) {
-      return "";
-    }
-    Matcher matcher = mSimpleDatePattern.matcher(originalStartDate);
-    if (matcher.find()) {
-      result.append(DATE_START)
-        .append(formatSimpleDate(matcher, DEFAULT_TIME_START));
+    VEvent event;
+    if (endDate != null) {
+      event = new VEvent(parseDate(startDate), parseDate(endDate), name);
     } else {
-      final DateTime dateTime = parseISO8601toUTC(originalStartDate);
-      if (dateTime == null) {
-        return "";
-      }
-      result.append(dateTimeToIcalDate(DATE_START, dateTime));
+      event = new VEvent(parseDate(startDate), name);
     }
-    return result.append("\n").toString();
-  }
 
-  private static String parseEndDate(final Resource aResource) {
-    final String originalEndDate = aResource.getAsString("endDate");
-    StringBuilder result = new StringBuilder();
-    if (originalEndDate == null || Strings.isEmpty(originalEndDate)) {
-      return "";
-    }
-    Matcher matcher = mSimpleDatePattern.matcher(originalEndDate);
-    if (matcher.find()) {
-      result.append(DATE_END)
-        .append(formatSimpleDate(matcher, DEFAULT_TIME_END));
-    } else {
-      final DateTime dateTime = parseISO8601toUTC(originalEndDate);
-      if (dateTime == null) {
-        return "";
-      }
-      result.append(dateTimeToIcalDate(DATE_END, dateTime));
-    }
-    return result.append("\n").toString();
-  }
-
-  private static String formatSimpleDate(final Matcher aMatcher, final String aTime) {
-    return aMatcher.group(1).concat(aMatcher.group(2)).concat(aMatcher.group(3)).concat(aTime);
-  }
-
-  private static StringBuilder dateTimeToIcalDate(final String aField, final DateTime aDateTime) {
-    final StringBuilder result = new StringBuilder(aField);
-    result.append(String.format("%04d", aDateTime.getYear()))
-      .append(String.format("%02d", aDateTime.getMonthOfYear()))
-      .append(String.format("%02d", aDateTime.getDayOfMonth()))
-      .append("T")
-      .append(String.format("%02d", aDateTime.getHourOfDay()))
-      .append(String.format("%02d", aDateTime.getMinuteOfHour()))
-      .append(String.format("%02d", aDateTime.getSecondOfMinute()));
-    return result;
-  }
-
-  /**
-   * found on: http://www.javased.com/?api=org.joda.time.format.ISODateTimeFormat
-   *
-   * From project Carolina-Digital-Repository, under directory /metadata/src/main/java/edu/unc/lib/dl/util/
-   *
-   * Parse a date in any ISO 8601 format. Default TZ is based on Locale.
-   *
-   * @param isoDate ISO8601 date/time string with or without TZ offset
-   * @return a Joda DateTime object in UTC (call toString() to print)
-   */
-  private static DateTime parseISO8601toUTC(String isoDate) {
-    DateTime result;
-    DateTimeFormatter fmt = ISODateTimeFormat.dateTimeParser().withOffsetParsed();
-    DateTime isoDT = fmt.parseDateTime(isoDate);
-    if (isoDT.year().get() > 9999) {
+    PropertyList<Property> propertyList = event.getProperties();
+    propertyList.add(new Uid(resource.getId()));
+    if (this.dateStamp != null) {
       try {
-        fmt = DateTimeFormat.forPattern("yyyyMMdd");
-        fmt = fmt.withZone(DateTimeZone.getDefault());
-        isoDT = fmt.parseDateTime(isoDate);
-      } catch (IllegalArgumentException e) {
-        try {
-          fmt = DateTimeFormat.forPattern("yyyyMM");
-          fmt = fmt.withZone(DateTimeZone.getDefault());
-          isoDT = fmt.parseDateTime(isoDate);
-        } catch (IllegalArgumentException e1) {
-          try {
-            fmt = DateTimeFormat.forPattern("yyyy");
-            fmt = fmt.withZone(DateTimeZone.getDefault());
-            isoDT = fmt.parseDateTime(isoDate);
-          } catch (IllegalArgumentException ignored) {
-          }
-        }
+        propertyList.add(new DtStamp(this.dateStamp));
+      } catch (ParseException e) {
+        // ignore
       }
     }
-    result = isoDT.withZoneRetainFields(DateTimeZone.getDefault());
-    return result;
-  }
-
-  private String getTimeStamp() {
-    return DATE_STAMP.concat(Instant.now().toString().replaceAll("[-:\\.]", "").substring(0, 15))
-      .concat("Z\n");
-  }
-
-  private String getDescription(Resource aResource) {
-    String description = aResource.getNestedFieldValue("description.@value", mPreferredLocale);
-    if (description == null || Strings.isEmpty(description)) {
-      return "";
+    if (organizer != null) {
+      Organizer organizerProp;
+      if (email != null) {
+        try {
+          organizerProp = new Organizer("mailto:".concat(email));
+        } catch (URISyntaxException e) {
+          organizerProp = new Organizer();
+        }
+      } else {
+        organizerProp = new Organizer();
+      }
+      organizerProp.getParameters().add(new Cn(organizer));
+      propertyList.add(organizerProp);
     }
-    return DESCRIPTION.concat(description.replaceAll("\r\n|\n|\r", "\\\\r\\\\n")).concat("\n");
+    propertyList.add(new Location(location));
+    propertyList.add(Clazz.PUBLIC);
+    if (lat != null && lon != null) {
+      propertyList.add(new Geo(new BigDecimal(lat), new BigDecimal(lon)));
+    }
+    if (url != null) {
+      try {
+        propertyList.add(new Url(new URI(url)));
+      } catch (URISyntaxException e) {
+        // ignore
+      }
+    }
+    if (description != null) {
+      propertyList.add(new Description(description));
+    }
+    return event;
   }
+
+  private Date parseDate(String date) {
+    TemporalAccessor temporalAccessor = formatter.parse(date);
+    java.util.Calendar calendar = java.util.Calendar.getInstance();
+    if (temporalAccessor.isSupported(ChronoField.YEAR)) {
+      calendar.set(java.util.Calendar.YEAR, temporalAccessor.get(ChronoField.YEAR));
+    }
+    if (temporalAccessor.isSupported(ChronoField.MONTH_OF_YEAR)) {
+      calendar.set(java.util.Calendar.MONTH, temporalAccessor.get(ChronoField.MONTH_OF_YEAR) - 1);
+    }
+    if (temporalAccessor.isSupported(ChronoField.DAY_OF_MONTH)) {
+      calendar.set(java.util.Calendar.DAY_OF_MONTH, temporalAccessor.get(ChronoField.DAY_OF_MONTH));
+    }
+    if (temporalAccessor.isSupported(ChronoField.HOUR_OF_DAY)) {
+      calendar.set(java.util.Calendar.HOUR_OF_DAY, temporalAccessor.get(ChronoField.HOUR_OF_DAY));
+    }
+    if (temporalAccessor.isSupported(ChronoField.MINUTE_OF_HOUR)) {
+      calendar.set(java.util.Calendar.MINUTE, temporalAccessor.get(ChronoField.MINUTE_OF_HOUR));
+    }
+    if (temporalAccessor.isSupported(ChronoField.SECOND_OF_MINUTE)) {
+      calendar.set(java.util.Calendar.SECOND, temporalAccessor.get(ChronoField.SECOND_OF_MINUTE));
+    }
+    if (temporalAccessor.isSupported(ChronoField.YEAR) && temporalAccessor.isSupported(ChronoField.HOUR_OF_DAY)) {
+      return new DateTime(calendar.getTime());
+    }
+    return new Date(calendar.getTime());
+  }
+
 }

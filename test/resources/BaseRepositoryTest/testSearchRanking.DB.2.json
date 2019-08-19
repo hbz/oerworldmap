@@ -1,14 +1,12 @@
 {
-  "@type" : "Organization",
-  "@context" : "https://oerworldmap.org/assets/json/context.json",
-  "name" : [ {
-    "@value" : "OERWorldMap Provider 2",
-    "@language" : "en"
-  } ],
-  "@id" : "urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e00002",
-  "url" : "https://oerworldmap.org",
-  "alternateName" : [{
-  	"@language" : "en",
-  	"@value" : "Since this organization contains the magic word in the following field: name, it should be ranked second."
-  }]
+  "@type": "Organization",
+  "@context": "https://oerworldmap.org/assets/json/context.json",
+  "name": {
+    "en": "OERWorldMap Provider 2"
+  },
+  "@id": "urn:uuid:c7f5334a-3ddb-4e46-8653-4d8c01e00002",
+  "url": "https://oerworldmap.org",
+  "alternateName": {
+    "en": "Since this organization contains the magic word in the following field: name, it should be ranked second."
+  }
 }

@@ -23,7 +23,7 @@ import play.mvc.With;
 import services.QueryContext;
 import services.SearchConfig;
 import services.export.CalendarExporter;
-import services.export.CsvWithNestedIdsExporter;
+import services.export.CsvExporter;
 import services.export.GeoJsonExporter;
 import services.export.JsonSchemaExporter;
 
@@ -31,10 +31,13 @@ import javax.inject.Inject;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -57,7 +60,7 @@ public class ResourceIndex extends OERWorldMap {
 
   @With(Cached.class)
   public Result list(String q, int from, int size, String sort, boolean features, String extension,
-    String iso3166, String disposition){
+    String iso3166, String region, String disposition) {
 
     Map<String, List<String>> filters = new HashMap<>();
     QueryContext queryContext = getQueryContext();
@@ -70,6 +73,11 @@ public class ResourceIndex extends OERWorldMap {
       queryContext.setIso3166Scope(iso3166.toUpperCase());
     }
 
+    // Handle region param
+    if (!StringUtils.isEmpty(iso3166) && !StringUtils.isEmpty(region)) {
+      queryContext.setRegionScope(iso3166.toUpperCase().concat(".").concat(region.toUpperCase()));
+    }
+
     // Extract filters directly from query params
     Pattern filterPattern = Pattern.compile("^filter\\.(.*)$");
     for (Map.Entry<String, String[]> entry : ctx().request().queryString().entrySet()) {
@@ -77,6 +85,20 @@ public class ResourceIndex extends OERWorldMap {
       if (filterMatcher.find()) {
         filters.put(filterMatcher.group(1), new ArrayList<>(Arrays.asList(entry.getValue())));
       }
+    }
+
+    // Handle special filter case for event calendar
+    if (filters.containsKey("about.@type")
+      && filters.get("about.@type").size() == 1
+      && filters.get("about.@type").contains("Event")
+      && !filters.containsKey("about.startDate.GTE")
+    ) {
+      filters.put("about.startDate.GTE", Collections.singletonList("now/d"));
+    } else if (filters.containsKey("about.@type")
+      && (!filters.get("about.@type").contains("Event")
+        || filters.get("about.@type").size() != 1)
+    ) {
+      filters.remove("about.startDate.GTE");
     }
 
     // Check for bounding box
@@ -104,7 +126,12 @@ public class ResourceIndex extends OERWorldMap {
     for (Map.Entry<String, List<String>> filter : filters.entrySet()) {
       String filterKey = "filter.".concat(filter.getKey());
       for (String filterValue : filter.getValue()) {
-        filterString = filterString.concat("&".concat(filterKey).concat("=").concat(filterValue));
+        try {
+          filterString = filterString.concat("&".concat(filterKey).concat("=").concat(URLEncoder.encode(filterValue,
+            StandardCharsets.UTF_8.name())));
+        } catch (UnsupportedEncodingException e) {
+          Logger.error("Unhandeled encoding", e);
+        }
       }
     }
 
@@ -115,7 +142,7 @@ public class ResourceIndex extends OERWorldMap {
     List<String> links = new ArrayList<>();
     for (String alternate : alternates) {
       String linkUrl = baseUrl.concat(routes.ResourceIndex.list(q, 0, -1, sort, false, alternate,
-        iso3166, disposition).url().concat(filterString));
+        iso3166, region, disposition).url().concat(filterString));
       links.add(String.format("<%s>; rel=\"alternate\"; type=\"%s\"", linkUrl,
         MimeTypes.fromExtension(alternate)));
     }
@@ -133,7 +160,7 @@ public class ResourceIndex extends OERWorldMap {
     if (format == null) {
       return notFound("Not found");
     } else if (format.equals("text/csv")) {
-      return ok(new CsvWithNestedIdsExporter().export(resourceList)).as("text/csv");
+      return ok(new CsvExporter().export(resourceList)).as("text/csv");
     } else if (format.equals("text/calendar")) {
       return ok(new CalendarExporter(Locale.ENGLISH).export(resourceList)).as("text/calendar");
     } else if (format.equals("application/json")) {
@@ -326,7 +353,7 @@ public class ResourceIndex extends OERWorldMap {
     } else if (format.equals("application/json")) {
       return ok(resource.toString()).as("application/json; charset=UTF-8");
     } else if (format.equals("text/csv")) {
-      return ok(new CsvWithNestedIdsExporter().export(resource)).as("text/csv; charset=UTF-8");
+      return ok(new CsvExporter().export(resource)).as("text/csv; charset=UTF-8");
     } else if (format.equals("application/geo+json")) {
       String geoJson = mGeoJsonExporter.export(resource);
       return geoJson != null ? ok(geoJson) : status(406);
@@ -387,7 +414,7 @@ public class ResourceIndex extends OERWorldMap {
     }
   }
 
-  public Result log(String aId, String compare, String to) throws IOException {
+  public Result log(String aId, String compare, String to) {
     ArrayNode log = JsonNodeFactory.instance.arrayNode();
     List<Commit> commits = mBaseRepository.log(aId);
     for (Commit commit : commits) {
@@ -473,10 +500,12 @@ public class ResourceIndex extends OERWorldMap {
         break;
       }
       String id = ((TripleCommit) commit).getPrimaryTopic().getURI();
+      TripleCommit.Header header = ((TripleCommit) commit).getHeader();
       // Skip empty commits, commits on same subject and deleted resources
       if (id == null
         || id.equals(previousId)
-        || ((TripleCommit) commit).getHeader().isMigration()
+        || header.isMigration()
+        || header.getAuthor().equals("System")
         || !mBaseRepository.hasResource(id))
       {
         continue;

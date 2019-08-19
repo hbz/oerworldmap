@@ -1,8 +1,8 @@
 {
-	"attended": {
-		"@type": "Foo"
-	}, 
-	"@type": "Person", 
-	"@id": "info:id002", 
-	"@context" : "https://oerworldmap.org/assets/json/context.json"
+  "attended": {
+    "@type": "Foo"
+  },
+  "@type": "Person",
+  "@id": "info:id002",
+  "@context": "https://oerworldmap.org/assets/json/context.json"
 }

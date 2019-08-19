@@ -31,7 +31,8 @@ libraryDependencies ++= Seq(
   "com.github.jsonld-java" % "jsonld-java" % "0.12.3",
   "com.maxmind.geoip2" % "geoip2" % "2.8.0",
   "org.python" % "jython-standalone" % "2.7.1b2",
-  "org.apache.httpcomponents" % "httpclient" % "4.5.5"
+  "org.apache.httpcomponents" % "httpclient" % "4.5.5",
+  "org.mnode.ical4j" % "ical4j" % "3.0.7"
 )
 
 val keycloak = Seq(
@@ -84,3 +85,4 @@ libraryDependencies ++= keycloak
 javaOptions in Test += "-Dconfig.file=conf/test.conf"
 javaOptions in Test += "-Xmx3G"
 javaOptions in Test += "-Dlogback.configurationFile=conf/logback-test.xml"
+javaOptions in Test += "-Duser.timezone=UTC"

@@ -36,4 +36,6 @@ public class SCHEMA {
 
   public static final Property author = property("author");
 
+  public static final Property provider = property("provider");
+
 }

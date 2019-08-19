@@ -1,13 +1,16 @@
 {
-  "@type" : "Event",
-  "organizer" : [ {
-    "@id" : "urn:uuid:c560e277-254d-4021-837c-c49a4172cc8b"
-  } ],
-  "name" : [ {
-    "@value" : "Making - Kreatives digitales Gestalten mit Kindern",
-    "@language" : "en"
-  } ],
-  "location" : {},
-  "@id" : "urn:uuid:a70e90a3-1032-4e89-98f3-1a00ee4b67a6",
-  "@context" : "https://oerworldmap.org/assets/json/context.json"
+  "@type": "Event",
+  "organizer": [
+    {
+      "@id": "urn:uuid:c560e277-254d-4021-837c-c49a4172cc8b"
+    }
+  ],
+  "name": {
+    "en": "Making - Kreatives digitales Gestalten mit Kindern"
+  },
+  "location": [
+    {}
+  ],
+  "@id": "urn:uuid:a70e90a3-1032-4e89-98f3-1a00ee4b67a6",
+  "@context": "https://oerworldmap.org/assets/json/context.json"
 }

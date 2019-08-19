@@ -186,7 +186,7 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
     return result instanceof Map<?, ?> ? Resource.fromMap((Map<String, Object>) result) : null;
   }
 
-  public Map<?, ?> getAsMap(final String aKey) {
+  Map<?, ?> getAsMap(final String aKey) {
     Object result = get(aKey);
     if (result instanceof Map<?, ?>) {
       return (Map<String, Object>) result;
@@ -285,123 +285,11 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
   }
 
   @Override
-  public int compareTo(@NotNull  Resource aOther) {
+  public int compareTo(@NotNull Resource aOther) {
     if (hasId() && aOther.hasId()) {
       return getAsString(JsonLdConstants.ID).compareTo(aOther.getAsString(JsonLdConstants.ID));
     }
     return toString().compareTo(aOther.toString());
-  }
-
-  /**
-   * Get a flat String representation of this Resource, whereby any keys are dismissed. Furthermore,
-   * value information can be dropped by specifying its fields respectively keys names. This is
-   * useful for "static" values like e. g. of the field "type".
-   *
-   * @param aFieldSeparator a String indicating the beginning of new information, resulting from a
-   * new Resource's field. Note, that this separator might also appear within the Resource's fields
-   * themselves.
-   * @param aDropFields a List<String> specifying, which field's values should be excluded from the
-   * resulting String representation
-   * @return a flat String representation of this Resource. In case there is no information to be
-   * returned, the result is an empty String.
-   */
-  public String getValuesAsFlatString(String aFieldSeparator, List<String> aDropFields) {
-    String fieldSeparator = null == aFieldSeparator ? "" : aFieldSeparator;
-
-    StringBuffer result = new StringBuffer();
-
-    for (Entry<String, Object> entry : entrySet()) {
-      if (!aDropFields.contains(entry.getKey())) {
-        Object value = entry.getValue();
-        if (value instanceof String) {
-          if (!"".equals(value)) {
-            result.append(value).append(fieldSeparator).append(" ");
-          }
-        } else if (value instanceof HashMap<?, ?>) {
-          result.append((Resource.fromMap((HashMap<String, Object>) value))
-            .getValuesAsFlatString(fieldSeparator, aDropFields));
-        } else if (value instanceof List<?>) {
-          result.append("[");
-          for (Object innerValue : (List<?>) value) {
-            if (innerValue instanceof String) {
-              if (!"".equals(innerValue)) {
-                result.append(innerValue).append(fieldSeparator).append(" ");
-              }
-            } else if (innerValue instanceof HashMap<?, ?>) {
-              result.append(
-                (Resource.fromMap((HashMap<String, Object>) innerValue))
-                  .getValuesAsFlatString(fieldSeparator, aDropFields));
-            }
-          }
-          if (result.length() > 1 && result.charAt(result.length() - 1) != '[') {
-            result.delete(result.length() - 2, result.length());
-          }
-          result.append("]").append(fieldSeparator).append(" ");
-        }
-      }
-    }
-    // delete last separator
-    if (result.length() > 1) {
-      result.delete(result.length() - 2, result.length());
-    }
-    return result.toString();
-  }
-
-  public String getNestedFieldValue(final String aNestedKey, final Locale aPreferredLocale) {
-    final String[] split = aNestedKey.split("\\.", 2);
-    if (split.length == 0) {
-      return null;
-    }
-    if (split.length == 1) {
-      Object o = get(split[0]);
-      if (o != null) {
-        return o.toString();
-      }
-      return null;
-    }
-    // split.length == 2
-    final Object o = get(split[0]);
-    if (o instanceof ArrayList<?>) {
-      String next = getNestedValueOfList(split[1], (ArrayList<?>) o, aPreferredLocale);
-      if (next != null) {
-        return next;
-      }
-    } else if (o instanceof HashMap<?, ?>) {
-      Resource resource = Resource.fromMap((HashMap<String, Object>) o);
-      if (resource.size() == 0) {
-        return null;
-      }
-      return resource.getNestedFieldValue(split[1], aPreferredLocale);
-    }
-    return null;
-  }
-
-  private String getNestedValueOfList(final String aKey, final ArrayList<?> aList,
-    final Locale aPreferredLocale) {
-    Object next;
-    final Locale fallbackLocale = Locale.ENGLISH;
-    String fallback1 = null;
-    String fallback2 = null;
-    String fallback3 = null;
-    for (Iterator it = aList.iterator(); it.hasNext(); ) {
-      next = it.next();
-      if (next instanceof HashMap<?, ?>) {
-        Resource resource = Resource.fromMap((HashMap<String, Object>) next);
-        Object language = resource.get("@language");
-        if (language.equals(aPreferredLocale.getLanguage())) {
-          return resource.getNestedFieldValue(aKey, aPreferredLocale);
-        }
-        if (language == null) {
-          fallback1 = resource.getNestedFieldValue(aKey, aPreferredLocale);
-        } else if (language.equals(fallbackLocale.getLanguage())) {
-          fallback2 = resource.getNestedFieldValue(aKey, fallbackLocale);
-        } else {
-          fallback3 = resource
-            .getNestedFieldValue(aKey, Locale.forLanguageTag(language.toString()));
-        }
-      }
-    }
-    return (fallback1 != null) ? fallback1 : (fallback2 != null) ? fallback2 : fallback3;
   }
 
   /**
@@ -454,5 +342,27 @@ public class Resource extends HashMap<String, Object> implements Comparable<Reso
       }
     }
     return count;
+  }
+
+  public Map<String, String> toPointerDict() {
+    return jsonNodeToPointerDict(this.toJson(), "");
+  }
+
+  private Map<String, String> jsonNodeToPointerDict(JsonNode node, String path) {
+    Map<String, String> pointerDict = new HashMap<>();
+    if (node.isArray()) {
+      for (int i = 0; i < node.size(); i++) {
+        pointerDict.putAll(jsonNodeToPointerDict(node.get(i), path.concat("/").concat(Integer.toString(i))));
+      }
+    } else if (node.isObject()) {
+      Iterator<Map.Entry<String, JsonNode>> it = node.fields();
+      while (it.hasNext()) {
+        Map.Entry<String, JsonNode> entry = it.next();
+        pointerDict.putAll(jsonNodeToPointerDict(entry.getValue(), path.concat("/").concat(entry.getKey())));
+      }
+    } else if (node.isValueNode()) {
+      pointerDict.put(path, node.asText());
+    }
+    return pointerDict;
   }
 }

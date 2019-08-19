@@ -76,11 +76,8 @@ public class UserIndex extends OERWorldMap {
       .put("@type", "Person")
       .put("@id", "urn:uuid:".concat(request().getHeader(OIDC_CLAIM_SUB)))
       .put("email", request().username());
-    profileNode.set("name", mObjectMapper.createArrayNode()
-      .add(mObjectMapper.createObjectNode()
-        .put("@language", "en")
-        .put("@value", request().getHeader(OIDC_CLAIM_NAME))
-      )
+    profileNode.set("name", mObjectMapper.createObjectNode()
+      .put("en", request().getHeader(OIDC_CLAIM_NAME))
     );
     return(Resource.fromJson(profileNode));
   }

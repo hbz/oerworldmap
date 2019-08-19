@@ -1,91 +1,93 @@
 {
-  "keywords" : [ "OER-Award 2016" ],
-  "image" : "http://www.bpb.de/sites/all/themes/bpb/images/bpb_logo_rgb.gif",
-  "@type" : "Organization",
-  "description" : [ {
-    "@value" : "<p>Im Zentrum der Arbeit der Bundeszentrale für politische Bildung steht die Förderung des Bewusstseins für Demokratie und politische Partizipation. Aktuelle und historische Themen greift sie mit Veranstaltungen, Printprodukten, audiovisuellen und Online-Produkten auf. </p>\r\n<p>Die bpb bemüht sich, die von ihr zur Verfügung gestellten Materialien mit möglichst offenen Lizenzen anzubieten. Erste Angebote stehen teilweise unter CC-BY-SA (z.B. netzdebatte.bpb.de) oder CC-BY-NC-SA (z.B. www.bpb.de/didaktik-ghettofilm). Das frei lizenzierte Online-Dossier „OER – Material für alle“ (www.bpb.de/oer) liefert Grundlagen, um OER von der Theorie in die schulische Praxis zu überführen. Der Dialog mit den Lehrkräften zum Thema OER wird über die Plattform „werkstatt.bpb.de – Digitale Bildung in der Praxis“ geführt.</p>",
-    "@language" : "de"
-  }, {
-    "@value" : "The Federal Agency for Civic Education sets the centre of attention on promoting awareness for democracy and politicial participation. Current and historic issues are captured in events, print products, audiovisual and online products. The federal agency aims to provide materials as open licensed. \r\nThe free licensed online dossier \"OER - materials for everyone\" provides a basisto connect OER theory and practical usage. The dialogue with teaching personnel is supported by useing the platform \"wekstatt.bpb.de - digital education in practice\". ",
-    "@language" : "en"
-  } ],
-  "alternateName" : [ {
-    "@value" : "bpb",
-    "@language" : "en"
-  }, {
-    "@value" : "bpb",
-    "@language" : "de"
-  } ],
-  "@context" : "https://oerworldmap.org/assets/json/context.json",
-  "url" : "https://www.bpb.de",
-  "primarySector" : [ {
-    "@type" : "Concept",
-    "name" : [ {
-      "@value" : "Weiterbildung",
-      "@language" : "de"
-    }, {
-      "@value" : "Further Education",
-      "@language" : "en"
-    } ],
-    "@id" : "https://oerworldmap.org/assets/json/sectors.json#further"
-  } ],
-  "awards" : [ {
-    "isAwardedBy" : [ {
-      "image" : "http://www.bpb.de/sites/all/themes/bpb/images/bpb_logo_rgb.gif",
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Bundeszentrale für politische Bildung",
-        "@language" : "de"
-      }, {
-        "@value" : "Federal Agency for Civic Education",
-        "@language" : "en"
-      } ],
-      "location" : {
-        "geo" : {
-          "lon" : 7.11014,
-          "lat" : 50.72704
-        },
-        "address" : {
-          "addressCountry" : "DE",
-          "streetAddress" : "Adenauerallee 86",
-          "postalCode" : 53113,
-          "addressLocality" : "Bonn",
-          "addressRegion" : "DE.NW"
-        }
-      },
-      "@id" : "urn:uuid:a1e68ea9-4fc7-4c4a-be87-2065d070ab15"
-    } ],
-    "@type" : "Grant"
-  } ],
-  "provides" : [ {
-    "image" : "https://www.bpb.de/sites/all/themes/bpb/images/bpb_logo_rgb.gif",
-    "@type" : "Service",
-    "name" : [ {
-      "@value" : " Bundeszentrale für politische Bildung – „Lernen“ ",
-      "@language" : "en"
-    } ],
-    "@id" : "urn:uuid:9f0441ba-a5a1-45bb-aaeb-b3756523a904"
-  } ],
-  "name" : [ {
-    "@value" : "Bundeszentrale für politische Bildung",
-    "@language" : "de"
-  }, {
-    "@value" : "Federal Agency for Civic Education",
-    "@language" : "en"
-  } ],
-  "location" : {
-    "geo" : {
-      "lon" : 7.11014,
-      "lat" : 50.72704
-    },
-    "address" : {
-      "addressCountry" : "DE",
-      "streetAddress" : "Adenauerallee 86",
-      "postalCode" : 53113,
-      "addressLocality" : "Bonn",
-      "addressRegion" : "DE.NW"
-    }
+  "keywords": [
+    "OER-Award 2016"
+  ],
+  "image": "http://www.bpb.de/sites/all/themes/bpb/images/bpb_logo_rgb.gif",
+  "@type": "Organization",
+  "description": {
+    "de": "<p>Im Zentrum der Arbeit der Bundeszentrale für politische Bildung steht die Förderung des Bewusstseins für Demokratie und politische Partizipation. Aktuelle und historische Themen greift sie mit Veranstaltungen, Printprodukten, audiovisuellen und Online-Produkten auf. </p>\r\n<p>Die bpb bemüht sich, die von ihr zur Verfügung gestellten Materialien mit möglichst offenen Lizenzen anzubieten. Erste Angebote stehen teilweise unter CC-BY-SA (z.B. netzdebatte.bpb.de) oder CC-BY-NC-SA (z.B. www.bpb.de/didaktik-ghettofilm). Das frei lizenzierte Online-Dossier „OER – Material für alle“ (www.bpb.de/oer) liefert Grundlagen, um OER von der Theorie in die schulische Praxis zu überführen. Der Dialog mit den Lehrkräften zum Thema OER wird über die Plattform „werkstatt.bpb.de – Digitale Bildung in der Praxis“ geführt.</p>",
+    "en": "The Federal Agency for Civic Education sets the centre of attention on promoting awareness for democracy and politicial participation. Current and historic issues are captured in events, print products, audiovisual and online products. The federal agency aims to provide materials as open licensed. \r\nThe free licensed online dossier \"OER - materials for everyone\" provides a basisto connect OER theory and practical usage. The dialogue with teaching personnel is supported by useing the platform \"wekstatt.bpb.de - digital education in practice\". "
   },
-  "@id" : "urn:uuid:a1e68ea9-4fc7-4c4a-be87-2065d070ab15",
-  "sameAs" : [ "http://www.youtube.com/user/bpbtv", "https://twitter.com/bpb_de?lang=de", "http://www.facebook.com/bpb.de" ]
+  "alternateName": {
+    "en": "bpb",
+    "de": "bpb"
+  },
+  "@context": "https://oerworldmap.org/assets/json/context.json",
+  "url": "https://www.bpb.de",
+  "primarySector": [
+    {
+      "@type": "Concept",
+      "name": {
+        "de": "Weiterbildung",
+        "en": "Further Education"
+      },
+      "@id": "https://oerworldmap.org/assets/json/sectors.json#further"
+    }
+  ],
+  "awards": [
+    {
+      "isAwardedBy": [
+        {
+          "image": "http://www.bpb.de/sites/all/themes/bpb/images/bpb_logo_rgb.gif",
+          "@type": "Organization",
+          "name": {
+            "de": "Bundeszentrale für politische Bildung",
+            "en": "Federal Agency for Civic Education"
+          },
+          "location": [
+            {
+              "geo": {
+                "lon": 7.11014,
+                "lat": 50.72704
+              },
+              "address": {
+                "addressCountry": "DE",
+                "streetAddress": "Adenauerallee 86",
+                "postalCode": 53113,
+                "addressLocality": "Bonn",
+                "addressRegion": "DE.NW"
+              }
+            }
+          ],
+          "@id": "urn:uuid:a1e68ea9-4fc7-4c4a-be87-2065d070ab15"
+        }
+      ],
+      "@type": "Grant"
+    }
+  ],
+  "provides": [
+    {
+      "image": "https://www.bpb.de/sites/all/themes/bpb/images/bpb_logo_rgb.gif",
+      "@type": "Service",
+      "name": {
+        "en": " Bundeszentrale für politische Bildung – „Lernen“ "
+      },
+      "@id": "urn:uuid:9f0441ba-a5a1-45bb-aaeb-b3756523a904"
+    }
+  ],
+  "name": {
+    "de": "Bundeszentrale für politische Bildung",
+    "en": "Federal Agency for Civic Education"
+  },
+  "location": [
+    {
+      "geo": {
+        "lon": 7.11014,
+        "lat": 50.72704
+      },
+      "address": {
+        "addressCountry": "DE",
+        "streetAddress": "Adenauerallee 86",
+        "postalCode": 53113,
+        "addressLocality": "Bonn",
+        "addressRegion": "DE.NW"
+      }
+    }
+  ],
+  "@id": "urn:uuid:a1e68ea9-4fc7-4c4a-be87-2065d070ab15",
+  "sameAs": [
+    "http://www.youtube.com/user/bpbtv",
+    "https://twitter.com/bpb_de?lang=de",
+    "http://www.facebook.com/bpb.de"
+  ]
 }

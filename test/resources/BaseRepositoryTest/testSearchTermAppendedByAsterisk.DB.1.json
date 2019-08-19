@@ -5,20 +5,14 @@
     }
   ],
   "@type": "Service",
-  "name": [
-    {
-      "@value": "WeAreOER",
-      "@language": "en"
-    }
-  ],
-  "description": [
-    {
-      "@value": "",
-      "@language": "en"
-    }
-  ],
+  "name": {
+    "en": "WeAreOER"
+  },
+  "description": {
+    "en": ""
+  },
   "@id": "urn:uuid:9843bac3-028f-4be8-ac54-92waoer00001",
   "startDate": "2013-01-01",
   "email": "everybodynow@weareoer.org",
-  "@context" : "https://oerworldmap.org/assets/json/context.json"
+  "@context": "https://oerworldmap.org/assets/json/context.json"
 }

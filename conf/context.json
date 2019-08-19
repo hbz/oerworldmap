@@ -24,10 +24,10 @@
       "@container": "@set"
     },
     "alternateName": {
-      "@container": "@set"
+      "@container": "@language"
     },
     "articleBody": {
-      "@container": "@set"
+      "@container": "@language"
     },
     "attendee": {
       "@container": "@set"
@@ -72,6 +72,9 @@
     "countryChampionFor": {
       "@container": "@set"
     },
+    "regionalChampionFor": {
+      "@container": "@set"
+    },
     "created": {
       "@container": "@set"
     },
@@ -79,10 +82,10 @@
       "@container": "@set"
     },
     "description": {
-      "@container": "@set"
+      "@container": "@language"
     },
     "displayName": {
-      "@container": "@set",
+      "@container": "@language",
       "@id": "https://oerworldmap.org/assets/json/vocab.json#displayName"
     },
     "funder": {
@@ -151,6 +154,9 @@
     "license": {
       "@container": "@set"
     },
+    "location": {
+      "@container": "@set"
+    },
     "manufacturer": {
       "@container": "@set"
     },
@@ -173,7 +179,7 @@
       "@container": "@set"
     },
     "name": {
-      "@container": "@set"
+      "@container": "@language"
     },
     "narrower": {
       "@id": "skos:narrower",
@@ -237,7 +243,7 @@
     },
     "scopeNote": {
       "@id": "skos:scopeNote",
-      "@container": "@set"
+      "@container": "@language"
     },
     "serviceType": {
       "@container": "@set"
@@ -273,7 +279,7 @@
       "@type" : "Date"
     },
     "text": {
-      "@container": "@set"
+      "@container": "@language"
     },
     "comment": {
       "@container": "@set"

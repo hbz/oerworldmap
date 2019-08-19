@@ -1,52 +1,57 @@
 {
-  "contributor" : "post@joeran.de",
-  "dateCreated" : "2017-01-23T11:41:44.489+01:00",
-  "@type" : "WebPage",
-  "author" : "karin.driesen@hbz-nrw.de",
-  "about" : {
-    "image" : "https://i1.wp.com/wp1025437.server-he.de/open-educational-resources/wp-content/uploads/sites/4/2015/06/OERCamp-Logo-Text_unten.jpg?resize=209%2C225",
-    "@type" : "Event",
-    "organizer" : [ {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Zentralstelle für Lehren und Lernen im 21. Jahrhundert - ZLL 21 e.V.",
-        "@language" : "en"
-      } ],
-      "location" : {
-        "geo" : {
-          "lon" : 10.007046,
-          "lat" : 53.576158
+  "contributor": "post@joeran.de",
+  "dateCreated": "2017-01-23T11:41:44.489+01:00",
+  "@type": "WebPage",
+  "author": "karin.driesen@hbz-nrw.de",
+  "about": {
+    "image": "https://i1.wp.com/wp1025437.server-he.de/open-educational-resources/wp-content/uploads/sites/4/2015/06/OERCamp-Logo-Text_unten.jpg?resize=209%2C225",
+    "@type": "Event",
+    "organizer": [
+      {
+        "@type": "Organization",
+        "name": {
+          "en": "Zentralstelle für Lehren und Lernen im 21. Jahrhundert - ZLL 21 e.V."
         },
-        "address" : {
-          "addressCountry" : "DE",
-          "streetAddress" : "Hamburg",
-          "addressLocality" : "Hamburg",
-          "addressRegion" : "DE.HH"
-        }
-      },
-      "@id" : "urn:uuid:b8b89c85-5d56-4fca-b78f-decce9e56952"
-    } ],
-    "name" : [ {
-      "@value" : "OERcamp Ost",
-      "@language" : "de"
-    } ],
-    "description" : [ {
-      "@value" : "Beim OERcamp zeigen OER-Macher*innen in Workshops und Sessions ihre Arbeit und laden zum praktischen Mitmachen ein. Das OERcamp findet 2017 bereits im sechsten Jahr in Folge statt. 2017 gibt es eine große Neuerung: Es gibt vier regionale OERcamps, jeweils eins im Norden, Süden, Westen und Osten Deutschlands.* Die OERcamps werden je zur Hälfte aus vorab geplanten und angekündigten Workshops und aus Barcamp-Sessions, die jeder vor Ort anbieten kann, bestehen. So stellen die Teilnehmenden ihr Programm für die beiden Tage selbst zusammen. Die Veranstalter erwarten dadurch insgesamt deutlich über 100 Programmpunkte aus allen Bildungsbereichen.",
-      "@language" : "en"
-    } ],
-    "inLanguage" : [ "de" ],
-    "location" : {
-      "address" : {
-        "addressCountry" : "DE",
-        "addressLocality" : "Berlin"
+        "location": [
+          {
+            "geo": {
+              "lon": 10.007046,
+              "lat": 53.576158
+            },
+            "address": {
+              "addressCountry": "DE",
+              "streetAddress": "Hamburg",
+              "addressLocality": "Hamburg",
+              "addressRegion": "DE.HH"
+            }
+          }
+        ],
+        "@id": "urn:uuid:b8b89c85-5d56-4fca-b78f-decce9e56952"
       }
+    ],
+    "name": {
+      "de": "OERcamp Ost"
     },
-    "@id" : "urn:uuid:7b0c8f88-379c-4103-8154-7177ceeebf43",
-    "@context" : "https://oerworldmap.org/assets/json/context.json",
-    "email" : "kontakt@oercamp.de",
-    "url" : "http://open-educational-resources.de/save-the-date-oercamps-2017-in-nord-sued-west-und-ost/#more-6375",
-    "hashtag" : "OERcamp17"
+    "description": {
+      "en": "Beim OERcamp zeigen OER-Macher*innen in Workshops und Sessions ihre Arbeit und laden zum praktischen Mitmachen ein. Das OERcamp findet 2017 bereits im sechsten Jahr in Folge statt. 2017 gibt es eine große Neuerung: Es gibt vier regionale OERcamps, jeweils eins im Norden, Süden, Westen und Osten Deutschlands.* Die OERcamps werden je zur Hälfte aus vorab geplanten und angekündigten Workshops und aus Barcamp-Sessions, die jeder vor Ort anbieten kann, bestehen. So stellen die Teilnehmenden ihr Programm für die beiden Tage selbst zusammen. Die Veranstalter erwarten dadurch insgesamt deutlich über 100 Programmpunkte aus allen Bildungsbereichen."
+    },
+    "inLanguage": [
+      "de"
+    ],
+    "location": [
+      {
+        "address": {
+          "addressCountry": "DE",
+          "addressLocality": "Berlin"
+        }
+      }
+    ],
+    "@id": "urn:uuid:7b0c8f88-379c-4103-8154-7177ceeebf43",
+    "@context": "https://oerworldmap.org/assets/json/context.json",
+    "email": "kontakt@oercamp.de",
+    "url": "http://open-educational-resources.de/save-the-date-oercamps-2017-in-nord-sued-west-und-ost/#more-6375",
+    "hashtag": "OERcamp17"
   },
-  "dateModified" : "2017-01-24T08:38:28.17+01:00",
-  "@id" : "urn:uuid:7b0c8f88-379c-4103-8154-7177ceeebf43.about"
+  "dateModified": "2017-01-24T08:38:28.17+01:00",
+  "@id": "urn:uuid:7b0c8f88-379c-4103-8154-7177ceeebf43.about"
 }

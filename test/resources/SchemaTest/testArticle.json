@@ -1,99 +1,85 @@
 {
-  "@context" : "https://oerworldmap.org/assets/json/context.json",
+  "@context": "https://oerworldmap.org/assets/json/context.json",
   "@id": "urn:uuid:35b71b56-9dcc-11e5-bb97-54ee7558c81f",
   "@type": "Article",
   "creator": [
     {
       "@id": "urn:uuid:839897e6-178f-11e5-871b-3c970e4a9cbf",
       "@type": "Person",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "Jan Neumann"
-        }
-      ]
+      "name": {
+        "en": "Jan Neumann"
+      }
     }
   ],
-  "name": [
-    {
-      "@language": "en",
-      "@value": "My OER Story"
-    }
+  "name": {
+    "en": "My OER Story"
+  },
+  "description": {
+    "en": "In this story I tell you about a wonderful afternoon in OER-Erkenschwick"
+  },
+  "keywords": [
+    "OER",
+    "Erkenschwick",
+    "afternoon"
   ],
-  "description": [
-      {
-        "@language": "en",
-        "@value": "In this story I tell you about a wonderful afternoon in OER-Erkenschwick"
-      }
-    ],
-  "keywords": [ "OER", "Erkenschwick", "afternoon" ],
-  "articleBody": [
-      {
-        "@language": "en",
-        "@value": "<p>One afternoon I found myself on a conference about Open Educational Resources in the beautiful town of <a href=\"http://www.wikidata.org/entity/Q16138\">OER-Erkenschwick</a>, oer didn't I?</p><p> However, lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>"
-      }
-    ],
+  "articleBody": {
+    "en": "<p>One afternoon I found myself on a conference about Open Educational Resources in the beautiful town of <a href=\"http://www.wikidata.org/entity/Q16138\">OER-Erkenschwick</a>, oer didn't I?</p><p> However, lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>"
+  },
   "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/DEU_Oer-Erkenschwick_COA.svg/430px-DEU_Oer-Erkenschwick_COA.svg.png",
   "mentions": [
     {
       "@id": "urn:uuid:5e573656-47f3-11e5-a81e-54ee7558c81f",
       "@type": "Service",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "Thunderbolt Kids"
-        }
-      ]
+      "name": {
+        "en": "Thunderbolt Kids"
+      }
     },
     {
       "@id": "urn:uuid:2826cdcc-3c35-11e5-9d86-001999ac7927",
       "@type": "Action",
-      "name": [
-        {
-          "@language": "en",
-          "@value": "Vital Signs"
-        }
-      ]
+      "name": {
+        "en": "Vital Signs"
+      }
     }
   ],
   "dateCreated": "2011-11-11",
-  "location": {
-    "geo": {
-      "lon": 1.1,
-      "lat": -2.2
-    },
-    "address": {
-      "addressCountry": "SH",
-      "streetAddress": "Rue Example",
-      "@type": "PostalAddress",
-      "postalCode": "1234",
-      "addressRegion": "Beispielregion",
-      "addressLocality": "St. Test"
-    },
-    "@type": "Place"
-  },
+  "location": [
+    {
+      "geo": {
+        "lon": 1.1,
+        "lat": -2.2
+      },
+      "address": {
+        "addressCountry": "SH",
+        "streetAddress": "Rue Example",
+        "@type": "PostalAddress",
+        "postalCode": "1234",
+        "addressRegion": "Beispielregion",
+        "addressLocality": "St. Test"
+      },
+      "@type": "Place"
+    }
+  ],
   "exampleOfWork": "http://example.org",
   "citation": "John Doe 2017, CC-BY",
-  "primarySector" : [ {
-    "@type" : "Concept",
-    "name" : [ {
-      "@value" : "Hochschule",
-      "@language" : "de"
-    }, {
-      "@value" : "Higher Education",
-      "@language" : "en"
-    } ],
-    "@id" : "https://oerworldmap.org/assets/json/sectors.json#higherEd"
-  } ],
-  "secondarySector" : [ {
-    "@type" : "Concept",
-    "name" : [ {
-      "@value" : "Weiterbildung",
-      "@language" : "de"
-    }, {
-      "@value" : "Further Education",
-      "@language" : "en"
-    } ],
-    "@id" : "https://oerworldmap.org/assets/json/sectors.json#further"
-  } ]
+  "primarySector": [
+    {
+      "@type": "Concept",
+      "name": {
+        "de": "Hochschule",
+        "en": "Higher Education"
+      },
+      "@id": "https://oerworldmap.org/assets/json/sectors.json#higherEd"
+    }
+  ],
+  "secondarySector": [
+    {
+      "@type": "Concept",
+      "name": {
+        "de": "Weiterbildung",
+        "en": "Further Education"
+      },
+      "@id": "https://oerworldmap.org/assets/json/sectors.json#further"
+    }
+  ]
 }

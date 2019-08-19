@@ -1,0 +1,38 @@
+{
+  "about": {
+    "@type": "Person",
+    "@id": "345",
+    "name": {
+      "en": "Hans Wurst"
+    },
+    "email": "foo@bar.com",
+    "authorOf": [
+      {
+        "@type": "Article",
+        "@id": "123",
+        "name": {
+          "en": "Ganz spannend!"
+        },
+        "articleBody": {
+          "en": "Super toll"
+        },
+        "author": [
+          {
+            "@type": "Person",
+            "@id": "456",
+            "name": {
+              "en": "Hans Dampf"
+            }
+          },
+          {
+            "@type": "Person",
+            "@id": "345",
+            "name": {
+              "en": "Hans Dampf"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

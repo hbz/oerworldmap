@@ -1,28 +1,27 @@
 {
-	"@context" : "https://oerworldmap.org/assets/json/context.json", 
-	"@id": "urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0001", 
-	"@type": "Organization", 
-	"name": [
-		{
-			"@language": "en", 
-			"@value": "Out Of Polygon Organization 1"
-		}
-	], 
-	"location": {
-		"geo": {
-			"lon": 7.06, 
-			"lat": 4.82
-		}, 
-		"address": {
-			"addressCountry": "NG", 
-			"streetAddress": "Example Street", 
-			"@type": "PostalAddress", 
-			"postalCode": "1234", 
-			"addressRegion": "Oeregion", 
-			"addressLocality": "BeautifulLocality"
-		}, 
-		"@type": "Place"
-	}, 
-	"url": "http://nigeriaisbeautiful1.ng", 
-	"email": "info@nigeriaisbeautiful1.ng"
+  "@context": "https://oerworldmap.org/assets/json/context.json",
+  "@id": "urn:uuid:eea2cb2a-9f4c-11e5-945f-001999ac0001",
+  "@type": "Organization",
+  "name": {
+    "en": "Out Of Polygon Organization 1"
+  },
+  "location": [
+    {
+      "geo": {
+        "lon": 7.06,
+        "lat": 4.82
+      },
+      "address": {
+        "addressCountry": "NG",
+        "streetAddress": "Example Street",
+        "@type": "PostalAddress",
+        "postalCode": "1234",
+        "addressRegion": "Oeregion",
+        "addressLocality": "BeautifulLocality"
+      },
+      "@type": "Place"
+    }
+  ],
+  "url": "http://nigeriaisbeautiful1.ng",
+  "email": "info@nigeriaisbeautiful1.ng"
 }

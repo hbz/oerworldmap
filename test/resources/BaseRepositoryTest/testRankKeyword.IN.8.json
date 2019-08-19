@@ -1,191 +1,222 @@
 {
-  "recordedIn" : [ "https://docs.google.com/spreadsheets/d/14xlMTyv1yJOCUFC94hKN_maM7Q53h96WVDNeV6q2PNg/edit#gid=8743918", "http://www.slideshare.net/search/slideshow?searchfrom=header&q=opened16" ],
-  "image" : "http://openedconference.org/2016/wp-content/uploads/2016/03/opened-logo.png",
-  "attendee" : [ {
-    "affiliation" : [ {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Northwestern Michigan College",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:a7ef2c0a-219b-46ab-bbfb-f11066e11d88"
-    } ],
-    "@type" : "Person",
-    "name" : [ {
-      "@value" : "Michele P Howard",
-      "@language" : "en"
-    } ],
-    "attends" : [ {
-      "@type" : "Event",
-      "name" : [ {
-        "@value" : "13th Annual Open Education Conference",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:1a9be075-5a7f-4321-b991-4f3af7ec4dd4"
-    } ],
-    "description" : [ {
-      "@value" : "Government Documents Librarian who does a substantial about of work researching and finding OER resources for faculty. ",
-      "@language" : "en"
-    } ],
-    "location" : {
-      "geo" : {
-        "lon" : -85.585507,
-        "lat" : 44.765363
+  "recordedIn": [
+    "https://docs.google.com/spreadsheets/d/14xlMTyv1yJOCUFC94hKN_maM7Q53h96WVDNeV6q2PNg/edit#gid=8743918",
+    "http://www.slideshare.net/search/slideshow?searchfrom=header&q=opened16"
+  ],
+  "image": "http://openedconference.org/2016/wp-content/uploads/2016/03/opened-logo.png",
+  "attendee": [
+    {
+      "affiliation": [
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Northwestern Michigan College"
+          },
+          "@id": "urn:uuid:a7ef2c0a-219b-46ab-bbfb-f11066e11d88"
+        }
+      ],
+      "@type": "Person",
+      "name": {
+        "en": "Michele P Howard"
       },
-      "address" : {
-        "addressCountry" : "US",
-        "streetAddress" : "1701 East Front St",
-        "postalCode" : 49686,
-        "addressLocality" : "Traverse City",
-        "addressRegion" : "US.MI"
-      }
-    },
-    "@id" : "urn:uuid:ff73ca5f-c39d-4f12-b838-3e6b759e2aa4",
-    "email" : "mhoward@nmc.edu"
-  } ],
-  "performer" : [ {
-    "keywords" : [ "oer research", "project management", "open policy", "GoOpen", "Open Research", "policy making", "open educational practice", "program management", "open educational resources" ],
-    "affiliation" : [ {
-      "@type" : "Action",
-      "name" : [ {
-        "@value" : "GoOpen",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:dea9fc46-4d78-4e24-9886-8d46998ddeaf"
-    }, {
-      "@type" : "Organization",
-      "name" : [ {
-        "@value" : "Global OER Graduate Network",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:c4a55240-bbdb-48fd-b40e-6bd96f4ba8f5"
-    } ],
-    "@type" : "Person",
-    "performerIn" : [ {
-      "@type" : "Event",
-      "name" : [ {
-        "@value" : "Open Education Global Conference 2017",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:9c3fdacf-2bfa-430f-8273-178b0c64aa19"
-    }, {
-      "@type" : "Event",
-      "name" : [ {
-        "@value" : "13th Annual Open Education Conference",
-        "@language" : "en"
-      } ],
-      "@id" : "urn:uuid:1a9be075-5a7f-4321-b991-4f3af7ec4dd4"
-    } ],
-    "name" : [ {
-      "@value" : "Jamison R. Miller",
-      "@language" : "en"
-    } ],
-    "description" : [ {
-      "@value" : "I am a PhD candidate in Educational Policy, Planning, and Leadership with an emphasis in Open Education. My doctoral research engages with theoretical foundations for open education, policy analysis, and trans-disciplinary sharing of open practice. I have also been working with the Virginia Dept. of Education over the last year in developing their OER adoption program, GoOpenVA.\r\nI'm most interested in how open education can sustainably transform our educational institutions into more democratic and equitable forms.",
-      "@language" : "en"
-    } ],
-    "location" : {
-      "geo" : {
-        "lon" : -76.723348,
-        "lat" : 37.278247
+      "attends": [
+        {
+          "@type": "Event",
+          "name": {
+            "en": "13th Annual Open Education Conference"
+          },
+          "@id": "urn:uuid:1a9be075-5a7f-4321-b991-4f3af7ec4dd4"
+        }
+      ],
+      "description": {
+        "en": "Government Documents Librarian who does a substantial about of work researching and finding OER resources for faculty. "
       },
-      "address" : {
-        "addressCountry" : "US",
-        "streetAddress" : "301 Monticello Avenue",
-        "postalCode" : 23185,
-        "addressLocality" : "Williamsburg",
-        "addressRegion" : "US.VA"
+      "location": [
+        {
+          "geo": {
+            "lon": -85.585507,
+            "lat": 44.765363
+          },
+          "address": {
+            "addressCountry": "US",
+            "streetAddress": "1701 East Front St",
+            "postalCode": 49686,
+            "addressLocality": "Traverse City",
+            "addressRegion": "US.MI"
+          }
+        }
+      ],
+      "@id": "urn:uuid:ff73ca5f-c39d-4f12-b838-3e6b759e2aa4",
+      "email": "mhoward@nmc.edu"
+    }
+  ],
+  "performer": [
+    {
+      "keywords": [
+        "oer research",
+        "project management",
+        "open policy",
+        "GoOpen",
+        "Open Research",
+        "policy making",
+        "open educational practice",
+        "program management",
+        "open educational resources"
+      ],
+      "affiliation": [
+        {
+          "@type": "Action",
+          "name": {
+            "en": "GoOpen"
+          },
+          "@id": "urn:uuid:dea9fc46-4d78-4e24-9886-8d46998ddeaf"
+        },
+        {
+          "@type": "Organization",
+          "name": {
+            "en": "Global OER Graduate Network"
+          },
+          "@id": "urn:uuid:c4a55240-bbdb-48fd-b40e-6bd96f4ba8f5"
+        }
+      ],
+      "@type": "Person",
+      "performerIn": [
+        {
+          "@type": "Event",
+          "name": {
+            "en": "Open Education Global Conference 2017"
+          },
+          "@id": "urn:uuid:9c3fdacf-2bfa-430f-8273-178b0c64aa19"
+        },
+        {
+          "@type": "Event",
+          "name": {
+            "en": "13th Annual Open Education Conference"
+          },
+          "@id": "urn:uuid:1a9be075-5a7f-4321-b991-4f3af7ec4dd4"
+        }
+      ],
+      "name": {
+        "en": "Jamison R. Miller"
+      },
+      "description": {
+        "en": "I am a PhD candidate in Educational Policy, Planning, and Leadership with an emphasis in Open Education. My doctoral research engages with theoretical foundations for open education, policy analysis, and trans-disciplinary sharing of open practice. I have also been working with the Virginia Dept. of Education over the last year in developing their OER adoption program, GoOpenVA.\r\nI'm most interested in how open education can sustainably transform our educational institutions into more democratic and equitable forms."
+      },
+      "location": [
+        {
+          "geo": {
+            "lon": -76.723348,
+            "lat": 37.278247
+          },
+          "address": {
+            "addressCountry": "US",
+            "streetAddress": "301 Monticello Avenue",
+            "postalCode": 23185,
+            "addressLocality": "Williamsburg",
+            "addressRegion": "US.VA"
+          }
+        }
+      ],
+      "@id": "urn:uuid:ecfa38aa-e45b-49a6-a2d3-af075967ae55",
+      "email": "jrmiller@email.wm.edu",
+      "url": "http://jrmiller.us/",
+      "sameAs": [
+        "https://twitter.com/MillerJamison"
+      ]
+    }
+  ],
+  "endDate": "2016-11-04",
+  "@type": "Event",
+  "about": [
+    {
+      "inScheme": {
+        "@type": "ConceptScheme",
+        "@id": "https://w3id.org/class/esc/scheme"
+      },
+      "@type": "Concept",
+      "notation": [
+        "01",
+        "011"
+      ],
+      "name": {
+        "en": "Education"
+      },
+      "narrower": [
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Education"
+          },
+          "@id": "https://w3id.org/class/esc/n01"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Training for pre-school teachers"
+          },
+          "@id": "https://w3id.org/class/esc/n0112"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Teacher training with subject specialisation"
+          },
+          "@id": "https://w3id.org/class/esc/n0114"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Education science"
+          },
+          "@id": "https://w3id.org/class/esc/n0111"
+        },
+        {
+          "@type": "Concept",
+          "name": {
+            "en": "Teacher training without subject specialisation"
+          },
+          "@id": "https://w3id.org/class/esc/n0113"
+        }
+      ],
+      "@id": "https://w3id.org/class/esc/n01",
+      "topConceptOf": {
+        "@type": "ConceptScheme",
+        "@id": "https://w3id.org/class/esc/scheme"
       }
-    },
-    "@id" : "urn:uuid:ecfa38aa-e45b-49a6-a2d3-af075967ae55",
-    "email" : "jrmiller@email.wm.edu",
-    "url" : "http://jrmiller.us/",
-    "sameAs" : [ "https://twitter.com/MillerJamison" ]
-  } ],
-  "endDate" : "2016-11-04",
-  "@type" : "Event",
-  "about" : [ {
-    "inScheme" : {
-      "@type" : "ConceptScheme",
-      "@id" : "https://w3id.org/class/esc/scheme"
-    },
-    "@type" : "Concept",
-    "notation" : [ "01", "011" ],
-    "name" : [ {
-      "@value" : "Education",
-      "@language" : "en"
-    } ],
-    "narrower" : [ {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Education",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n01"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Training for pre-school teachers",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n0112"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Teacher training with subject specialisation",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n0114"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Education science",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n0111"
-    }, {
-      "@type" : "Concept",
-      "name" : [ {
-        "@value" : "Teacher training without subject specialisation",
-        "@language" : "en"
-      } ],
-      "@id" : "https://w3id.org/class/esc/n0113"
-    } ],
-    "@id" : "https://w3id.org/class/esc/n01",
-    "topConceptOf" : {
-      "@type" : "ConceptScheme",
-      "@id" : "https://w3id.org/class/esc/scheme"
     }
-  } ],
-  "description" : [ {
-    "@value" : "The themes for the 13th Annual Open Education Conference are listed below. The organisers would like to express their thanks to everyone in the #OpenEd16 community for their ideas, contributions, and feedback during the selection of this yearâ€™s conference themes.\r\n<ul>\r\n\t<li>the meaning of open</li>\r\n\t<li>open pedagogy and open educational practices</li>\r\n\t<li>research on the impact of OER, open pedagogy, or open educational practices</li>\r\n\t<li>the ethics of open</li>\r\n\t<li>critiques of OER and open education</li>\r\n\t<li>the economics of open education</li>\r\n\t<li>issues at the intersection of open and assessment\r\ntools and technologies supporting open education</li>\r\n\t<li>collaborations in support of open education\r\npromoting and evaluating institutional and governmental open policies</li>\r\n\t<li>lessons learned from â€œless successfulâ€ open education initiatives</li>\r\n\t<li>models supporting the adoption, use, or sustaining of OER in higher education</li>\r\n\t<li>models supporting the adoption, use, or sustaining of OER in K-12 education</li>\r\n\t<li>models supporting the adoption, use, or sustaining of OER in informal learning</li>\r\n\t<li>models supporting the adoption, use, or sustaining of OER in adult basic education</li>\r\n\t<li>the role of students in advocating for, supporting, or sustaining OER adoption and use</li>\r\n\t<li>the role of faculty in advocating for, supporting, or sustaining OER adoption and use</li>\r\n\t<li>the role of instructional designers in advocating for, supporting, or sustaining OER adoption and use</li>\r\n\t<li>the role of librarians in advocating for, supporting, or sustaining OER adoption and use</li>\r\n\t<li>synergies between open education and open data, open access, open science, and open source</li>\r\n\t<li>open education in developing countries</li>\r\n\t<li>whatâ€™s next for OER and open education</li>\r\n\t<li>unanticipated topics (does your topic not fit above? it fits here!)</li>\r\n</ul>\r\nA archive or presentation slides that have been shared can be found <a href=\"http://www.slideshare.net/search/slideshow?searchfrom=header&q=opened16\">here</a>.\r\nBelow are links to blogs, slides, videos and other content generated by and for the conference (adapted from the <a href=\"https://docs.google.com/document/d/1-cSEWkRpM0fd37Ha6yxx4qpNXBnTSbIvMbLh4e65qus/edit\">#ArchiveOfAwesome</a>.\r\n\r\nVIRTUALLY CONNECTING\r\n<a href=\"http://virtuallyconnecting.org/announcements/we-are-vconnecting-at-opened16/\">http://virtuallyconnecting.org/announcements/we-are-vconnecting-at-opened16/</a>\r\n\r\nUK @LTHEchat66 (#LTHEchat) (live Tweet chat held Wed 2nd November)\r\n<a href=\"https://lthechat.com/2016/10/23/lthechat-66-the-porous-university\">The Porous University/</a>\r\n\r\nLIVE BLOGS (Keynotes)\r\n<ul>\r\n\t<li>Gardner Campbellâ€™s Keynote\r\n<a href=\"http://known.followersoftheapocalyp.se/2016/opened16---gardner-campbell-keynote-notes\">http://known.followersoftheapocalyp.se/2016/opened16---gardner-campbell-keynote-notes</a></li>\r\n\t<li><a href=\"https://philosopher1978.wordpress.com/2016/11/02/opened16-live-blog-gardner-campbell/ \">https://philosopher1978.wordpress.com/2016/11/02/opened16-live-blog-gardner-campbell/</a></li>\r\n</ul>\r\nSara Goldrick-Rabâ€™s Keynote\r\n<a href=\"http://known.followersoftheapocalyp.se/2016/opened16---sara-goldrick-rab-notes\">http://known.followersoftheapocalyp.se/2016/opened16---sara-goldrick-rab-notes</a>\r\n\r\nTJ Blissâ€™s Keynote\r\n<a href=\"http://known.followersoftheapocalyp.se/2016/opened16---tj-bliss-notes\">http://known.followersoftheapocalyp.se/2016/opened16---tj-bliss-notes</a>\r\nOTHER LIVE BLOGS\r\n\r\nPreston Davis Talk\r\n<a href=\"https://philosopher1978.wordpress.com/2016/11/04/opened16-live-blog-college-affordability-and-social-justice/\">College Affordability and Social Justice</a>\r\n\r\nOER research fellows update\r\n<a href=\"https://philosopher1978.wordpress.com/2016/11/02/opened16-liveblog-oer-research-fellows-update/ \">OER Research Fellows Update </a>\r\nBLOGS\r\n\r\nAdam Croom\r\n<ul>\r\n\t<li><a href=\"http://adamcroom.com/2016/11/what-open-will-we-get-at-opened16/\">What will we get at Open Ed?</a></li>\r\n\t<li><a href=\"http://adamcroom.com/2016/11/searching-for-student-voice-at-opened16/\">Searching for student voice at OpenEd16</a></li>\r\n</ul>\r\nBritni Brown O'DonnellÂ <a href=\"https://britnibrownodonnell.wordpress.com/2016/11/06/narratives-in-natural-sciences/\">Narratives in natural sciences</a>\r\n\r\nCogdogBlog - Alan LevineÂ <a href=\"http://cogdogblog.com/2016/11/conference-conundrum/\">Conference Conundrum</a>\r\n\r\nDaniel LyndsÂ <a href=\"http://daniellynds.com/edtech/opened16iv/\">An #opened16 #IdeaVomit/</a>\r\n\r\nEconproph Jim Luke\r\n<ul>\r\n\t<li><a href=\"https://econproph.com/2016/11/03/open-is-alive/\">Open is Alive</a></li>\r\n\t<li><a href=\"https://econproph.com/2016/11/05/processing-opened16/\">Processing OpenEd 16</a></li>\r\n\t<li><a href=\"https://econproph.com/2016/11/01/running-errands-for-open-learning-ideas/\">Running Errands for Open Learning Ideas</a></li>\r\n</ul>\r\nEd Techie (Martin Weller)Â <a href=\"http://blog.edtechie.net/conference/opened16-my-manel-shame/\">My 'Manel' Shame</a>\r\n\r\nGoogle Guacamole - Laura GogiaÂ <a href=\"https://googleguacamole.wordpress.com/2016/11/04/stories-as-a-way-of-being/\">Stories as a Way of Being</a>\r\n\r\nKen Bauer\r\n<ul>\r\n\t<li><a href=\"https://blog.kenbauer.me/2016/11/05/opened16-the-normals/\">#OpenEd16 The Normals</a></li>\r\n\t<li><a href=\"https://blog.kenbauer.me/2016/11/07/more-than-rescue-the-semester/\">More than Rescue the Semester</a></li>\r\n</ul>\r\nPhilosopher1978 (Rob Farrow)Â <a href=\"https://philosopher1978.wordpress.com/2016/11/04/the-open-research-agenda-opened16/\">The Open Research Agenda</a>\r\n\r\nTG Learning Nuggets (Terry Greene)Â <a href=\"https://learningnuggetsblog.wordpress.com/2016/11/06/an-opening-move/\">An Opening Move</a>\r\n\r\nTomonag (Tomo Nagashima)Â <a href=\"http://tomonag.org/post/152800460600/opened-the-future-and-why-i-am-in-the-us\">OpenEd, the Future, and Why I am in the US</a>\r\n\r\nWillem van Valkenburg\r\n<a>#OpenEd16 blogs by Willem van Valkenburg</a>\r\n\r\nDavid KernohanÂ <a href=\"http://followersoftheapocalyp.se/all-the-words-of-wisdom-sound-the-same-opened16/ \">â€œAll the words of wisdom sound the sameâ€ </a>\r\n\r\nrmoejo (Rolin Moe)\r\n<ul>\r\n\t<li><a href=\"http://edutechnicalities.com/articles/the-presentation-escape-hatch-blogging-my-opened16-talk/ \">The presentation escape hatch: blogging my #opened16 talk </a></li>\r\n\t<li><a href=\"http://edutechnicalities.com/articles/getting-the-most-out-of-the-smartest-room-in-education-an-opened16-reflection/\">Getting the most out of the smartest people in the room</a></li>\r\n</ul>\r\nJamison Miller\r\n<ul>\r\n\t<li><a href=\"http://jrmiller.us/open-ed/doctor-campbell-at-opened16/\">Doctor Campbell at OpenEd16</a></li>\r\n\t<li><a href=\"http://jrmiller.us/open-ed/opened16-and-my-deeper-community/\">Open Ed 16 and my deeper community</a></li>\r\n\t<li><a href=\"http://www.slideshare.net/JamisonMiller/open-eduction-as-a-real-utopia\">Open Education as Real Utopia</a></li>\r\n\t<li><a href=\"http://www.slideshare.net/JamisonMiller/establishing-the-actual-costs-of-textbooks-data-from-virginias-community-colleges \">Establishing the actual cost of textbooks data from Virginia's community colleges </a></li>\r\n</ul>\r\nSundi RichardÂ <a href=\"http://sundirichard.com/digpins/when-the-fringe-conference-opened16/\">when the fringe conference â€“ #opened16</a>\r\n\r\nLauri AesophÂ <a href=\"https://open.bccampus.ca/2016/11/04/reflections-on-the-opened-2016-conference/ \">Reflections on the Open Ed 2016 Conference </a>\r\n\r\nKate BowlesÂ <a href=\"http://musicfordeckchairs.com/blog/2016/11/08/tenet/ \">Tenet </a>\r\n\r\nHelen M. RossÂ <a href=\"http://www.mctoonish.com/blog/?p=1715 \">Keynote Bookends at OpenEd 2016</a>\r\n\r\nAlan Levine/Paul StaceyÂ <a href=\"https://certificates.creativecommons.org/2016/11/opened-2016/ \">In the MOOD: Sharing the Certification Project at Open Education 2016</a>\r\n\r\nJohn StewartÂ <a href=\"http://www.johnastewart.org/conferences/opening-of-opened16/\">Opening of Open Ed</a>\r\n\r\nKeegan Long-Wheeler\r\n<ul>\r\n\t<li><a href=\"http://keeganslw.com/anatomy-of-slaying-goblins-opened16-presentation/\">Anatomy of slaying GOBLINs</a></li>\r\n\t<li><a href=\"http://keeganslw.com/im-collecting-resources-from-opened16-sharing-results-here/\">A collection of resources shared at Open Ed 16/ </a>(Resources collected)</li>\r\n</ul>\r\nTJ BlissÂ <a href=\"http://www.slideshare.net/tjbliss/an-iframe-for-open-educational-resources-oer\">An iFrame for OERr </a>\r\n\r\nPHOTOS\r\n<ul>\r\n\t<li><a href=\"https://www.flickr.com/photos/cogdog/tags/opened16\">CogDog</a></li>\r\n\t<li><a href=\"https://flic.kr/p/MW8NKt\">Tom Woodward</a></li>\r\n\t<li><a href=\"https://www.flickr.com/search/?group_id=2940947%40N21&view_all=1&text=%23OpenEd16 \">Virtually Connecting (Flickr) </a></li>\r\n\t<li><a href=\"https://flic.kr/s/aHskKVKsTh\">Viv Caruna</a></li>\r\n</ul>\r\nCOLLABORATIVE NOTES\r\nA number of delegates contributed their notes here:\r\n<a href=\"https://docs.google.com/document/d/1ykiVDyZ8NqkXDLS86Fch9uj4PIaGHigOMwtVGr12VXE/edit?usp=sharing\">https://docs.google.com/document/d/1ykiVDyZ8NqkXDLS86Fch9uj4PIaGHigOMwtVGr12VXE/edit?usp=sharing</a>\r\n\r\nPERISCOPE\r\n\r\nGardner Campbellâ€™s Keynote\r\n<a href=\"https://www.periscope.tv/actualham/1DXxyooyDOPGM?t=2\">https://www.periscope.tv/actualham/1DXxyooyDOPGM?t=2</a>\r\n\r\nPrep for Virtually Connecting Fishbowl\r\n<a href=\"https://www.periscope.tv/GardnerCampbell/1mnxejWpwyoKX?t=1 \">https://www.periscope.tv/GardnerCampbell/1mnxejWpwyoKX?t=1</a>\r\n\r\nYOUTUBE\r\n\r\nâ€œOvertureâ€ to Gardner Campbellâ€™s Keynote <a href=\"https://youtu.be/ecnSWBxZYsg\">https://youtu.be/ecnSWBxZYsg</a>. An MP4 is also available at: <a href=\"http://known.networkeffects.ca/2016/in-the-event-youtube-contentid-pulls-a-fast-one-on\">http://known.networkeffects.ca/2016/in-the-event-youtube-contentid-pulls-a-fast-one-on</a>)\r\n\r\nGardner Campbellâ€™s Keynote (transcoded to mp4 from @actualham Periscope) <a href=\"https://www.youtube.com/watch?v=ecnSWBxZYsg\">https://www.youtube.com/watch?v=ecnSWBxZYsg</a>\r\n\r\nFuturOER project <a href=\"http://www.futuoer.org/about-2/credits/\">http://www.futuoer.org/about-2/credits/ </a>",
-    "@language" : "en"
-  } ],
-  "inLanguage" : [ "en" ],
-  "alternateName" : [ {
-    "@value" : "OpenEd16",
-    "@language" : "en"
-  } ],
-  "@context" : "https://oerworldmap.org/assets/json/context.json",
-  "url" : "http://openedconference.org/2016/",
-  "name" : [ {
-    "@value" : "13th Annual Open Education Conference",
-    "@language" : "en"
-  } ],
-  "location" : {
-    "geo" : {
-      "lon" : -77.437407,
-      "lat" : 37.543797
-    },
-    "address" : {
-      "addressCountry" : "US",
-      "streetAddress" : "Greater Richmond Convention Center",
-      "addressLocality" : "Richmond",
-      "addressRegion" : "US.VA"
-    }
+  ],
+  "description": {
+    "en": "The themes for the 13th Annual Open Education Conference are listed below. The organisers would like to express their thanks to everyone in the #OpenEd16 community for their ideas, contributions, and feedback during the selection of this yearâ€™s conference themes.\r\n<ul>\r\n\t<li>the meaning of open</li>\r\n\t<li>open pedagogy and open educational practices</li>\r\n\t<li>research on the impact of OER, open pedagogy, or open educational practices</li>\r\n\t<li>the ethics of open</li>\r\n\t<li>critiques of OER and open education</li>\r\n\t<li>the economics of open education</li>\r\n\t<li>issues at the intersection of open and assessment\r\ntools and technologies supporting open education</li>\r\n\t<li>collaborations in support of open education\r\npromoting and evaluating institutional and governmental open policies</li>\r\n\t<li>lessons learned from â€œless successfulâ€ open education initiatives</li>\r\n\t<li>models supporting the adoption, use, or sustaining of OER in higher education</li>\r\n\t<li>models supporting the adoption, use, or sustaining of OER in K-12 education</li>\r\n\t<li>models supporting the adoption, use, or sustaining of OER in informal learning</li>\r\n\t<li>models supporting the adoption, use, or sustaining of OER in adult basic education</li>\r\n\t<li>the role of students in advocating for, supporting, or sustaining OER adoption and use</li>\r\n\t<li>the role of faculty in advocating for, supporting, or sustaining OER adoption and use</li>\r\n\t<li>the role of instructional designers in advocating for, supporting, or sustaining OER adoption and use</li>\r\n\t<li>the role of librarians in advocating for, supporting, or sustaining OER adoption and use</li>\r\n\t<li>synergies between open education and open data, open access, open science, and open source</li>\r\n\t<li>open education in developing countries</li>\r\n\t<li>whatâ€™s next for OER and open education</li>\r\n\t<li>unanticipated topics (does your topic not fit above? it fits here!)</li>\r\n</ul>\r\nA archive or presentation slides that have been shared can be found <a href=\"http://www.slideshare.net/search/slideshow?searchfrom=header&q=opened16\">here</a>.\r\nBelow are links to blogs, slides, videos and other content generated by and for the conference (adapted from the <a href=\"https://docs.google.com/document/d/1-cSEWkRpM0fd37Ha6yxx4qpNXBnTSbIvMbLh4e65qus/edit\">#ArchiveOfAwesome</a>.\r\n\r\nVIRTUALLY CONNECTING\r\n<a href=\"http://virtuallyconnecting.org/announcements/we-are-vconnecting-at-opened16/\">http://virtuallyconnecting.org/announcements/we-are-vconnecting-at-opened16/</a>\r\n\r\nUK @LTHEchat66 (#LTHEchat) (live Tweet chat held Wed 2nd November)\r\n<a href=\"https://lthechat.com/2016/10/23/lthechat-66-the-porous-university\">The Porous University/</a>\r\n\r\nLIVE BLOGS (Keynotes)\r\n<ul>\r\n\t<li>Gardner Campbellâ€™s Keynote\r\n<a href=\"http://known.followersoftheapocalyp.se/2016/opened16---gardner-campbell-keynote-notes\">http://known.followersoftheapocalyp.se/2016/opened16---gardner-campbell-keynote-notes</a></li>\r\n\t<li><a href=\"https://philosopher1978.wordpress.com/2016/11/02/opened16-live-blog-gardner-campbell/ \">https://philosopher1978.wordpress.com/2016/11/02/opened16-live-blog-gardner-campbell/</a></li>\r\n</ul>\r\nSara Goldrick-Rabâ€™s Keynote\r\n<a href=\"http://known.followersoftheapocalyp.se/2016/opened16---sara-goldrick-rab-notes\">http://known.followersoftheapocalyp.se/2016/opened16---sara-goldrick-rab-notes</a>\r\n\r\nTJ Blissâ€™s Keynote\r\n<a href=\"http://known.followersoftheapocalyp.se/2016/opened16---tj-bliss-notes\">http://known.followersoftheapocalyp.se/2016/opened16---tj-bliss-notes</a>\r\nOTHER LIVE BLOGS\r\n\r\nPreston Davis Talk\r\n<a href=\"https://philosopher1978.wordpress.com/2016/11/04/opened16-live-blog-college-affordability-and-social-justice/\">College Affordability and Social Justice</a>\r\n\r\nOER research fellows update\r\n<a href=\"https://philosopher1978.wordpress.com/2016/11/02/opened16-liveblog-oer-research-fellows-update/ \">OER Research Fellows Update </a>\r\nBLOGS\r\n\r\nAdam Croom\r\n<ul>\r\n\t<li><a href=\"http://adamcroom.com/2016/11/what-open-will-we-get-at-opened16/\">What will we get at Open Ed?</a></li>\r\n\t<li><a href=\"http://adamcroom.com/2016/11/searching-for-student-voice-at-opened16/\">Searching for student voice at OpenEd16</a></li>\r\n</ul>\r\nBritni Brown O'DonnellÂ <a href=\"https://britnibrownodonnell.wordpress.com/2016/11/06/narratives-in-natural-sciences/\">Narratives in natural sciences</a>\r\n\r\nCogdogBlog - Alan LevineÂ <a href=\"http://cogdogblog.com/2016/11/conference-conundrum/\">Conference Conundrum</a>\r\n\r\nDaniel LyndsÂ <a href=\"http://daniellynds.com/edtech/opened16iv/\">An #opened16 #IdeaVomit/</a>\r\n\r\nEconproph Jim Luke\r\n<ul>\r\n\t<li><a href=\"https://econproph.com/2016/11/03/open-is-alive/\">Open is Alive</a></li>\r\n\t<li><a href=\"https://econproph.com/2016/11/05/processing-opened16/\">Processing OpenEd 16</a></li>\r\n\t<li><a href=\"https://econproph.com/2016/11/01/running-errands-for-open-learning-ideas/\">Running Errands for Open Learning Ideas</a></li>\r\n</ul>\r\nEd Techie (Martin Weller)Â <a href=\"http://blog.edtechie.net/conference/opened16-my-manel-shame/\">My 'Manel' Shame</a>\r\n\r\nGoogle Guacamole - Laura GogiaÂ <a href=\"https://googleguacamole.wordpress.com/2016/11/04/stories-as-a-way-of-being/\">Stories as a Way of Being</a>\r\n\r\nKen Bauer\r\n<ul>\r\n\t<li><a href=\"https://blog.kenbauer.me/2016/11/05/opened16-the-normals/\">#OpenEd16 The Normals</a></li>\r\n\t<li><a href=\"https://blog.kenbauer.me/2016/11/07/more-than-rescue-the-semester/\">More than Rescue the Semester</a></li>\r\n</ul>\r\nPhilosopher1978 (Rob Farrow)Â <a href=\"https://philosopher1978.wordpress.com/2016/11/04/the-open-research-agenda-opened16/\">The Open Research Agenda</a>\r\n\r\nTG Learning Nuggets (Terry Greene)Â <a href=\"https://learningnuggetsblog.wordpress.com/2016/11/06/an-opening-move/\">An Opening Move</a>\r\n\r\nTomonag (Tomo Nagashima)Â <a href=\"http://tomonag.org/post/152800460600/opened-the-future-and-why-i-am-in-the-us\">OpenEd, the Future, and Why I am in the US</a>\r\n\r\nWillem van Valkenburg\r\n<a>#OpenEd16 blogs by Willem van Valkenburg</a>\r\n\r\nDavid KernohanÂ <a href=\"http://followersoftheapocalyp.se/all-the-words-of-wisdom-sound-the-same-opened16/ \">â€œAll the words of wisdom sound the sameâ€ </a>\r\n\r\nrmoejo (Rolin Moe)\r\n<ul>\r\n\t<li><a href=\"http://edutechnicalities.com/articles/the-presentation-escape-hatch-blogging-my-opened16-talk/ \">The presentation escape hatch: blogging my #opened16 talk </a></li>\r\n\t<li><a href=\"http://edutechnicalities.com/articles/getting-the-most-out-of-the-smartest-room-in-education-an-opened16-reflection/\">Getting the most out of the smartest people in the room</a></li>\r\n</ul>\r\nJamison Miller\r\n<ul>\r\n\t<li><a href=\"http://jrmiller.us/open-ed/doctor-campbell-at-opened16/\">Doctor Campbell at OpenEd16</a></li>\r\n\t<li><a href=\"http://jrmiller.us/open-ed/opened16-and-my-deeper-community/\">Open Ed 16 and my deeper community</a></li>\r\n\t<li><a href=\"http://www.slideshare.net/JamisonMiller/open-eduction-as-a-real-utopia\">Open Education as Real Utopia</a></li>\r\n\t<li><a href=\"http://www.slideshare.net/JamisonMiller/establishing-the-actual-costs-of-textbooks-data-from-virginias-community-colleges \">Establishing the actual cost of textbooks data from Virginia's community colleges </a></li>\r\n</ul>\r\nSundi RichardÂ <a href=\"http://sundirichard.com/digpins/when-the-fringe-conference-opened16/\">when the fringe conference â€“ #opened16</a>\r\n\r\nLauri AesophÂ <a href=\"https://open.bccampus.ca/2016/11/04/reflections-on-the-opened-2016-conference/ \">Reflections on the Open Ed 2016 Conference </a>\r\n\r\nKate BowlesÂ <a href=\"http://musicfordeckchairs.com/blog/2016/11/08/tenet/ \">Tenet </a>\r\n\r\nHelen M. RossÂ <a href=\"http://www.mctoonish.com/blog/?p=1715 \">Keynote Bookends at OpenEd 2016</a>\r\n\r\nAlan Levine/Paul StaceyÂ <a href=\"https://certificates.creativecommons.org/2016/11/opened-2016/ \">In the MOOD: Sharing the Certification Project at Open Education 2016</a>\r\n\r\nJohn StewartÂ <a href=\"http://www.johnastewart.org/conferences/opening-of-opened16/\">Opening of Open Ed</a>\r\n\r\nKeegan Long-Wheeler\r\n<ul>\r\n\t<li><a href=\"http://keeganslw.com/anatomy-of-slaying-goblins-opened16-presentation/\">Anatomy of slaying GOBLINs</a></li>\r\n\t<li><a href=\"http://keeganslw.com/im-collecting-resources-from-opened16-sharing-results-here/\">A collection of resources shared at Open Ed 16/ </a>(Resources collected)</li>\r\n</ul>\r\nTJ BlissÂ <a href=\"http://www.slideshare.net/tjbliss/an-iframe-for-open-educational-resources-oer\">An iFrame for OERr </a>\r\n\r\nPHOTOS\r\n<ul>\r\n\t<li><a href=\"https://www.flickr.com/photos/cogdog/tags/opened16\">CogDog</a></li>\r\n\t<li><a href=\"https://flic.kr/p/MW8NKt\">Tom Woodward</a></li>\r\n\t<li><a href=\"https://www.flickr.com/search/?group_id=2940947%40N21&view_all=1&text=%23OpenEd16 \">Virtually Connecting (Flickr) </a></li>\r\n\t<li><a href=\"https://flic.kr/s/aHskKVKsTh\">Viv Caruna</a></li>\r\n</ul>\r\nCOLLABORATIVE NOTES\r\nA number of delegates contributed their notes here:\r\n<a href=\"https://docs.google.com/document/d/1ykiVDyZ8NqkXDLS86Fch9uj4PIaGHigOMwtVGr12VXE/edit?usp=sharing\">https://docs.google.com/document/d/1ykiVDyZ8NqkXDLS86Fch9uj4PIaGHigOMwtVGr12VXE/edit?usp=sharing</a>\r\n\r\nPERISCOPE\r\n\r\nGardner Campbellâ€™s Keynote\r\n<a href=\"https://www.periscope.tv/actualham/1DXxyooyDOPGM?t=2\">https://www.periscope.tv/actualham/1DXxyooyDOPGM?t=2</a>\r\n\r\nPrep for Virtually Connecting Fishbowl\r\n<a href=\"https://www.periscope.tv/GardnerCampbell/1mnxejWpwyoKX?t=1 \">https://www.periscope.tv/GardnerCampbell/1mnxejWpwyoKX?t=1</a>\r\n\r\nYOUTUBE\r\n\r\nâ€œOvertureâ€ to Gardner Campbellâ€™s Keynote <a href=\"https://youtu.be/ecnSWBxZYsg\">https://youtu.be/ecnSWBxZYsg</a>. An MP4 is also available at: <a href=\"http://known.networkeffects.ca/2016/in-the-event-youtube-contentid-pulls-a-fast-one-on\">http://known.networkeffects.ca/2016/in-the-event-youtube-contentid-pulls-a-fast-one-on</a>)\r\n\r\nGardner Campbellâ€™s Keynote (transcoded to mp4 from @actualham Periscope) <a href=\"https://www.youtube.com/watch?v=ecnSWBxZYsg\">https://www.youtube.com/watch?v=ecnSWBxZYsg</a>\r\n\r\nFuturOER project <a href=\"http://www.futuoer.org/about-2/credits/\">http://www.futuoer.org/about-2/credits/ </a>"
   },
-  "@id" : "urn:uuid:1a9be075-5a7f-4321-b991-4f3af7ec4dd4",
-  "startDate" : "2016-11-02",
-  "hashtag" : "#OpenEd16",
-  "sameAs" : [ "https://openeducation2016.sched.org/" ]
+  "inLanguage": [
+    "en"
+  ],
+  "alternateName": {
+    "en": "OpenEd16"
+  },
+  "@context": "https://oerworldmap.org/assets/json/context.json",
+  "url": "http://openedconference.org/2016/",
+  "name": {
+    "en": "13th Annual Open Education Conference"
+  },
+  "location": [
+    {
+      "geo": {
+        "lon": -77.437407,
+        "lat": 37.543797
+      },
+      "address": {
+        "addressCountry": "US",
+        "streetAddress": "Greater Richmond Convention Center",
+        "addressLocality": "Richmond",
+        "addressRegion": "US.VA"
+      }
+    }
+  ],
+  "@id": "urn:uuid:1a9be075-5a7f-4321-b991-4f3af7ec4dd4",
+  "startDate": "2016-11-02",
+  "hashtag": "#OpenEd16",
+  "sameAs": [
+    "https://openeducation2016.sched.org/"
+  ]
 }

@@ -69,7 +69,7 @@ public class ReconcilerTest extends ElasticsearchTestGrid implements JsonTest {
     queryMap.put("q0", query0);
 
     final JsonNode myResourceTitle =
-      mReconciler.reconcile(queryMap.entrySet().iterator(), mDefaultQueryContext, Locale.GERMAN);
+      mReconciler.reconcile(queryMap.entrySet().iterator(), mDefaultQueryContext, Locale.ENGLISH);
     Assert.assertEquals(correctTitle,
       myResourceTitle.get("q0").get("result").get(0).get("name").asText());
   }
