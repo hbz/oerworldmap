@@ -814,9 +814,6 @@
               { "$ref": "#/definitions/Link" },
               { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
             ]
-          },
-          "_display": {
-            "className": "hidden"
           }
         }
       },
