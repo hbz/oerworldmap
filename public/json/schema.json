@@ -611,6 +611,17 @@
             ]
           }
         },
+        "affiliate": {
+          "title": "Policy.affiliate",
+          "description": "descriptions.Policy.affiliate",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Person" ] } } }
+            ]
+          }
+        },
         "datePublished": {
           "title": "Policy.datePublished",
           "description": "descriptions.Policy.datePublished",
@@ -2243,7 +2254,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Organization", "Service", "Action" ] } } }
+              { "properties": { "@type": { "enum": [ "Organization", "Service", "Action", "Policy" ] } } }
             ]
           }
         },
