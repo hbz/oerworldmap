@@ -537,6 +537,30 @@
             ]
           }
         },
+        "focus": {
+          "title": "Policy.focus",
+          "description": "descriptions.Policy.focus",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "Pedagogy",
+              "Recognition",
+              "Content",
+              "Quality",
+              "Infrastructure",
+              "Strategy",
+              "Awareness Rising",
+              "Capacity Building",
+              "Collaboration",
+              "Research",
+              "Legal Framework",
+              "Funding",
+              "Access",
+              "Policy Making"
+            ]
+          }
+        },
         "description": {
           "title": "Policy.description",
           "description": "descriptions.Policy.description",
