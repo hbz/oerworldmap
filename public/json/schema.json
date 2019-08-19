@@ -587,6 +587,11 @@
             ]
           }
         },
+        "contact": {
+          "title": "Policy.contact",
+          "description": "descriptions.Policy.contact",
+          "type": "string"
+        },
         "citation": {
           "title": "Policy.citation",
           "description": "descriptions.Policy.citation",
