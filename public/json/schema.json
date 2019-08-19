@@ -662,7 +662,7 @@
           "title": "Policy.status",
           "description": "descriptions.Policy.status",
           "type": "string",
-          "enum": [ "Proposed", "Current", "Deactivated" ]
+          "enum": [ "Proposed", "Current", "Ended" ]
         },
         "location": {
           "type": "array",
