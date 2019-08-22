@@ -1922,7 +1922,6 @@
     "Person": {
       "$schema": "http://json-schema.org/draft-04/schema#",
       "title": "Person",
-      "description": "ResourceIndex.Person.edit.message",
       "type": "object",
       "properties": {
         "@context": {
