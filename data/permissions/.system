@@ -1,4 +1,4 @@
-ErrorDocument 401 "<h1>Not allowed</h1><p>Sign up or reset password <a href=/user/register>here</a>.</p>"
+ErrorDocument 401 "<script>window.location=\"/.login?continue=/user/profile\"</script>"
 Header always set Access-Control-Allow-Methods "PUT, GET, POST, DELETE, OPTIONS"
 
 OIDCProviderMetadataURL ${PUBLIC_SCHEME}://${PUBLIC_HOST}/auth/realms/oerworldmap/.well-known/openid-configuration
@@ -81,4 +81,5 @@ OIDCScope "openid email"
   <LimitExcept OPTIONS>
     Require valid-user
   </LimitExcept>
+  OIDCUnAuthAction 401
 </Location>
