@@ -38,4 +38,5 @@ public class SCHEMA {
 
   public static final Property provider = property("provider");
 
+  public static final Property sameAs = property("sameAs");
 }
