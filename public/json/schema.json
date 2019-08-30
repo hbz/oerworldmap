@@ -413,6 +413,29 @@
             ]
           }
         },
+        "description": {
+          "title": "Policy.description",
+          "description": "descriptions.Policy.description",
+          "$ref": "#/definitions/LocalizedString",
+          "_display": { "rows":  5 }
+        },
+        "spatialCoverage": {
+          "title": "Policy.spatialCoverage",
+          "description": "descriptions.Policy.spatialCoverage",
+          "type": "string",
+          "enum": [
+            "Multi-national",
+            "National",
+            "Multi-state",
+            "State",
+            "Multi-regional",
+            "Regional/Local",
+            "Multi-Institutional",
+            "Institutional",
+            "Multi-departmental",
+            "Departmental"
+          ]
+        },
         "scope": {
           "title": "Policy.scope",
           "description": "descriptions.Policy.scope",
@@ -433,155 +456,28 @@
             ]
           }
         },
-        "description": {
-          "title": "Policy.description",
-          "description": "descriptions.Policy.description",
-          "$ref": "#/definitions/LocalizedString",
-          "_display": { "rows":  5 }
-        },
-        "keywords": {
-          "title": "Policy.keywords",
-          "description": "descriptions.Policy.keywords",
-          "_widget": "KeywordSelect",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "creator": {
-          "title": "Policy.creator",
-          "description": "descriptions.Policy.creator",
-          "type": "array",
-          "items": {
-            "allOf": [
-              { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Person", "Organization" ] } } }
-            ]
-          }
-        },
-        "citation": {
-          "title": "Policy.citation",
-          "description": "descriptions.Policy.citation",
-          "type": "string",
-          "_display": {
-            "rows": 3
-          }
-        },
-        "publisher": {
-          "title": "Policy.publisher",
-          "description": "descriptions.Policy.publisher",
-          "type": "array",
-          "items": {
-            "allOf": [
-              { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Person", "Organization", "Event", "Action", "Service" ] } } }
-            ]
-          }
-        },
-        "datePublished": {
-          "title": "Policy.datePublished",
-          "description": "descriptions.Policy.datePublished",
-          "$ref": "#/definitions/iso-8601-date"
-        },
-        "inLanguage": {
-          "title": "Policy.inLanguage",
-          "description": "descriptions.Policy.inLanguage",
-          "type": "array",
-          "maxItems": 1,
-          "items": {
-            "$ref": "#/definitions/Language"
-          }
-        },
-        "license": {
-          "title": "Policy.license",
-          "description": "descriptions.Policy.license",
-          "type": "array",
-          "maxItems": 1,
-          "items": {
-            "allOf": [
-              { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
-                "type": "object",
-                "properties": {
-                  "@id": {
-                    "enum": [
-                      "https://oerworldmap.org/assets/json/licenses.json"
-                    ]
-                  }
-                }
-              } } }
-            ]
-          }
-        },
-        "spatialCoverage": {
-          "title": "Policy.spatialCoverage",
-          "description": "descriptions.Policy.spatialCoverage",
-          "type": "string",
-          "enum": [
-            "Multi-national",
-            "National",
-            "Multi-state",
-            "State",
-            "Multi-regional",
-            "Regional/Local",
-            "Multi-Institutional",
-            "Institutional",
-            "Multi-departmental",
-            "Departmental"
-          ]
-        },
-        "status": {
-          "title": "Policy.status",
-          "description": "descriptions.Policy.status",
-          "type": "string",
-          "enum": [ "Proposed", "Current", "Deactivated" ]
-        },
-        "location": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "address": {
-                "type": "object",
-                "properties": {
-                  "addressCountry": {
-                    "title": "PostalAddress.addressCountry",
-                    "description": "descriptions.Policy.location",
-                    "$ref": "#/definitions/Country"
-                  },
-                  "addressRegion": {
-                    "title": "PostalAddress.addressRegion",
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "comment": {
-          "title": "Policy.comment",
-          "description": "descriptions.Policy.comment",
-          "type": "array",
-          "items": {
-            "allOf": [
-              { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Comment" ] } } }
-            ]
-          },
-          "_display": {
-            "className": "hidden"
-          }
-        },
-        "award": {
-          "title": "Policy.award",
-          "description": "descriptions.Policy.award",
+        "focus": {
+          "title": "Policy.focus",
+          "description": "descriptions.Policy.focus",
           "type": "array",
           "items": {
             "type": "string",
-            "format": "uri"
-          },
-          "_display": {
-            "className": "admin only"
+            "enum": [
+              "Pedagogy",
+              "Recognition",
+              "Content",
+              "Quality",
+              "Infrastructure",
+              "Strategy",
+              "Awareness Rising",
+              "Capacity Building",
+              "Collaboration",
+              "Research",
+              "Legal Framework",
+              "Funding",
+              "Access",
+              "Policy Making"
+            ]
           }
         },
         "primarySector": {
@@ -625,18 +521,118 @@
             ]
           }
         },
-        "objectIn": {
-          "title": "Policy.objectIn",
-          "description": "descriptions.Policy.objectIn",
+        "publisher": {
+          "title": "Policy.publisher",
+          "description": "descriptions.Policy.publisher",
           "type": "array",
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "LikeAction", "LighthouseAction" ] } } }
+              { "properties": { "@type": { "enum": [ "Person", "Organization", "Event", "Action", "Service" ] } } }
             ]
-          },
+          }
+        },
+        "datePublished": {
+          "title": "Policy.datePublished",
+          "description": "descriptions.Policy.datePublished",
+          "$ref": "#/definitions/iso-8601-date"
+        },
+        "endDate": {
+          "title": "Policy.endDate",
+          "description": "descriptions.Policy.endDate",
+          "$ref": "#/definitions/iso-8601-date"
+        },
+        "status": {
+          "title": "Policy.status",
+          "description": "descriptions.Policy.status",
+          "type": "string",
+          "enum": [ "Proposed", "Current", "Ended" ]
+        },
+        "creator": {
+          "title": "Policy.creator",
+          "description": "descriptions.Policy.creator",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Person", "Organization" ] } } }
+            ]
+          }
+        },
+        "citation": {
+          "title": "Policy.citation",
+          "description": "descriptions.Policy.citation",
+          "type": "string",
           "_display": {
-            "className": "hidden"
+            "rows": 3
+          }
+        },
+        "contact": {
+          "title": "Policy.contact",
+          "description": "descriptions.Policy.contact",
+          "type": "string"
+        },
+        "affiliate": {
+          "title": "Policy.affiliate",
+          "description": "descriptions.Policy.affiliate",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Person" ] } } }
+            ]
+          }
+        },
+        "inLanguage": {
+          "title": "Policy.inLanguage",
+          "description": "descriptions.Policy.inLanguage",
+          "type": "array",
+          "maxItems": 1,
+          "items": {
+            "$ref": "#/definitions/Language"
+          }
+        },
+        "license": {
+          "title": "Policy.license",
+          "description": "descriptions.Policy.license",
+          "type": "array",
+          "maxItems": 1,
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Concept" ] }, "inScheme": {
+                "type": "object",
+                "properties": {
+                  "@id": {
+                    "enum": [
+                      "https://oerworldmap.org/assets/json/licenses.json"
+                    ]
+                  }
+                }
+              } } }
+            ]
+          }
+        },
+        "location": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "address": {
+                "type": "object",
+                "properties": {
+                  "addressCountry": {
+                    "title": "PostalAddress.addressCountry",
+                    "description": "descriptions.Policy.location",
+                    "$ref": "#/definitions/Country"
+                  },
+                  "addressRegion": {
+                    "title": "PostalAddress.addressRegion",
+                    "type": "string"
+                  }
+                }
+              }
+            }
           }
         },
         "isBasedOn": {
@@ -669,6 +665,52 @@
             "allOf": [
               { "$ref": "#/definitions/Link" },
               { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
+            ]
+          }
+        },
+        "award": {
+          "title": "Policy.award",
+          "description": "descriptions.Policy.award",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          },
+          "_display": {
+            "className": "admin only"
+          }
+        },
+        "keywords": {
+          "title": "Policy.keywords",
+          "description": "descriptions.Policy.keywords",
+          "_widget": "KeywordSelect",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "comment": {
+          "title": "Policy.comment",
+          "description": "descriptions.Policy.comment",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Comment" ] } } }
+            ]
+          },
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "objectIn": {
+          "title": "Policy.objectIn",
+          "description": "descriptions.Policy.objectIn",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "LikeAction", "LighthouseAction" ] } } }
             ]
           },
           "_display": {
@@ -2109,7 +2151,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Organization", "Service", "Action" ] } } }
+              { "properties": { "@type": { "enum": [ "Organization", "Service", "Action", "Policy" ] } } }
             ]
           }
         },
