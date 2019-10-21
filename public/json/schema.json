@@ -2189,7 +2189,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage", "Policy" ] } } }
             ]
           },
           "_display": {
@@ -2579,7 +2579,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage", "Policy" ] } } }
             ]
           },
           "_display": {
