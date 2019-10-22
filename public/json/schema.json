@@ -1602,6 +1602,28 @@
               { "properties": { "@type": { "enum": [ "WebPage" ] } } }
             ]
           }
+        },
+        "countryChampionFor": {
+          "type": "array",
+          "title": "Action.countryChampionFor",
+          "description": "descriptions.Action.countryChampionFor",
+          "items": {
+            "$ref": "#/definitions/Country"
+          },
+          "_display": {
+            "className": "admin only"
+          }
+        },
+        "regionalChampionFor": {
+          "title": "Action.regionalChampionFor",
+          "description": "descriptions.Action.regionalChampionFor",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "_display": {
+            "className": "admin only"
+          }
         }
       },
       "required": ["name"],
@@ -2535,6 +2557,17 @@
           "description": "descriptions.Organization.countryChampionFor",
           "items": {
             "$ref": "#/definitions/Country"
+          },
+          "_display": {
+            "className": "admin only"
+          }
+        },
+        "regionalChampionFor": {
+          "title": "Organization.regionalChampionFor",
+          "description": "descriptions.Organization.regionalChampionFor",
+          "type": "array",
+          "items": {
+            "type": "string"
           },
           "_display": {
             "className": "admin only"
