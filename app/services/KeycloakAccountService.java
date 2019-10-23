@@ -81,7 +81,7 @@ public class KeycloakAccountService implements AccountService {
   public boolean deleteUser(String username) {
     UserRepresentation user = getUser(username);
     if (user != null) {
-      return mRealm.users().delete(user.getId()).getStatus() == 200;
+      return mRealm.users().delete(user.getId()).getStatus() == 204;
     }
     return false;
   }
@@ -109,7 +109,7 @@ public class KeycloakAccountService implements AccountService {
   }
 
   public String getUsername(String profileId) {
-    UserRepresentation user = mRealm.users().list().stream()
+    UserRepresentation user = mRealm.users().list(0, Integer.MAX_VALUE).stream()
       .filter(u -> u.getAttributes() != null && u.getAttributes().containsKey("profile_id") && u.getAttributes().get("profile_id").contains(profileId))
       .findFirst().orElse(null);
     return user != null ? user.getUsername() : null;
