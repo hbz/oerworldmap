@@ -81,7 +81,7 @@ public class KeycloakAccountService implements AccountService {
   public boolean deleteUser(String username) {
     UserRepresentation user = getUser(username);
     if (user != null) {
-      return mRealm.users().delete(user.getId()).getStatus() == 200;
+      return mRealm.users().delete(user.getId()).getStatus() == 204;
     }
     return false;
   }
