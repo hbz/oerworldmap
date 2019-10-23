@@ -1498,6 +1498,28 @@
               { "properties": { "@type": { "enum": [ "WebPage" ] } } }
             ]
           }
+        },
+        "countryChampionFor": {
+          "type": "array",
+          "title": "Action.countryChampionFor",
+          "description": "descriptions.Action.countryChampionFor",
+          "items": {
+            "$ref": "#/definitions/Country"
+          },
+          "_display": {
+            "className": "admin only"
+          }
+        },
+        "regionalChampionFor": {
+          "title": "Action.regionalChampionFor",
+          "description": "descriptions.Action.regionalChampionFor",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "_display": {
+            "className": "admin only"
+          }
         }
       },
       "required": ["name"],
@@ -2084,7 +2106,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage", "Policy" ] } } }
             ]
           },
           "_display": {
@@ -2435,6 +2457,17 @@
             "className": "admin only"
           }
         },
+        "regionalChampionFor": {
+          "title": "Organization.regionalChampionFor",
+          "description": "descriptions.Organization.regionalChampionFor",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "_display": {
+            "className": "admin only"
+          }
+        },
         "alternateName": {
           "title": "Organization.alternateName",
           "description": "descriptions.Organization.alternateName",
@@ -2474,7 +2507,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "Article", "WebPage" ] } } }
+              { "properties": { "@type": { "enum": [ "Article", "WebPage", "Policy" ] } } }
             ]
           },
           "_display": {
