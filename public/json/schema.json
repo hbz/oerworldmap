@@ -36,9 +36,6 @@
       "$ref": "#/definitions/Policy"
     },
     {
-      "$ref": "#/definitions/RegisterAction"
-    },
-    {
       "$ref": "#/definitions/LikeAction"
     },
     {
@@ -46,107 +43,6 @@
     }
   ],
   "definitions": {
-    "RegisterAction": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
-      "title": "UserIndex.register.register",
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "title": "UserIndex.register.placeholderName",
-          "_display": {
-            "placeholder": "UserIndex.register.placeholderName"
-          }
-        },
-        "location": {
-          "title": "UserIndex.register.placeholderCountry",
-          "$ref": "#/definitions/Country"
-        },
-        "email": {
-          "type": "string",
-          "format": "email",
-          "title": "UserIndex.register.placeholderEmail",
-          "_display": {
-            "placeholder": "UserIndex.register.placeholderEmail"
-          }
-        },
-        "password": {
-          "type": "string",
-          "title": "UserIndex.register.choosePassword",
-          "_display": {
-            "type": "password",
-            "placeholder": "UserIndex.register.choosePassword"
-          }
-        },
-        "privacyAccepted": {
-          "title": "UserIndex.register.agreePolicy",
-          "type": "boolean"
-        },
-        "termsAccepted": {
-          "title": "UserIndex.register.agreeService",
-          "type": "boolean"
-        },
-        "publishEmail": {
-          "title": "UserIndex.register.agreeEmail",
-          "type": "boolean"
-        },
-        "subscribeNewsletter": {
-          "title": "UserIndex.register.subscribe",
-          "type": "boolean"
-        }
-      },
-      "required": ["name", "location", "email", "password", "privacyAccepted", "termsAccepted"]
-    },
-    "ResetPasswordAction": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
-      "title": "UserIndex.register.forgotPassword",
-      "description": "UserIndex.register.forgotPasswordMessage",
-      "type": "object",
-      "properties": {
-        "email": {
-          "type": "string",
-          "format": "email",
-          "title": "UserIndex.register.placeholderEmail",
-          "_display": {
-            "placeholder": "UserIndex.register.placeholderEmail"
-          }
-        }
-      },
-      "required": ["email"]
-    },
-    "ChangePasswordAction": {
-      "$schema": "http://json-schema.org/draft-04/schema#",
-      "title": "UserIndex.password.changePassword",
-      "description": "UserIndex.password.message",
-      "type": "object",
-      "properties": {
-        "password": {
-          "type": "string",
-          "title": "UserIndex.password.currentPassword",
-          "_display": {
-            "type": "password",
-            "placeholder": "UserIndex.password.currentPassword"
-          }
-        },
-        "password_new": {
-          "type": "string",
-          "title": "UserIndex.password.newPassword",
-          "_display": {
-            "type": "password",
-            "placeholder": "UserIndex.password.newPassword"
-          }
-        },
-        "password_new_confirm": {
-          "type": "string",
-          "title": "UserIndex.password.confirmPassword",
-          "_display": {
-            "type": "password",
-            "placeholder": "UserIndex.password.confirmPassword"
-          }
-        }
-      },
-      "required": ["password", "password_new", "password_new_confirm"]
-    },
     "Link": {
       "$schema": "http://json-schema.org/draft-04/schema#",
       "title": "A link to another entity",
@@ -2090,7 +1986,6 @@
     "Person": {
       "$schema": "http://json-schema.org/draft-04/schema#",
       "title": "Person",
-      "description": "ResourceIndex.Person.edit.message",
       "type": "object",
       "properties": {
         "@context": {

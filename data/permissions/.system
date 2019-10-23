@@ -1,39 +1,38 @@
-ErrorDocument 401 "<h1>Not allowed</h1><p>Sign up or reset password <a href=/user/register>here</a>.</p>"
+ErrorDocument 401 "<script>window.location=\"/.login?continue=/user/profile\"</script>"
+Header always set Access-Control-Allow-Methods "PUT, GET, POST, DELETE, OPTIONS"
+
+OIDCProviderMetadataURL ${PUBLIC_SCHEME}://${PUBLIC_HOST}/auth/realms/oerworldmap/.well-known/openid-configuration
+OIDCRedirectURI ${PUBLIC_SCHEME}://${PUBLIC_HOST}/oauth2callback
+OIDCCryptoPassphrase ${OIDC_CRYPTO_PASSPHRASE}
+OIDCClientID ${OIDC_CLIENT_ID}
+OIDCClientSecret ${OIDC_CLIENT_SECRET}
+OIDCProviderTokenEndpointAuth client_secret_basic
+OIDCRemoteUserClaim email
+OIDCScope "openid email"
 
 <Location />
-  AuthType Basic
-  AuthName "Restricted Files"
-  AuthUserFile ${AUTH_DIR}/auth/htpasswd
-  AuthGroupFile ${AUTH_DIR}/auth/htgroups
+  AuthType openid-connect
   Require all granted
 </Location>
 
-RewriteEngine On
-RewriteMap unescape int:unescape
-RewriteCond %{REQUEST_URI}  ^/.loggedIn$
-RewriteCond %{QUERY_STRING} ^continue=(.*)$
-RewriteRule ^/?.loggedIn$ ${unescape:%1} [R=302,L,QSD,NE]
-
-RewriteCond %{REQUEST_URI}  ^/.loggedIn$
-RewriteRule ^/?.loggedIn$ / [R=302,L,QSD,NE]
-
-<Location /.login>
+<Location /oauth2callback>
   Require valid-user
-  Redirect "/.login" "/.loggedIn"
 </Location>
 
-<Location /.logout>
-  AuthUserFile /dev/null
+<Location /.login>
   Require valid-user
 </Location>
 
 <Location /resource/>
-  <LimitExcept GET DELETE>
+  <If "%{QUERY_STRING} =~ /add=/">
     Require valid-user
-    Require group admin
+  </If>
+  <LimitExcept GET DELETE OPTIONS>
+    Require valid-user
+    Require claim groups:admin
   </LimitExcept>
   <Limit DELETE>
-    Require group admin
+    Require claim groups:admin
   </Limit>
 </Location>
 
@@ -46,28 +45,28 @@ RewriteRule ^/?.loggedIn$ / [R=302,L,QSD,NE]
 </Location>
 
 <Location /log/>
-  Require group editor
-  Require group admin
+  Require claim groups:editor
+  Require claim groups:admin
 </Location>
 
 <Location /record/>
-  Require group admin
+  Require claim groups:admin
 </Location>
 
 <Location /import/>
-  Require group admin
+  Require claim groups:admin
 </Location>
 
 <Location /index/>
-  Require group admin
+  Require claim groups:admin
 </Location>
 
 <Location /user/groups>
-  Require group admin
+  Require claim groups:admin
 </Location>
 
 <Location /sparql/>
-  Require group admin
+  Require claim groups:admin
 </Location>
 
 <Location /user/password>
@@ -79,5 +78,8 @@ RewriteRule ^/?.loggedIn$ / [R=302,L,QSD,NE]
 </Location>
 
 <Location /user/profile>
-  Require valid-user
+  <LimitExcept OPTIONS>
+    Require valid-user
+  </LimitExcept>
+  OIDCUnAuthAction 401
 </Location>

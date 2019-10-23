@@ -54,10 +54,70 @@ in `conf/application.conf` before restarting.
     $ curl -X DELETE http://localhost:9200/oerworldmap/
     $ curl -X PUT http://localhost:9200/oerworldmap/ -d @conf/index-config.json
 
+#### Set up Keycloak
+
+Download Keykloak 4.8.3:
+
+    $ curl https://downloads.jboss.org/keycloak/4.8.3.Final/keycloak-4.8.3.Final.tar.gz | tar xvz
+
+- Add `X-Forwarded-For` and `X-Forwarded-Proto` headers to proxy vhost.conf
+- Modify standalone.xml file and add the `proxy-address-forwarding="true"` attribute to `<http-listener>` element under `<server>`
+
+Create the admin user:
+
+    $ bin/add-user-keycloak.sh -u admin
+
+Start the server:
+
+    $ bin/standalone.sh -Dkeycloak.profile.feature.scripts=enabled
+
+- Create realm oerworldmap
+- Enable user registration, email as username, edit username, forgot password
+- Configure "account" client:
+- Configure Valid Redirect URIs
+  - /auth/realms/oerworldmap/account/*
+  - /oauth2callback
+  - /.login
+  - /resource/*
+- Configure Base URL in "account" client to `/.login`
+- For ReCaptcha support, configure Realm Security Defenses:
+  - `SAMEORIGIN; ALLOW-FROM https://www.google.com`
+  - `frame-src 'self' https://www.google.com; frame-ancestors 'self'; object-src 'none';`
+- Install & configure theme from https://github.com/hbz/oerworldmap-keycloak-theme
+- Configure default actions
+- Configure admin credentials in application.conf
+- Copy create profile script to registration flow
+- Copy create profile script to first-broker-login flow
+- Set up Mappers for profile_id and groups
+
+Install [mod_auth_openidc](https://github.com/zmartzone/mod_auth_openidc), if not on a supported system build from source:
+
+```
+$ git clone https://github.com/zmartzone/mod_auth_openidc.git
+$ cd mod_auth_openidc
+$ ./autogen.sh
+$ zypper in apache2-devel
+$ zypper in libcurl-devel
+$ wget http://mirror.centos.org/centos/7/os/x86_64/Packages/jansson-2.10-1.el7.x86_64.rpm
+$ rpm -i jansson-2.10-1.el7.x86_64.rpm
+$ wget http://mirror.centos.org/centos/7/os/x86_64/Packages/jansson-devel-2.10-1.el7.x86_64.rpm
+$ rpm -i jansson-devel-2.10-1.el7.x86_64.rpm
+$ ln -s /lib64/libcrypto.so.1.0.0 /usr/lib64/libcrypto.so.10
+$ wget https://mod-auth-openidc.org/download/cjose-0.5.1-1.el7.centos.x86_64.rpm
+$ rpm -iv cjose-0.5.1-1.el7.centos.x86_64.rpm --nodeps
+$ zypper in pcre-devel
+$ ./configure --with-apxs2=/usr/bin/apxs2
+$ make
+$ make install
+$ a2enmod auth_openidc
+```
+
+Finally, configure client secret in vhost.conf
+
 #### Set up Apache
 
-    $ sudo apt-get install apache2
-    $ sudo a2enmod proxy proxy_html proxy_http rewrite  auth_basic authz_groupfile ssl
+    $ sudo apt-get install apache2 libapache2-mod-auth-openidc
+    $ sudo a2enmod proxy proxy_html proxy_http rewrite auth_openidc ssl headers
 
     $ mkdir data/auth
     $ cd data/auth
