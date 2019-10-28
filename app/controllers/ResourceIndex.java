@@ -9,7 +9,6 @@ import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import helpers.JsonLdConstants;
 import helpers.MimeTypes;
-import io.apigee.trireme.kernel.Charsets;
 import models.Commit;
 import models.Record;
 import models.Resource;
@@ -33,6 +32,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -128,7 +128,7 @@ public class ResourceIndex extends OERWorldMap {
       for (String filterValue : filter.getValue()) {
         try {
           filterString = filterString.concat("&".concat(filterKey).concat("=").concat(URLEncoder.encode(filterValue,
-            Charsets.UTF8.name())));
+            StandardCharsets.UTF_8.name())));
         } catch (UnsupportedEncodingException e) {
           Logger.error("Unhandeled encoding", e);
         }
@@ -381,9 +381,6 @@ public class ResourceIndex extends OERWorldMap {
         String username = mAccountService.getUsername(aId);
         if (!mAccountService.removePermissions(aId)) {
           Logger.error("Could not remove permissions for " + aId);
-        }
-        if (!mAccountService.setProfileId(username, null)) {
-          Logger.error("Could not unset profile ID for " + username);
         }
         if (!mAccountService.deleteUser(username)) {
           Logger.error("Could not delete user " + username);

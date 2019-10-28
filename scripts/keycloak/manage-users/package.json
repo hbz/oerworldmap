@@ -1,0 +1,19 @@
+{
+  "name": "kc",
+  "version": "1.0.0",
+  "description": "Implementation of keycloakAdmin to import users",
+  "dependencies": {
+    "json-colorz": "^0.2.7",
+    "keycloak-admin": "^1.10.0",
+    "qoa": "^0.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "import": "node import.js",
+    "delete": "node delete.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

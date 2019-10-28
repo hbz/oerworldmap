@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.typesafe.config.Config;
 import helpers.JsonLdConstants;
-import io.apigee.trireme.kernel.Charsets;
 import models.Record;
 import models.Resource;
 import models.ResourceList;
@@ -112,7 +111,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   @Override
   public Resource getResource(@Nonnull String aId) {
     try {
-      Resource record = Resource.fromMap(getDocument(Record.TYPE, URLEncoder.encode(aId, Charsets.DEFAULT_ENCODING)
+      Resource record = Resource.fromMap(getDocument(Record.TYPE, URLEncoder.encode(aId, Charset.defaultCharset().name())
         .concat(".").concat(Record.RESOURCE_KEY)));
       return record != null ? record.getAsResource(Record.RESOURCE_KEY) : null;
     } catch (IOException e) {
