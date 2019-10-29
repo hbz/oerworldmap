@@ -1,0 +1,13 @@
+[Unit]
+Description=Kibana
+After=network.target
+
+[Service]
+ExecStart=/home/fo/local/opt/kibana/bin/kibana
+User=fo
+Group=fo
+Type=simple
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

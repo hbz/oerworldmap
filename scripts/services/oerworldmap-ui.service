@@ -1,0 +1,14 @@
+[Unit]
+Description=OER World Map UI
+After=syslog.target network.target
+Before=httpd.service
+
+[Service]
+User=fo
+Group=fo
+Environment=NODE_ENV=production
+ExecStart=/home/fo/local/src/oerworldmap-ui/startup.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
