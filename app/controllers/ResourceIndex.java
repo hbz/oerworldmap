@@ -118,7 +118,11 @@ public class ResourceIndex extends OERWorldMap {
     if (ctx().request().queryString().containsKey("fields")) {
       queryContext.setFetchSource(ctx().request().queryString().get("fields"));
     }
-    queryContext.setElasticsearchFieldBoosts(new SearchConfig().getBoostsForElasticsearch());
+    String searchConfigFile = mConf.getString("search.conf.file");
+    SearchConfig searchConfig = searchConfigFile != null
+      ? new SearchConfig(searchConfigFile)
+      : new SearchConfig();
+    queryContext.setElasticsearchFieldBoosts(searchConfig.getBoostsForElasticsearch());
     ResourceList resourceList = mBaseRepository.query(q, from, size, sort, filters, queryContext);
 
     String baseUrl = mConf.getString("proxy.host");
