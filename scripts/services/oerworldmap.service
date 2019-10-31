@@ -7,7 +7,7 @@ Before=httpd.service
 EnvironmentFile=/path/to/services.conf
 User=fo
 Group=fo
-ExecStart=/bin/bash -c '${API_HOME}/startup.sh'
+ExecStart=/bin/bash '${API_HOME}/startup.sh'
 StandardOutput=journal
 StandardError=inherit
 

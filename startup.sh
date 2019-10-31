@@ -11,4 +11,4 @@ until curl --output /dev/null --silent --head --fail http://localhost:8080; do
     sleep 5
 done
 
-./target/universal/stage/bin/oerworldmap -J-Xms2G -J-Xmx2G -J-server -Duser.language=en -Duser.country=EN -Dconfig.file=./conf/application.oerworldmap.conf
+./target/universal/stage/bin/oerworldmap -J-Xms2G -J-Xmx2G -J-server -Duser.language=en -Duser.country=EN -Dconfig.file=./conf/application.conf
