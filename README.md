@@ -177,6 +177,12 @@ Download [sbt](http://www.scala-sbt.org/download.html), then
 
 UI Components are available at https://github.com/hbz/oerworldmap-ui
 
+## Running services
+
+- copy `scripts/services/services.example.conf` to `scripts/services/services.conf` and update vars
+- copy `scripts/services/*.service` to `/etc/systemd/system` and update `EnvironmentFile`, `User` and `Group` in each service
+- run `sudo systemctl daemon-reload`
+
 ### Work with IDEs
 
 Using [activator](http://www.lightbend.com/community/core-tools/activator-and-sbt), integration to Eclipse and IDEA IntelliJ is provided by running `eclipse` or `idea` from within activator. To run the OER World Map JUnit tests inside IntelliJ, it is necessary to set the test's working directory to the root directory of this project (i. e. `oerworldmap`):
