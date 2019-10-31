@@ -9,6 +9,8 @@ User=fo
 Group=fo
 ExecStart=/bin/bash -c 'PATH=${NODE_PATH}:${NPM_PATH}:$PATH /bin/bash ${UI_HOME}/startup.sh'
 Restart=on-failure
+StandardOutput=journal
+StandardError=inherit
 
 [Install]
 WantedBy=multi-user.target
