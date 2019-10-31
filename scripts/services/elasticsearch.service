@@ -5,14 +5,11 @@ Wants=network-online.target
 After=network-online.target
 
 [Service]
-Type=simple
+EnvironmentFile=/path/to/services.conf
 PrivateTmp=true
-Environment=ES_HOME=/home/fo/local/opt/elasticsearch
-Environment=PID_DIR=/home/fo/local/opt/elasticsearch
-WorkingDirectory=/home/fo/local/opt/elasticsearch
 User=fo
 Group=fo
-ExecStart=/home/fo/local/opt/elasticsearch/bin/elasticsearch -p ${PID_DIR}/elasticsearch.pid --quiet
+ExecStart=/bin/bash -c '${ES_HOME}/bin/elasticsearch -p ${ES_HOME}/elasticsearch.pid --quiet'
 StandardOutput=journal
 StandardError=inherit
 LimitNOFILE=65535

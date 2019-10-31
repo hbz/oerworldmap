@@ -3,11 +3,10 @@ Description=Kibana
 After=network.target
 
 [Service]
-ExecStart=/home/fo/local/opt/kibana/bin/kibana
+EnvironmentFile=/path/to/services.conf
+ExecStart=/bin/bash -c '${KIBANA_HOME}/bin/kibana'
 User=fo
 Group=fo
-Type=simple
-Restart=always
 
 [Install]
 WantedBy=multi-user.target

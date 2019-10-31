@@ -4,10 +4,10 @@ After=syslog.target network.target
 Before=httpd.service
 
 [Service]
+EnvironmentFile=/path/to/services.conf
 User=fo
 Group=fo
-Environment=NODE_ENV=production
-ExecStart=/home/fo/local/src/oerworldmap-ui/startup.sh
+ExecStart=/bin/bash -c '${UI_HOME}/startup.sh'
 Restart=on-failure
 
 [Install]

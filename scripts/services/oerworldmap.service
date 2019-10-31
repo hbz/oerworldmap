@@ -4,10 +4,10 @@ After=syslog.target network.target
 Before=httpd.service
 
 [Service]
+EnvironmentFile=/path/to/services.conf
 User=fo
 Group=fo
-PIDFile=/home/fo/local/src/oerworldmap/target/universal/stage/RUNNING_PID
-ExecStart=/home/fo/local/src/oerworldmap/startup.sh
+ExecStart=/bin/bash -c '${API_HOME}/startup.sh'
 StandardOutput=journal
 StandardError=inherit
 

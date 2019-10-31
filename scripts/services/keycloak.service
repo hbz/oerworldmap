@@ -4,12 +4,12 @@ After=syslog.target network.target
 Before=httpd.service
 
 [Service]
+EnvironmentFile=/path/to/services.conf
 Environment=LAUNCH_JBOSS_IN_BACKGROUND=1
 User=fo
 Group=fo
 LimitNOFILE=102642
-PIDFile=/home/fo/local/opt/keycloak/wildfly.pid
-ExecStart=/home/fo/local/opt/keycloak/bin/standalone.sh -Dkeycloak.profile.feature.scripts=enabled
+ExecStart=/bin/bash -c '${KC_HOME}/bin/standalone.sh -Dkeycloak.profile.feature.scripts=enabled'
 StandardOutput=journal
 StandardError=inherit
 
