@@ -1408,7 +1408,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "WebPage" ] } } }
+              { "properties": { "@type": { "enum": [ "WebPage", "Policy" ] } } }
             ]
           }
         },
@@ -1858,7 +1858,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "WebPage" ] } } }
+              { "properties": { "@type": { "enum": [ "WebPage", "Policy" ] } } }
             ]
           }
         },
@@ -2327,7 +2327,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "WebPage" ] } } }
+              { "properties": { "@type": { "enum": [ "WebPage", "Policy" ] } } }
             ]
           }
         },
@@ -2648,7 +2648,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "WebPage" ] } } }
+              { "properties": { "@type": { "enum": [ "WebPage", "Policy" ] } } }
             ]
           }
         },
@@ -2976,7 +2976,7 @@
           "items": {
             "allOf": [
               { "$ref": "#/definitions/Link" },
-              { "properties": { "@type": { "enum": [ "WebPage" ] } } }
+              { "properties": { "@type": { "enum": [ "WebPage", "Policy" ] } } }
             ]
           }
         },
