@@ -45,6 +45,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * @author fo
@@ -160,7 +161,11 @@ public class ResourceIndex extends OERWorldMap {
     if (format == null) {
       return notFound("Not found");
     } else if (format.equals("text/csv")) {
-      return ok(new CsvExporter().export(resourceList)).as("text/csv");
+      CsvExporter csvExporter = request().hasHeader("X-CSV-HEADERS")
+        ? new CsvExporter(Arrays.stream(request().getHeader("X-CSV-HEADERS").split(","))
+          .map(Pattern::compile).collect(Collectors.toList()))
+        : new CsvExporter();
+      return ok(csvExporter.export(resourceList)).as("text/csv");
     } else if (format.equals("text/calendar")) {
       return ok(new CalendarExporter(Locale.ENGLISH).export(resourceList)).as("text/calendar");
     } else if (format.equals("application/json")) {
@@ -336,7 +341,11 @@ public class ResourceIndex extends OERWorldMap {
     } else if (format.equals("application/json")) {
       return ok(resource.toString()).as("application/json; charset=UTF-8");
     } else if (format.equals("text/csv")) {
-      return ok(new CsvExporter().export(resource)).as("text/csv; charset=UTF-8");
+      CsvExporter csvExporter = request().hasHeader("X-CSV-HEADERS")
+        ? new CsvExporter(Arrays.stream(request().getHeader("X-CSV-HEADERS").split(","))
+        .map(Pattern::compile).collect(Collectors.toList()))
+        : new CsvExporter();
+      return ok(csvExporter.export(resource)).as("text/csv; charset=UTF-8");
     } else if (format.equals("application/geo+json")) {
       String geoJson = mGeoJsonExporter.export(resource);
       return geoJson != null ? ok(geoJson) : status(406);
