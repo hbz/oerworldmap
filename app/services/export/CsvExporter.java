@@ -16,22 +16,30 @@ import java.util.regex.Pattern;
 
 public class CsvExporter implements Exporter {
 
-  private List<Pattern> exposedHeaders = Arrays.asList(
-    Pattern.compile("/@id"),
-    Pattern.compile("/@type"),
-    Pattern.compile("/name/en"),
-    Pattern.compile("/description/en"),
-    Pattern.compile("/provider/\\d+/name/en"),
-    Pattern.compile("/url"),
-    Pattern.compile("/additionalType/\\d+/name/en"),
-    Pattern.compile("/primarySector/\\d+/name/en"),
-    Pattern.compile("/startDate"),
-    Pattern.compile("/endDate"),
-    Pattern.compile("/startTime"),
-    Pattern.compile("/endTime"),
-    Pattern.compile("/agent/\\d+/name/en"),
-    Pattern.compile("/location/\\d+/address/.*")
-  );
+  private List<Pattern> exposedHeaders;
+
+  public CsvExporter() {
+    exposedHeaders = Arrays.asList(
+      Pattern.compile("/@id"),
+      Pattern.compile("/@type"),
+      Pattern.compile("/name/en"),
+      Pattern.compile("/description/en"),
+      Pattern.compile("/provider/\\d+/name/en"),
+      Pattern.compile("/url"),
+      Pattern.compile("/additionalType/\\d+/name/en"),
+      Pattern.compile("/primarySector/\\d+/name/en"),
+      Pattern.compile("/startDate"),
+      Pattern.compile("/endDate"),
+      Pattern.compile("/startTime"),
+      Pattern.compile("/endTime"),
+      Pattern.compile("/agent/\\d+/name/en"),
+      Pattern.compile("/location/\\d+/address/.*")
+    );
+  }
+
+  public CsvExporter(List<Pattern> headers) {
+    exposedHeaders = headers;
+  }
 
   @Override
   public String export(Resource aResource) {
