@@ -67,8 +67,11 @@ public class Reconciler extends OERWorldMap {
   public JsonNode reconcile(final Iterator<Map.Entry<String, JsonNode>> aInputQueries,
     final QueryContext aQueryContext, final Locale aPreferredLocale) {
     QueryContext queryContext = aQueryContext != null ? aQueryContext : getQueryContext();
-    queryContext.setElasticsearchFieldBoosts(
-      new SearchConfig("conf/reconcile.conf").getBoostsForElasticsearch());
+    String searchConfigFile = mConf.getString("reconcile.conf.file");
+    SearchConfig searchConfig = searchConfigFile != null
+      ? new SearchConfig(searchConfigFile)
+      : new SearchConfig();
+    queryContext.setElasticsearchFieldBoosts(searchConfig.getBoostsForElasticsearch());
     ObjectNode response = Json.newObject();
 
     try {

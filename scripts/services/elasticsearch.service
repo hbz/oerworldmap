@@ -1,0 +1,26 @@
+[Unit]
+Description=Elasticsearch
+Documentation=http://www.elastic.co
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+EnvironmentFile=/path/to/services.conf
+PrivateTmp=true
+User=fo
+Group=fo
+ExecStart=/bin/bash -c '${ES_HOME}/bin/elasticsearch -p ${ES_HOME}/elasticsearch.pid --quiet'
+StandardOutput=journal
+StandardError=inherit
+LimitNOFILE=65536
+LimitNPROC=4096
+LimitAS=infinity
+LimitFSIZE=infinity
+TimeoutStopSec=0
+KillSignal=SIGTERM
+KillMode=process
+SendSIGKILL=no
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,14 @@
+[Unit]
+Description=Kibana
+After=network.target
+
+[Service]
+EnvironmentFile=/path/to/services.conf
+ExecStart=/bin/bash -c '${KIBANA_HOME}/bin/kibana'
+User=fo
+Group=fo
+StandardOutput=journal
+StandardError=inherit
+
+[Install]
+WantedBy=multi-user.target
