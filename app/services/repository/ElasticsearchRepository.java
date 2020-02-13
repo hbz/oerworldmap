@@ -400,7 +400,6 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
 
   private ResourceList esQuery(@Nonnull final String aQueryString, final int aFrom, final int aSize,
-
     final String aSortOrder, final Map<String, List<String>> aFilters,
     final QueryContext aQueryContext) throws IOException {
 
@@ -425,8 +424,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
         new SearchRequest(mConfig.getIndex()).source(sourceBuilder)
           .searchType(SearchType.DFS_QUERY_THEN_FETCH)
           .scroll(new TimeValue(60000)));
-      maxScore =
-        response.getHits().getMaxScore() > maxScore ? response.getHits().getMaxScore() : maxScore;
+      maxScore = Math.max(response.getHits().getMaxScore(), maxScore);
       aAggregations = Resource.fromJson(response.toString()).getAsResource("aggregations");
       List<SearchHit> nextHits = Arrays.asList(response.getHits().getHits());
       while (nextHits.size() > 0) {
@@ -437,8 +435,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
         JsonNode resultNode = new ObjectMapper().readTree(response.toString());
         Logger.debug(resultNode.toString());
         nextHits = Arrays.asList(response.getHits().getHits());
-        maxScore =
-          response.getHits().getMaxScore() > maxScore ? response.getHits().getMaxScore() : maxScore;
+        maxScore = Math.max(response.getHits().getMaxScore(), maxScore);
       }
     } else {
       sourceBuilder.size(aSize);
@@ -446,8 +443,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
         .search(new SearchRequest(mConfig.getIndex()).source(sourceBuilder));
       aAggregations = Resource.fromJson(response.toString()).getAsResource("aggregations");
       searchHits.addAll(Arrays.asList(response.getHits().getHits()));
-      maxScore =
-        response.getHits().getMaxScore() > maxScore ? response.getHits().getMaxScore() : maxScore;
+      maxScore = Math.max(response.getHits().getMaxScore(), maxScore);
     }
 
     Logger.debug(sourceBuilder.toString());
