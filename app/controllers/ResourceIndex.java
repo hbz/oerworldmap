@@ -84,7 +84,22 @@ public class ResourceIndex extends OERWorldMap {
     for (Map.Entry<String, String[]> entry : ctx().request().queryString().entrySet()) {
       Matcher filterMatcher = filterPattern.matcher(entry.getKey());
       if (filterMatcher.find()) {
-        filters.put(filterMatcher.group(1), new ArrayList<>(Arrays.asList(entry.getValue())));
+        ArrayList<String> filter = new ArrayList<>();
+        for (String value : entry.getValue()) {
+          try {
+            JsonNode jsonNode = mObjectMapper.readTree(value);
+            if (jsonNode.isArray()) {
+              for (JsonNode e : jsonNode) {
+                filter.add(e.textValue());
+              }
+            } else {
+              filter.add(jsonNode.textValue());
+            }
+          } catch (IOException e) {
+            filter.add(value);
+          }
+        }
+        filters.put(filterMatcher.group(1), filter);
       }
     }
 
