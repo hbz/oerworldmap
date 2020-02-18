@@ -36,13 +36,11 @@ import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.QueryStringQueryBuilder;
+import org.elasticsearch.index.query.functionscore.FieldValueFactorFunctionBuilder;
 import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
-import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilder;
 import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
 import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.aggregations.AggregationBuilder;
-import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import play.Logger;
@@ -68,8 +66,7 @@ import java.util.regex.Pattern;
 
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 
-public class ElasticsearchRepository extends Repository implements Readable, Writable, Queryable,
-  Aggregatable {
+public class ElasticsearchRepository extends Repository implements Readable, Writable, Queryable {
 
   private static ElasticsearchConfig mConfig;
   private Fuzziness mFuzziness;
@@ -92,7 +89,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     for (String key : aMetadata.keySet()) {
       record.put(key, aMetadata.get(key));
     }
-    addJson(record.toString(), record.getId(), Record.TYPE);
+    addJson(record.toString(), record.getId());
   }
 
   @Override
@@ -105,13 +102,13 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       }
       records.put(record.getId(), record.toString());
     }
-    addJsonBulk(records, Record.TYPE);
+    addJsonBulk(records);
   }
 
   @Override
   public Resource getResource(@Nonnull String aId) {
     try {
-      Resource record = Resource.fromMap(getDocument(Record.TYPE, URLEncoder.encode(aId, Charset.defaultCharset().name())
+      Resource record = Resource.fromMap(getDocument(URLEncoder.encode(aId, Charset.defaultCharset().name())
         .concat(".").concat(Record.RESOURCE_KEY)));
       return record != null ? record.getAsResource(Record.RESOURCE_KEY) : null;
     } catch (IOException e) {
@@ -150,7 +147,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     }
     boolean found = false;
     try {
-      found = deleteDocument(Record.TYPE, resource.getId().concat(".").concat(Record.RESOURCE_KEY));
+      found = deleteDocument(resource.getId().concat(".").concat(Record.RESOURCE_KEY));
     } catch (IOException e) {
       Logger.error("Failed deleting document.", e);
     }
@@ -160,41 +157,6 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     } else {
       return null;
     }
-  }
-
-  @Override
-  public Resource aggregate(@Nonnull AggregationBuilder aAggregationBuilder) {
-    return aggregate(aAggregationBuilder, null);
-  }
-
-  public Resource aggregate(@Nonnull AggregationBuilder aAggregationBuilder,
-    QueryContext aQueryContext) {
-    Resource aggregations = null;
-    try {
-      aggregations = Resource
-        .fromJson(getAggregation(aAggregationBuilder, aQueryContext).toString());
-    } catch (IOException e) {
-      Logger.error("Failed getting aggregation.", e);
-    }
-    if (null == aggregations) {
-      return null;
-    }
-    return aggregations.getAsResource("aggregations");
-  }
-
-  public Resource aggregate(@Nonnull List<AggregationBuilder> aAggregationBuilders,
-    QueryContext aQueryContext) {
-    Resource aggregations = null;
-    try {
-      aggregations = Resource
-        .fromJson(getAggregations(aAggregationBuilders, aQueryContext).toString());
-    } catch (IOException e) {
-      Logger.error("Failed getting multiple aggregations.", e);
-    }
-    if (null == aggregations) {
-      return null;
-    }
-    return aggregations.getAsResource("aggregations");
   }
 
   /**
@@ -255,9 +217,9 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   /**
    * Add a document consisting of a JSON String specified by a given UUID and a given type.
    */
-  private void addJson(final String aJsonString, final String aUuid, final String aType) {
+  private void addJson(final String aJsonString, final String aUuid) {
     String uuid = getUrlUuidEncoded(aUuid);
-    IndexRequest request = new IndexRequest(mConfig.getIndex(), aType,
+    IndexRequest request = new IndexRequest(mConfig.getIndex(), Record.TYPE,
       (uuid == null ? aUuid : uuid));
     request.source(aJsonString, XContentType.JSON);
     request.setRefreshPolicy(mConfig.getRefreshPolicy());
@@ -293,10 +255,10 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
   /**
    * Add documents consisting of JSON Strings specified by a given UUID and a given type.
    */
-  private void addJsonBulk(final Map<String, String> aJsonStringIdMap, final String aType) {
+  private void addJsonBulk(final Map<String, String> aJsonStringIdMap) {
     BulkRequest request = new BulkRequest();
     for (Map.Entry<String, String> entry : aJsonStringIdMap.entrySet()) {
-      request.add(new IndexRequest(mConfig.getIndex(), aType, entry.getKey())
+      request.add(new IndexRequest(mConfig.getIndex(), Record.TYPE, entry.getKey())
         .source(entry.getValue(), XContentType.JSON));
     }
     request.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL);
@@ -343,61 +305,21 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
    *
    * @return the document as Map of String/Object
    */
-  private Map<String, Object> getDocument(@Nonnull final String aType,
-    @Nonnull final String aIdentifier) throws IOException {
-    GetRequest request = new GetRequest(mConfig.getIndex(), aType, aIdentifier);
+  private Map<String, Object> getDocument(@Nonnull final String aIdentifier) throws IOException {
+    GetRequest request = new GetRequest(mConfig.getIndex(), Record.TYPE, aIdentifier);
     // optionally: request.refresh(true);
     final GetResponse response = mConfig.getClient().get(request);
     return response.getSource();
   }
 
-  private boolean deleteDocument(@Nonnull final String aType, @Nonnull final String aIdentifier)
+  private boolean deleteDocument(@Nonnull final String aIdentifier)
     throws IOException {
-    DeleteRequest request = new DeleteRequest(mConfig.getIndex(), aType, aIdentifier);
+    DeleteRequest request = new DeleteRequest(mConfig.getIndex(), Record.TYPE, aIdentifier);
     request.setRefreshPolicy(mConfig.getRefreshPolicy());
     // see https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-refresh.html,
     final DeleteResponse response = mConfig.getClient().delete(request);
     return response.status().equals(RestStatus.OK);
   }
-
-
-  private SearchResponse getAggregation(
-    final AggregationBuilder aAggregationBuilder, final QueryContext aQueryContext)
-    throws IOException {
-
-    BoolQueryBuilder globalAndFilter = QueryBuilders.boolQuery();
-    if (!(null == aQueryContext)) {
-      for (QueryBuilder contextFilter : aQueryContext.getFilters()) {
-        globalAndFilter.must(contextFilter);
-      }
-    }
-    SearchSourceBuilder sourceBuilder = new SearchSourceBuilder()
-      .aggregation(aAggregationBuilder).query(globalAndFilter).size(0);
-
-    return mConfig.getClient().search(
-      new SearchRequest(mConfig.getIndex()).source(sourceBuilder));
-  }
-
-
-  private SearchResponse getAggregations(final List<AggregationBuilder> aAggregationBuilders,
-    QueryContext
-      aQueryContext) throws IOException {
-
-    BoolQueryBuilder globalAndFilter = QueryBuilders.boolQuery();
-    if (!(null == aQueryContext)) {
-      for (QueryBuilder contextFilter : aQueryContext.getFilters()) {
-        globalAndFilter.must(contextFilter);
-      }
-    }
-    SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-    for (AggregationBuilder aggregationBuilder : aAggregationBuilders) {
-      sourceBuilder.aggregation(aggregationBuilder).query(globalAndFilter).size(0);
-    }
-
-    return mConfig.getClient().search(
-      new SearchRequest(mConfig.getIndex()).source(sourceBuilder));
-  }
-
 
   private ResourceList esQuery(@Nonnull final String aQueryString, final int aFrom, final int aSize,
     final String aSortOrder, final Map<String, List<String>> aFilters,
@@ -407,7 +329,7 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
     processSortOrder(aSortOrder, aQueryString, sourceBuilder);
     final BoolQueryBuilder globalAndFilter = QueryBuilders.boolQuery();
     processFilters(aFilters, globalAndFilter);
-    final String[] fieldBoosts = processQueryContext(aQueryContext, sourceBuilder, globalAndFilter, aFilters);
+    final String[] fieldBoosts = processQueryContext(aQueryContext, sourceBuilder, globalAndFilter);
 
     QueryBuilder queryBuilder = getQueryBuilder(aQueryString, fieldBoosts);
     FunctionScoreQueryBuilder fqBuilder = getFunctionScoreQueryBuilder(queryBuilder);
@@ -417,7 +339,6 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
     List<SearchHit> searchHits = new ArrayList<>();
     SearchResponse response;
-    Resource aAggregations;
     float maxScore = 0.0f;
     if (aSize == -1) {
       response = mConfig.getClient().search(
@@ -425,7 +346,6 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
           .searchType(SearchType.DFS_QUERY_THEN_FETCH)
           .scroll(new TimeValue(60000)));
       maxScore = Math.max(response.getHits().getMaxScore(), maxScore);
-      aAggregations = Resource.fromJson(response.toString()).getAsResource("aggregations");
       List<SearchHit> nextHits = Arrays.asList(response.getHits().getHits());
       while (nextHits.size() > 0) {
         searchHits.addAll(nextHits);
@@ -441,7 +361,6 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
       sourceBuilder.size(aSize);
       response = mConfig.getClient()
         .search(new SearchRequest(mConfig.getIndex()).source(sourceBuilder));
-      aAggregations = Resource.fromJson(response.toString()).getAsResource("aggregations");
       searchHits.addAll(Arrays.asList(response.getHits().getHits()));
       maxScore = Math.max(response.getHits().getMaxScore(), maxScore);
     }
@@ -460,33 +379,11 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
     return new ResourceList(resources, response.getHits().getTotalHits(), aQueryString, aFrom,
       aSize, aSortOrder,
-      aFilters, aAggregations);
+      aFilters);
   }
-
-  JsonNode esQueryRaw(@Nonnull final String aQueryString, final int aFrom, final int aSize,
-                               final String aSortOrder, final Map<String, List<String>> aFilters,
-                               final QueryContext aQueryContext) throws IOException {
-
-    final SearchSourceBuilder sourceBuilder = new SearchSourceBuilder().from(aFrom);
-    processSortOrder(aSortOrder, aQueryString, sourceBuilder);
-    final BoolQueryBuilder globalAndFilter = QueryBuilders.boolQuery();
-    processFilters(aFilters, globalAndFilter);
-    final String[] fieldBoosts = processQueryContext(aQueryContext, sourceBuilder, globalAndFilter, aFilters);
-
-    QueryBuilder queryBuilder = getQueryBuilder(aQueryString, fieldBoosts);
-    FunctionScoreQueryBuilder fqBuilder = getFunctionScoreQueryBuilder(queryBuilder);
-    final BoolQueryBuilder bqBuilder = QueryBuilders.boolQuery().filter(globalAndFilter);
-    bqBuilder.must(fqBuilder);
-    sourceBuilder.query(bqBuilder);
-    sourceBuilder.size(aSize);
-    SearchResponse response = mConfig.getClient()
-      .search(new SearchRequest(mConfig.getIndex()).source(sourceBuilder));
-    return new ObjectMapper().readTree(response.toString());
-  }
-
 
   private FunctionScoreQueryBuilder getFunctionScoreQueryBuilder(QueryBuilder queryBuilder) {
-    ScoreFunctionBuilder fb = ScoreFunctionBuilders.fieldValueFactorFunction(Record.LINK_COUNT);
+    FieldValueFactorFunctionBuilder fb = ScoreFunctionBuilders.fieldValueFactorFunction(Record.LINK_COUNT);
     return new FunctionScoreQueryBuilder(queryBuilder, fb);
   }
 
@@ -563,58 +460,13 @@ public class ElasticsearchRepository extends Repository implements Readable, Wri
 
   private String[] processQueryContext(
     final QueryContext aQueryContext, final SearchSourceBuilder sourceBuilder,
-    final BoolQueryBuilder globalAndFilter, final Map<String, List<String>> aFilters) {
+    final BoolQueryBuilder globalAndFilter) {
     String[] fieldBoosts = null;
     if (null != aQueryContext) {
       sourceBuilder.fetchSource(aQueryContext.getFetchSource(), null);
       for (QueryBuilder contextFilter : aQueryContext.getFilters()) {
         globalAndFilter.must(contextFilter);
       }
-      AggregationBuilder facetAggregation = AggregationBuilders.global("facets");
-      BoolQueryBuilder globalFacetAndFilter = QueryBuilders.boolQuery();
-      for (QueryBuilder filter : aQueryContext.getFilters()) {
-        globalFacetAndFilter.must(filter);
-      }
-      AggregationBuilder filteredFacetAggregation = AggregationBuilders
-        .filter("filtered", globalFacetAndFilter);
-      facetAggregation.subAggregation(filteredFacetAggregation);
-      for (AggregationBuilder contextAggregation : aQueryContext.getAggregations()) {
-        sourceBuilder.aggregation(contextAggregation);
-        // See https://madewithlove.be/faceted-search-using-elasticsearch/
-        final String aggregationField = contextAggregation.getName();
-        if (contextAggregation.getType().equals("filter")) {
-          filteredFacetAggregation.subAggregation(contextAggregation);
-          facetAggregation.subAggregation(contextAggregation);
-        } else if (!contextAggregation.getType().equals("global")) {
-          if (null != aFilters) {
-            BoolQueryBuilder aggregationAndFilter = QueryBuilders.boolQuery();
-            for (Map.Entry<String, List<String>> entry : aFilters.entrySet()) {
-              String filterName = entry.getKey();
-              if (!filterName.equals(aggregationField)) {
-                BoolQueryBuilder orFilterBuilder = QueryBuilders.boolQuery();
-                for (String filterValue : entry.getValue()) {
-                  orFilterBuilder.should(buildFilterQuery(filterName, filterValue));
-                }
-                aggregationAndFilter.must(orFilterBuilder);
-              }
-            }
-            filteredFacetAggregation.subAggregation(AggregationBuilders
-              .filter(aggregationField, aggregationAndFilter)
-              .subAggregation(contextAggregation));
-            facetAggregation.subAggregation(AggregationBuilders
-              .filter(aggregationField, aggregationAndFilter)
-              .subAggregation(contextAggregation));
-          } else {
-            filteredFacetAggregation.subAggregation(AggregationBuilders
-              .filter(aggregationField, QueryBuilders.matchAllQuery())
-              .subAggregation(contextAggregation));
-            facetAggregation.subAggregation(AggregationBuilders
-              .filter(aggregationField, QueryBuilders.matchAllQuery())
-              .subAggregation(contextAggregation));
-          }
-        }
-      }
-      sourceBuilder.aggregation(facetAggregation);
       if (aQueryContext.hasFieldBoosts()) {
         fieldBoosts = aQueryContext.getElasticsearchFieldBoosts();
       }

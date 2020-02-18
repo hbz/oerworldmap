@@ -33,15 +33,13 @@ public class ResourceList {
 
   private Map<String, List<String>> filters;
 
-  private Resource aggregations;
-
   private static URIBuilder getURIBuilder() throws URISyntaxException {
     return new URIBuilder("");
   }
 
   public ResourceList(@Nonnull List<Resource> aResourceList, long aTotalItems, String aQuery,
     int aFrom,
-    int aSize, String aSort, Map<String, List<String>> aFilters, Resource aAggregations) {
+    int aSize, String aSort, Map<String, List<String>> aFilters) {
     items = aResourceList;
     totalItems = aTotalItems;
     query = aQuery;
@@ -49,20 +47,18 @@ public class ResourceList {
     size = aSize;
     sort = aSort;
     filters = aFilters;
-    aggregations = aAggregations;
   }
 
   public ResourceList(Resource aPagedCollection) {
     items = aPagedCollection.getAsList("member");
-    totalItems = Long.valueOf(aPagedCollection.getAsString("totalItems"));
+    totalItems = Long.parseLong(aPagedCollection.getAsString("totalItems"));
     query = aPagedCollection.getAsString("query");
-    from = Integer.valueOf(aPagedCollection.getAsString("from"));
+    from = Integer.parseInt(aPagedCollection.getAsString("from"));
     if (from > 0) {
       from--;
-      size = Integer.valueOf(aPagedCollection.getAsString("until")) - from;
+      size = Integer.parseInt(aPagedCollection.getAsString("until")) - from;
     }
-    size = Integer.valueOf(aPagedCollection.getAsString("totalItems"));
-    aggregations = aPagedCollection.getAsResource("aggregations");
+    size = Integer.parseInt(aPagedCollection.getAsString("totalItems"));
     filters = (Map<String, List<String>>) aPagedCollection.getAsMap("filters");
   }
 
@@ -179,8 +175,7 @@ public class ResourceList {
     params.addAll(getFilterParams());
 
     for (int i = 0; i <= totalItems; i += size) {
-      List<NameValuePair> pageParams = new ArrayList<>();
-      pageParams.addAll(params);
+      List<NameValuePair> pageParams = new ArrayList<>(params);
       pageParams.add(new BasicNameValuePair("from", Integer.toString(i)));
       pages.add(getURIBuilder().addParameters(pageParams).build());
     }
@@ -219,7 +214,6 @@ public class ResourceList {
       pagedCollection.put("member", items);
       pagedCollection.put("filters", filters);
       pagedCollection.put("query", query);
-      pagedCollection.put("aggregations", aggregations);
       pagedCollection.put("pages", getPages());
       if (sort != null) {
         pagedCollection.put("sort", sort);

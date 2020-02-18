@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import helpers.JsonTest;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -29,7 +30,7 @@ public class CalendarExporterTest implements JsonTest {
     List<String> exported = splitLines(mExporter.export(singleEvent));
     List<String> expected = splitLines(
       getStringFromFile("CalendarExporterTest/testSingleResourceExport.OUT.1.iCal",
-        Charset.forName("UTF-8")));
+        StandardCharsets.UTF_8));
     compare(exported, expected);
   }
 
@@ -46,11 +47,11 @@ public class CalendarExporterTest implements JsonTest {
       "CalendarExporterTest/testMultipleResourcesExport.IN.4.json");
     ResourceList multipleEvents = new ResourceList(
       Arrays.asList(multipleEvents1, multipleEvents2, multipleEvents3, multipleEvents4),
-      0, null, 0, 0, null, null, null);
+      0, null, 0, 0, null, null);
     List<String> exported = splitLines(mExporter.export(multipleEvents));
     List<String> expected = splitLines(
       getStringFromFile("CalendarExporterTest/testMultipleResourcesExport.OUT.1.iCal",
-        Charset.forName("UTF-8")));
+        StandardCharsets.UTF_8));
     compare(exported, expected);
   }
 
@@ -61,7 +62,7 @@ public class CalendarExporterTest implements JsonTest {
     List<String> exported = splitLines(mExporter.export(fragmentaryResources));
     List<String> expected = splitLines(
       getStringFromFile("CalendarExporterTest/testFragmentaryResourcesListExport.OUT.1.iCal",
-        Charset.forName("UTF-8")));
+        StandardCharsets.UTF_8));
     compare(exported, expected);
   }
 
@@ -73,7 +74,7 @@ public class CalendarExporterTest implements JsonTest {
     List<String> exported = splitLines(mExporter.export(resourceWithGermanDescription));
     List<String> expected = splitLines(
       getStringFromFile("CalendarExporterTest/testExportMultiLanguage.OUT.1.iCal",
-        Charset.forName("UTF-8")));
+        StandardCharsets.UTF_8));
     compare(exported, expected);
   }
 
@@ -85,7 +86,7 @@ public class CalendarExporterTest implements JsonTest {
     // Export is expected to contain no events here.
     List<String> expected = splitLines(
       getStringFromFile("CalendarExporterTest/testExportMissingRequiredFieldStartDate.OUT.1.iCal",
-        Charset.forName("UTF-8")));
+        StandardCharsets.UTF_8));
     compare(exported, expected);
   }
 

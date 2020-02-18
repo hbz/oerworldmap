@@ -7,7 +7,7 @@ import models.Record;
 import models.Resource;
 import models.ResourceList;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Created by fo on 27.07.17.
@@ -16,7 +16,7 @@ public class JsonSchemaExporter implements Exporter {
 
   @Override
   public String export(Resource aResource) {
-    return export(new ResourceList(Arrays.asList(aResource), 0, "", 0, 0, null, null, null));
+    return export(new ResourceList(Collections.singletonList(aResource), 0, "", 0, 0, null, null));
   }
 
   @Override
