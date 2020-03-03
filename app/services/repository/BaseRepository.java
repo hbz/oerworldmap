@@ -14,7 +14,6 @@ import org.apache.jena.query.Dataset;
 import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.tdb.TDBFactory;
-import org.elasticsearch.search.aggregations.AggregationBuilder;
 import play.Logger;
 import services.AccountService;
 import services.IndexQueue;
@@ -26,14 +25,12 @@ import java.io.File;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 
-public class BaseRepository extends Repository
-  implements Readable, Writable, Queryable, Aggregatable, Versionable {
+public class BaseRepository extends Repository implements Readable, Writable, Queryable, Versionable {
 
   private ElasticsearchRepository mElasticsearchRepo;
   private TriplestoreRepository mTriplestoreRepository;
@@ -193,17 +190,6 @@ public class BaseRepository extends Repository
     return resourceList;
   }
 
-  public JsonNode queryRaw(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
-                            Map<String, List<String>> aFilters, QueryContext aQueryContext) {
-    try {
-      return mElasticsearchRepo
-        .esQueryRaw(aQueryString, aFrom, aSize, aSortOrder, aFilters, aQueryContext);
-    } catch (IOException e) {
-      Logger.error("Could not query Elasticsearch repository", e);
-      return null;
-    }
-  }
-
   public JsonNode reconcile(@Nonnull String aQueryString, int aFrom, int aSize, String aSortOrder,
     Map<String, List<String>> aFilters, QueryContext aQueryContext,
     final Locale aPreferredLocale) throws IOException {
@@ -225,31 +211,8 @@ public class BaseRepository extends Repository
     return mTriplestoreRepository.hasResource(aId);
   }
 
-  // Get a resource quickly, but with the possibility of it being stale
-  // because an indexing job is not done jet
-  // public Resource getResourceUnsafe(@Nonnull String aId) {
-  //  return mElasticsearchRepo.getResource(aId);
-  //}
-
   public List<Resource> getResources(@Nonnull String aField, @Nonnull Object aValue) {
     return mElasticsearchRepo.getResources(aField, aValue);
-  }
-
-  @Override
-  public Resource aggregate(@Nonnull AggregationBuilder aAggregationBuilder) throws IOException {
-    return aggregate(aAggregationBuilder, null);
-  }
-
-  public Resource aggregate(@Nonnull AggregationBuilder aAggregationBuilder,
-    QueryContext aQueryContext)
-    throws IOException {
-    return mElasticsearchRepo.aggregate(aAggregationBuilder, aQueryContext);
-  }
-
-  public Resource aggregate(@Nonnull List<AggregationBuilder> aAggregationBuilders,
-    QueryContext aQueryContext)
-    throws IOException {
-    return mElasticsearchRepo.aggregate(aAggregationBuilders, aQueryContext);
   }
 
   @Override

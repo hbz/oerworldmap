@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -21,14 +22,14 @@ public interface JsonTest {
 
   default Resource getResourceFromJsonFile(String aFile) throws IOException {
     InputStream in = ClassLoader.getSystemResourceAsStream(aFile);
-    String json = IOUtils.toString(in, "UTF-8");
+    String json = IOUtils.toString(in, StandardCharsets.UTF_8);
     return Resource.fromJson(json);
   }
 
   default Resource getResourceFromJsonFileUnsafe(String aFile) {
     InputStream in = ClassLoader.getSystemResourceAsStream(aFile);
     try {
-      String json = IOUtils.toString(in, "UTF-8");
+      String json = IOUtils.toString(in, StandardCharsets.UTF_8);
       return Resource.fromJson(json);
     } catch (IOException e) {
       Logger.error(e.toString());
@@ -39,7 +40,7 @@ public interface JsonTest {
   default ResourceList getResourcesFromPagedCollectionFile(String aPagedCollectionFile)
     throws IOException {
     InputStream in = ClassLoader.getSystemResourceAsStream(aPagedCollectionFile);
-    String json = IOUtils.toString(in, "UTF-8");
+    String json = IOUtils.toString(in, StandardCharsets.UTF_8);
     return new ResourceList(Resource.fromJson(json));
   }
 
@@ -51,7 +52,7 @@ public interface JsonTest {
         for (String file : new File(pathURL.toURI()).list()) {
           if (file.endsWith(".json")) {
             InputStream in = ClassLoader.getSystemResourceAsStream(aDir.concat(file));
-            String json = IOUtils.toString(in, "UTF-8");
+            String json = IOUtils.toString(in, StandardCharsets.UTF_8);
             resources.add(Resource.fromJson(json));
           }
         }

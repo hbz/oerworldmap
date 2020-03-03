@@ -26,7 +26,7 @@ public class CsvExporterTest implements JsonTest {
   public void testListExport() throws IOException {
     Resource in1 = getResourceFromJsonFile("CsvExporterTest/testPlainExport.IN.1.json");
     Resource in2 = getResourceFromJsonFile("CsvExporterTest/testPlainExport.IN.2.json");
-    ResourceList resourceList = new ResourceList(Arrays.asList(in1, in2), 2, null, 0, 2, null, null, null);
+    ResourceList resourceList = new ResourceList(Arrays.asList(in1, in2), 2, null, 0, 2, null, null);
     String expected = getStringFromFile("CsvExporterTest/testPlainExport.OUT.2.csv", StandardCharsets.UTF_8);
     assertEquals(expected, mCsvExporter.export(resourceList));
   }

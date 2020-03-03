@@ -3,7 +3,6 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
-import com.maxmind.geoip2.DatabaseReader;
 import helpers.JsonSchemaValidator;
 import models.Resource;
 import models.TripleCommit;
@@ -11,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import play.Configuration;
 import play.Environment;
 import play.Logger;
-import play.i18n.Lang;
 import play.mvc.Controller;
 import play.mvc.With;
 import services.AccountService;
@@ -24,16 +22,13 @@ import services.repository.ElasticsearchRepository;
 import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
-import java.net.InetAddress;
 import java.nio.file.Paths;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 /**
  * @author fo
@@ -45,7 +40,6 @@ public abstract class OERWorldMap extends Controller {
   Environment mEnv;
   static BaseRepository mBaseRepository;
   static AccountService mAccountService;
-  static DatabaseReader mLocationLookup;
   static final ObjectMapper mObjectMapper = new ObjectMapper();
   private static JsonSchemaValidator mSchemaValidator;
 
@@ -78,17 +72,6 @@ public abstract class OERWorldMap extends Controller {
     }
   }
 
-  private static synchronized void createLocationLookup(Environment aEnv) {
-    if (mLocationLookup == null) {
-      try {
-        mLocationLookup = new DatabaseReader.Builder(aEnv.resourceAsStream("GeoLite2-Country.mmdb"))
-          .build();
-      } catch (final IOException ex) {
-        throw new RuntimeException("Failed to create location lookup", ex);
-      }
-    }
-  }
-
   private static synchronized void createSchemaValidator(Configuration aConf) {
     try {
       mSchemaValidator = new JsonSchemaValidator(
@@ -106,19 +89,8 @@ public abstract class OERWorldMap extends Controller {
     createAccountService(mConf);
     // Repository
     createBaseRepository(mConf);
-    // Location lookup
-    if (mEnv != null) {
-      // can be null in tests
-      createLocationLookup(mEnv);
-    }
     // JSON schema validator
     createSchemaValidator(mConf);
-  }
-
-  String getEmbed() {
-    return ctx().request().queryString().containsKey("embed")
-      ? ctx().request().queryString().get("embed")[0]
-      : null;
   }
 
   Resource getUser() {
@@ -138,16 +110,6 @@ public abstract class OERWorldMap extends Controller {
       roles.add("authenticated");
     }
     return new QueryContext(roles);
-  }
-
-  String getLocation() {
-    try {
-      return mLocationLookup.country(InetAddress.getByName(request().remoteAddress())).getCountry()
-        .getIsoCode();
-    } catch (Exception ex) {
-      Logger.trace("Could not read host", ex);
-      return "GB";
-    }
   }
 
   ProcessingReport validate(Resource aResource) {

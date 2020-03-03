@@ -12,7 +12,6 @@ POST    /resource/:id               controllers.ResourceIndex.updateResource(id:
 POST    /resource/:id/comment       controllers.ResourceIndex.commentResource(id: String)
 POST    /import/                    controllers.ResourceIndex.importResources()
 DELETE  /resource/:id               controllers.ResourceIndex.delete(id: String)
-GET     /aggregation/               controllers.AggregationIndex.list()
 GET     /feed/                      controllers.ResourceIndex.feed()
 GET     /country/$iso3166<[^\./]+>  controllers.ResourceIndex.list(q: String ?= "", from: Integer ?= 0, size: Integer ?= 20, sort: String ?= null, ext: String ?= null, iso3166: String, region: String ?= null, disposition: String ?= null)
 GET     /country/$iso3166<[^\./]+>.:ext controllers.ResourceIndex.list(q: String ?= "", from: Integer ?= 0, size: Integer ?= 20, sort: String ?= null, ext: String, iso3166: String, region: String ?= null, disposition: String ?= null)
