@@ -244,7 +244,7 @@ public class ResourceIndexer {
           String.valueOf(aResource.getAsList("objectIn").stream().filter(
             resource -> resource.getType().equals("LighthouseAction")).count()));
         mTargetRepo.addResource(aResource, metadata);
-      } catch (IndexOutOfBoundsException | IOException e) {
+      } catch (Exception e) {
         Logger.error("Could not index resource", e);
       }
     }
