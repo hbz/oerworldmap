@@ -70,24 +70,35 @@ Start the server:
 
     $ bin/standalone.sh -Dkeycloak.profile.feature.scripts=enabled
 
-- Create realm oerworldmap
-- Enable user registration, email as username, edit username, forgot password
-- Configure "account" client:
-- Configure Valid Redirect URIs
-  - /auth/realms/oerworldmap/account/*
-  - /oauth2callback
-  - /.login
-  - /resource/*
-- Configure Base URL in "account" client to `/.login`
-- For ReCaptcha support, configure Realm Security Defenses:
-  - `SAMEORIGIN; ALLOW-FROM https://www.google.com`
-  - `frame-src 'self' https://www.google.com; frame-ancestors 'self'; object-src 'none';`
-- Install & configure theme from https://github.com/hbz/oerworldmap-keycloak-theme
-- Configure default actions
-- Configure admin credentials in application.conf
-- Copy create profile script to registration flow
-- Copy create profile script to first-broker-login flow
-- Set up Mappers for profile_id and groups
+Next, login in to the admin UI at `http://localhost:8080/auth/` and complete the following steps:
+
+- Create a realm called oerworldmap
+- Enable "User registration", "Email as username", "Forgot password" and "Login with email" in the "Realm Settings > Login" section
+- If you want to enable Email verification, configure an SMTP server in the "Realm Settings > Email" section
+- Install & configure theme from https://github.com/hbz/oerworldmap-keycloak-theme:
+  - `cd themes && git clone git@github.com:hbz/oerworldmap-keycloak-theme.git`
+  - Set `oerworldmap-keycloak-theme` as "Login Theme", "Account Theme" and "Email Theme" in the "Realm Settings > Themes" section
+- For ReCaptcha support, configure "Realm Settings > Security Defenses":
+  - `SAMEORIGIN; ALLOW-FROM https://www.google.com` as X-Frame-Options
+  - `frame-src 'self' https://www.google.com; frame-ancestors 'self'; object-src 'none';` as Content-Security-Policy
+- Select the "account" client ID in the "Clients" section and as follows:
+  - Set `/*` as "Valid Redirect URIs" and set `/.login` as the Base URL in the "Settings" section
+  - Set up Mappers for profile_id and groups in the "Mappers" section
+- Copy the client secret from the "Clients > account > Credentials" section to `conf/vhost.conf` (line 14)
+- In the "Authentication > Flows" section, copy the "Registration" flow and name it "Registration with Validation and Newsletter":
+  - Click "Add Execution", select "Script" from the "Provider" drop down and hit save, the new script will show up at the bottom of the table
+  - Set it to "REQUIRED" and select "Config" from the "Actions drop down"
+  - Set the "Alias" to "Validate custom attributes"
+  - Copy the script provided in `scripts/keycloakValidateCustomAttributes.js` to "Script Source"
+  - Click "Add Execution", select "Script" from the "Provider" drop down and hit save, the new script will show up at the bottom of the table
+  - Set it to "REQUIRED" and select "Config" from the "Actions drop down"
+  - Set the "Alias" to "Subscribe newsletter"
+  - Copy the script provided in `scripts/keycloakRegisterNewsletter.js` to "Script Source"
+- Finally, configure the Keykloak connection in the APIs `conf/application.conf`:
+  - keycloak.realm="oerworldmap"
+  - keycloak.username="YOUR_KEYCLOAK_ADMIN_USER"
+  - keycloak.password="YOUR_KEYCLOAK_ADMIN_PASSWORD"
+  - keycloak.client="admin-cli"
 
 Install [mod_auth_openidc](https://github.com/zmartzone/mod_auth_openidc), if not on a supported system build from source:
 
@@ -110,8 +121,6 @@ $ make
 $ make install
 $ a2enmod auth_openidc
 ```
-
-Finally, configure client secret in `conf/vhost.conf`
 
 #### Set up Apache
 
