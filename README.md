@@ -60,8 +60,7 @@ Download Keykloak 4.8.3:
 
     $ curl https://downloads.jboss.org/keycloak/4.8.3.Final/keycloak-4.8.3.Final.tar.gz | tar xvz
 
-- Add `X-Forwarded-For` and `X-Forwarded-Proto` headers to proxy vhost.conf
-- Modify standalone.xml file and add the `proxy-address-forwarding="true"` attribute to `<http-listener>` element under `<server>`
+Modify `standalone/configuration/standalone.xml` file and add the `proxy-address-forwarding="true"` attribute to `<http-listener>` element under `<server>`
 
 Create the admin user:
 
@@ -112,7 +111,7 @@ $ make install
 $ a2enmod auth_openidc
 ```
 
-Finally, configure client secret in vhost.conf
+Finally, configure client secret in `conf/vhost.conf`
 
 #### Set up Apache
 
