@@ -47,6 +47,7 @@ in `conf/application.conf` before restarting.
 
 #### Create and configure oerworldmap index (as specified in `es.index.app.name` in `conf/application.conf`)
 
+    # from oerworldmap/ run
     $ curl -H "Content-type: application/json" -X PUT http://localhost:9200/oerworldmap/ -d @conf/index-config.json
 
 #### If you're caught with some kind of buggy index during development, simply delete the index and re-create:
@@ -56,7 +57,7 @@ in `conf/application.conf` before restarting.
 
 #### Set up Keycloak
 
-Download Keykloak 4.8.3:
+Download Keycloak 4.8.3:
 
     $ curl https://downloads.jboss.org/keycloak/4.8.3.Final/keycloak-4.8.3.Final.tar.gz | tar xvz
 
@@ -126,7 +127,7 @@ $ a2enmod auth_openidc
 
     $ sudo apt-get install apache2 libapache2-mod-auth-openidc
     $ sudo a2enmod proxy proxy_html proxy_http rewrite auth_openidc ssl headers
-
+    
     $ mkdir data/auth
     $ cd data/auth
     $ touch htpasswd htgroups htprofiles
@@ -177,9 +178,17 @@ Set up the hostname in `/etc/hosts`
 
 ### Setup Play! Application
 
-Download [sbt](http://www.scala-sbt.org/download.html), then
+Download [sbt](http://www.scala-sbt.org/download.html) (version 0.13.11),  then
 
     $ sbt run
+
+#### Sbt on Ubuntu
+
+If you are running [bintray](https://www.scala-sbt.org/1.x/docs/Installing-sbt-on-Linux.html#Ubuntu+and+other+Debian-based+distributions) packages, make sure to install correct version:
+
+```
+$ sudo apt-get install sbt=0.13.11
+```
 
 ### Install UI
 
@@ -197,6 +206,64 @@ Using [activator](http://www.lightbend.com/community/core-tools/activator-and-sb
 
     Run | Edit configurations... | JUnit | <MyTest> | Configuration | Working directory:
     <absolute/path/to/oerworldmap>
+
+
+
+## Troubleshooting
+
+> [ERROR] Failed to construct terminal; falling back to unsupported
+> java.lang.NumberFormatException: For input string: "0x100"
+
+Workaround for this is to export correct xterm (put it in your `.bashrc` or similar):
+
+```
+export TERM=xterm-color
+```
+
+
+
+> ```
+> [info] Loading project definition from /home/vagrant/oerworldmap/project
+> java.lang.NullPointerException
+> ```
+
+Make sure your sbt is correct version (0.13.11).
+
+
+
+> ```
+> org.elasticsearch.ElasticsearchException: Unable to find a field mapper for field [link_count]. No 'missing' value defined.
+> 	at org.elasticsearch.index.query.functionscore.FieldValueFactorFunctionBuilder.doToFunction(FieldValueFactorFunctionBuilder.java:151) ~[elasticsearch-6.2.1.jar:6.2.1]
+> ```
+
+Make sure that when you create and configure oerworldmap index, you do it from `oerworldmap/` folder.
+
+
+
+## Loading data
+
+```
+# Reset elasticsearch index
+curl -X DELETE http://localhost:9200/oerworldmap/
+curl -H "Content-type: application/json" -X PUT http://localhost:9200/oerworldmap/ -d @conf/index-config.json
+
+# Delete triple store
+rm data/tdb/*
+
+# Delete history
+rm -r data/commits/
+
+# Extract history from archive
+tar -xzf commits.tar.gz -C data/
+```
+
+Afterwards, restart `sbt` and wait until it fully rebuilds triplestore and Elastic Search index. Once it's done, you can check if it's working correctly by running:
+
+```
+curl localhost:9000/resource.json
+```
+
+
 
 ## Contribute
 
