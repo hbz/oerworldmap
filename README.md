@@ -255,6 +255,13 @@ Afterwards, restart `sbt` and wait until it fully rebuilds triplestore and Elast
 curl localhost:9000/resource.json
 ```
 
+## Updating vocabulary
+
+When updating vocabulary definitions, you need to update triple store by running:
+
+(example for publications.json)
+
+    curl -H "Content-type: application/json" http://localhost:9000/import/ -d @src/json/publications.json
 
 
 ## Contribute
