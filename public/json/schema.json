@@ -40,6 +40,9 @@
     },
     {
       "$ref": "#/definitions/LighthouseAction"
+    },
+    {
+      "$ref": "#/definitions/Collection"
     }
   ],
   "definitions": {
@@ -3648,6 +3651,54 @@
       },
       "required": [ "agent", "object", "description" ],
       "additionalProperties": false
+    },
+    "Collection": {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "title": "Collection",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "@id": {
+          "description": "The collections's unique identifier",
+          "type": "string",
+          "format": "uri",
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "@type": {
+          "type": "string",
+          "enum": [
+            "Collection"
+          ],
+          "_display": {
+            "className": "hidden"
+          }
+        },
+        "name": {
+          "title": "Collection.name",
+          "description": "descriptions.Collection.name",
+          "$ref": "#/definitions/LocalizedString"
+        },
+        "item": {
+          "title": "Collection.item",
+          "description": "descriptions.Collection.item",
+          "type": "array",
+          "items": {
+            "allOf": [
+              { "$ref": "#/definitions/Link" },
+              { "properties": { "@type": { "enum": [ "Person", "Organization", "Service", "Action", "Article", "Event", "Product", "WebPage", "Policy" ] } } }
+            ]
+          }
+        }
+      },
+      "required": [ "name", "item" ]
     },
     "LocalizedString": {
       "$schema": "http://json-schema.org/draft-04/schema#",
