@@ -419,6 +419,11 @@
           "$ref": "#/definitions/LocalizedString",
           "_display": { "rows":  5 }
         },
+        "identifier": {
+          "title": "Policy.identifier",
+          "description": "descriptions.Policy.identifier",
+          "type": "string"
+        },
         "spatialCoverage": {
           "title": "Policy.spatialCoverage",
           "description": "descriptions.Policy.spatialCoverage",
