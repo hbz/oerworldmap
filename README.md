@@ -180,7 +180,7 @@ Set up the hostname in `/etc/hosts`
 
 Download [sbt](http://www.scala-sbt.org/download.html) (version 0.13.11),  then
 
-    $ sbt run
+    $ sbt clean stage; sbt run
 
 #### Sbt on Ubuntu
 
