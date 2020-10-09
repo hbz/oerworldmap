@@ -3691,6 +3691,21 @@
           "description": "descriptions.Collection.name",
           "$ref": "#/definitions/LocalizedString"
         },
+        "description": {
+          "title": "Collection.description",
+          "description": "descriptions.Collection.description",
+          "$ref": "#/definitions/LocalizedString",
+          "_display": { "rows":  5 }
+        },
+        "keywords": {
+          "title": "Collection.keywords",
+          "description": "descriptions.Collection.keywords",
+          "_widget": "KeywordSelect",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "item": {
           "title": "Collection.item",
           "description": "descriptions.Collection.item",
@@ -3703,7 +3718,8 @@
           }
         }
       },
-      "required": [ "name", "item" ]
+      "required": [ "name", "description", "item" ],
+      "additionalProperties": false
     },
     "LocalizedString": {
       "$schema": "http://json-schema.org/draft-04/schema#",
