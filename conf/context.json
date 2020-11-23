@@ -148,6 +148,9 @@
     "isRelatedTo": {
       "@container": "@set"
     },
+    "item": {
+      "@container": "@set"
+    },
     "keywords": {
       "@container": "@set"
     },
