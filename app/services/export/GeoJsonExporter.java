@@ -1,7 +1,6 @@
 package services.export;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -15,8 +14,6 @@ import java.util.List;
  * Created by fo on 27.03.17.
  */
 public class GeoJsonExporter implements Exporter {
-
-  static final ObjectMapper mObjectMapper = new ObjectMapper();
 
   @Override
   public String export(Resource aResource) {
@@ -53,12 +50,7 @@ public class GeoJsonExporter implements Exporter {
     JsonNode resource = aResource.getAsResource(Record.RESOURCE_KEY).toJson();
 
     ArrayNode locations;
-    if (resource.has("@type") && resource.get("@type").asText().equals("Policy")) {
-      JsonNode publisher = resource.get("publisher");
-      locations = publisher == null ? mObjectMapper.createArrayNode() : getLocations(publisher);
-    } else {
-      locations = getLocations(resource);
-    }
+    locations = getLocations(resource);
 
     if (locations.size() == 0) {
       return null;

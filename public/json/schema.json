@@ -620,24 +620,9 @@
         },
         "location": {
           "type": "array",
+          "maxItems": 1,
           "items": {
-            "type": "object",
-            "properties": {
-              "address": {
-                "type": "object",
-                "properties": {
-                  "addressCountry": {
-                    "title": "PostalAddress.addressCountry",
-                    "description": "descriptions.Policy.location",
-                    "$ref": "#/definitions/Country"
-                  },
-                  "addressRegion": {
-                    "title": "PostalAddress.addressRegion",
-                    "type": "string"
-                  }
-                }
-              }
-            }
+            "$ref": "#/definitions/Place"
           }
         },
         "isBasedOn": {
