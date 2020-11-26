@@ -54,6 +54,7 @@ in `conf/application.conf` before restarting.
 
     $ curl -X DELETE http://localhost:9200/oerworldmap/
     $ curl -X PUT http://localhost:9200/oerworldmap/ -d @conf/index-config.json
+    $ curl -XPOST http://localhost:9000/index/*
 
 #### Set up Keycloak
 
