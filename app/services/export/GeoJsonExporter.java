@@ -115,24 +115,13 @@ public class GeoJsonExporter implements Exporter {
   private ArrayNode getLocations(JsonNode node) {
 
     ArrayNode locations = new ArrayNode(JsonNodeFactory.instance);
-    String[] traverse = new String[]{
-      "mentions", "member", "agent", "participant", "provider", "publisher", "creator", "isRelatedTo"
-    };
 
     if (node.isArray()) {
       for (JsonNode entry : node) {
         locations.addAll(getLocations(entry));
       }
-    } else if (node.isObject()) {
-      if (node.has("location")) {
-        locations.addAll((ArrayNode) node.get("location"));
-      } else {
-        for (String property : traverse) {
-          if (node.has(property)) {
-            locations.addAll(getLocations(node.get(property)));
-          }
-        }
-      }
+    } else if (node.isObject() && node.has("location")) {
+      locations.addAll((ArrayNode) node.get("location"));
     }
 
     return locations;
