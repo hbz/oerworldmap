@@ -17,7 +17,7 @@ For inital background information about this project please refer to the
 
 ### Setup Elasticsearch
 
-#### [Download and install elasticsearch](http://www.elasticsearch.org/overview/elkdownloads/)
+#### [Download and install elasticsearch](https://www.elastic.co/downloads/elasticsearch)
 
     $ cd third-party
     $ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.2.1.zip
