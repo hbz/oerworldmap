@@ -9527,6 +9527,9 @@
             "url": {
               "type": "keyword"
             },
+            "identifier": {
+              "type": "text"
+            },
             "@type": {
               "type": "keyword"
             },
