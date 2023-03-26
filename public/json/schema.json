@@ -939,7 +939,6 @@
         },
         "location": {
           "type": "array",
-          "maxItems": 1,
           "items": {
             "$ref": "#/definitions/Place"
           }
@@ -1226,15 +1225,9 @@
           "$ref": "#/definitions/iso-8601-date"
         },
         "location": {
-          "title": "Action.location",
-          "description": "ResourceIndex.Action.edit.addressMessage",
           "type": "array",
-          "maxItems": 1,
           "items": {
-            "$ref": "#/definitions/Place",
-            "_display": {
-              "collapsed": true
-            }
+            "$ref": "#/definitions/Place"
           }
         },
         "instrument": {
@@ -1643,15 +1636,9 @@
           }
         },
         "location": {
-          "title": "Service.location",
-          "description": "ResourceIndex.Service.edit.info",
           "type": "array",
-          "maxItems": 1,
           "items": {
-            "$ref": "#/definitions/Place",
-            "_display": {
-              "collapsed": true
-            }
+            "$ref": "#/definitions/Place"
           }
         },
         "about": {
@@ -2087,7 +2074,6 @@
         },
         "location": {
           "type": "array",
-          "maxItems": 1,
           "items": {
             "$ref": "#/definitions/Place"
           }
@@ -2477,7 +2463,6 @@
         },
         "location": {
           "type": "array",
-          "maxItems": 1,
           "items": {
             "$ref": "#/definitions/Place"
           }
@@ -2838,7 +2823,6 @@
         },
         "location": {
           "type": "array",
-          "maxItems": 1,
           "items": {
             "$ref": "#/definitions/Place"
           }
@@ -3104,6 +3088,12 @@
           "description": "descriptions.Product.description",
           "$ref": "#/definitions/LocalizedString",
           "_display": { "rows":  5 }
+        },
+        "location": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Place"
+          }
         },
         "url": {
           "title": "Product.url",
